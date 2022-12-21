@@ -5,6 +5,10 @@ controllers:
         _locale: es|en
     trailing_slash_on_root: true
 
+app_logout:
+    path: /logout
+    methods: GET
+
 app_index:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
@@ -34,6 +38,7 @@ app_locale:
         keepRequestMethod: true
 
 nelmio_security:
-    path:     /nelmio/csp/report
-    defaults: { _controller: nelmio_security.csp_reporter_controller::indexAction }
-    methods:  [POST]
+    path: /nelmio/csp/report
+    defaults:
+        { _controller: nelmio_security.csp_reporter_controller::indexAction }
+    methods: [POST]
