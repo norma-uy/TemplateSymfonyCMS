@@ -1,0 +1,60 @@
+{
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@prettier/plugin-php": "^0.19.2",
+        "@symfony/webpack-encore": "^4.0.0",
+        "autoprefixer": "^10.4.13",
+        "core-js": "^3.23.0",
+        "eslint": "^8.29.0",
+        "eslint-config-jquery": "^3.0.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-n": "^15.6.0",
+        "eslint-plugin-promise": "^6.1.1",
+        "file-loader": "6.0.0",
+        "postcss-loader": "^7.0.2",
+        "prettier": "^2.8.1",
+        "prettier-plugin-twig-melody": "^0.4.6",
+        "regenerator-runtime": "^0.13.9",
+        "sass": "^1.56.2",
+        "sass-loader": "13.0.0",
+        "stylelint": "^14.16.0",
+        "stylelint-config-prettier": "^9.0.4",
+        "stylelint-config-standard": "^29.0.0",
+        "stylelint-config-standard-scss": "^6.1.0",
+        "stylelint-scss": "^4.3.0",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-notifier": "^1.15.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev-server:website": "encore dev-server --config-name website-config",
+        "dev": "encore dev",
+        "dev:website": "encore dev --config-name website-config",
+        "watch": "encore dev --watch",
+        "watch:website": "encore dev --watch --config-name website-config",
+        "build": "encore production --progress",
+        "build:website": "encore production --progress --config-name website-config",
+        "test:lint:js": "npx eslint \"*.{js,jsx,ts,tsx}\" \"assets/**/*.{js,jsx,ts,tsx}\"",
+        "test:lint:css": "npx stylelint \"assets/**/*.{css,scss,less}\"",
+        "fix:lint:js": "npx eslint \"*.{js,jsx,ts,tsx}\" \"assets/**/*.{js,jsx,ts,tsx}\" --fix",
+        "fix:lint:css": "npx stylelint \"assets/**/*.{css,scss,less}\" --fix",
+        "format": "prettier --write \"*.{js,jsx,ts,tsx,json,php}\" \"assets/**/*.{js,jsx,ts,tsx,css,scss,json}\" \"templates/**/*.html.twig\" \"src/**/*.php\" \"tests/**/*.php\""
+    },
+    "browserslist": [
+        "> 0.5%",
+        "last 2 versions",
+        "Firefox ESR",
+        "not dead"
+    ],
+    "dependencies": {
+        "@popperjs/core": "^2.11.6",
+        "bootstrap": "^5.2.3",
+        "jquery": "^3.6.2"
+    }
+}

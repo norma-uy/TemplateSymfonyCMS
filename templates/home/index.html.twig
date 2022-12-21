@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'page.home.title'|trans }}
+{% endblock title %}
+
+{% block stylesheets %}
+    {% for cssFile in encore_entry_css_files('global', 'website-config') %}
+        <link {{ app.environment == 'prod' ? 'nonce="' ~ csp_nonce('style') ~ '"' : '' }}
+            rel="stylesheet"
+            href="{{ cssFile }}" />
+    {% endfor %}
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {% for jsFile in encore_entry_js_files('app-home', 'website-config') %}
+        {% cspscript %}
+        <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+        {% endcspscript %}
+    {% endfor %}
+{% endblock javascripts %}
+
+{% block header %}
+    <div class="header">
+        {# LOGO #}
+        <h1>
+            {{ 'page.home.title'|trans }}
+        </h1>
+        {# NAV #}
+    </div>
+{% endblock header %}
+
+{% block main %}
+    {# INICIO #}
+    <section role="contentinfo" class="row"></section>
+    {# / CLIENTES QUE CONFIAN EN NOSOTROS #}
+{% endblock main %}
+
+{# FOOTER #}
+{% block footer %}
+    <div class="footer"></div>
+{% endblock footer %}
+{# / FOOTER #}
