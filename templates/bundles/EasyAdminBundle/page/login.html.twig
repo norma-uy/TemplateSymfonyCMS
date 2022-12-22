@@ -116,7 +116,8 @@
                 </div>
             </form>
 
-            <script src="{{ asset('bundles/easyadmin/login.js') }}"></script>
+            <script nonce="{{ csp_nonce('script') }}"
+                src="{{ asset('bundles/easyadmin/login.js') }}"></script>
         </section>
     </div>
 {% endblock wrapper_wrapper %}

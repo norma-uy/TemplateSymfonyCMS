@@ -15,3 +15,6 @@ msgstr "Error 404"
 
 msgid "page.error403.title"
 msgstr "Error 403"
+
+msgid "Blog Template · Bootstrap v5.2"
+msgstr "__Blog Template · Bootstrap v5.2"

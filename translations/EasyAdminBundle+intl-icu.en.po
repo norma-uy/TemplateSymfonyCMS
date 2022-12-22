@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "login_page.username"
+msgstr "__login_page.username"
+
+msgid "login_page.password"
+msgstr "__login_page.password"
+
+msgid "login_page.forgot_password"
+msgstr "__login_page.forgot_password"
+
+msgid "login_page.remember_me"
+msgstr "__login_page.remember_me"
+
+msgid "login_page.sign_in"
+msgstr "__login_page.sign_in"

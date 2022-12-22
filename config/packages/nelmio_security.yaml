@@ -42,14 +42,15 @@ nelmio_security:
             #     - 'strict-dynamic'
             #     - 'unsafe-inline'
             script-src:
-                - 'strict-dynamic'
-                - 'unsafe-inline'
-            # style-src:
-            #     - 'self'
+                - 'self'
+                # - 'strict-dynamic'
+                # - 'unsafe-inline'
+            style-src:
+                - 'self'
             # img-src:
             #     - 'self'
-            # font-src:
-            #     - 'self'
+            font-src:
+                - 'self'
             #     - 'strict-dynamic'
             #     - 'unsafe-inline'
             # object-src:
