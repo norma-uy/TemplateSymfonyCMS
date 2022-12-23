@@ -38,8 +38,8 @@ class Media
     #[ORM\Column(length: 100)]
     private ?string $mimeType = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $dimensions = null;
+    #[ORM\Column(nullable: true)]
+    private array $dimensions = [];
 
     public function getId(): ?int
     {
@@ -104,12 +104,12 @@ class Media
         return $this;
     }
 
-    public function getDimensions(): ?string
+    public function getDimensions(): array
     {
         return $this->dimensions;
     }
 
-    public function setDimensions(?string $dimensions): self
+    public function setDimensions(?array $dimensions): self
     {
         $this->dimensions = $dimensions;
 

@@ -10,9 +10,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class MediaCrudController extends AbstractCrudController
 {
@@ -50,14 +51,8 @@ class MediaCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id', 'ID')->onlyOnDetail(),
-            ImageField::new('file', 'Archivo')
-                ->setBasePath(
-                    $this->getParameter('media_storage_path_index'),
-                )
-                ->setUploadDir($this->getParameter('media_storage_path'))
-                ->setFormType(FileUploadType::class)
-                ->setUploadedFileNamePattern('img_[randomhash].[extension]')
-                ->setRequired(false),
+            TextareaField::new('file', 'Archivo')
+                ->setFormType(VichImageType::class),
             TextField::new('fileName', 'Nombre')->hideOnForm(),
         ];
     }

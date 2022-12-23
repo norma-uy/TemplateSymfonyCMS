@@ -4,6 +4,7 @@ twig:
         website:
             urlBase: '%website.urlBase%'
             name: '%website.name%'
+    form_themes: ['bootstrap_5_horizontal_layout.html.twig']
 
 when@test:
     twig:
