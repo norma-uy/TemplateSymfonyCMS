@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\MediaField;
 use App\Entity\Media;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -50,9 +51,8 @@ class MediaCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id', 'ID')->onlyOnDetail(),
-            TextareaField::new('file', 'Archivo')
-                ->setFormType(VichImageType::class),
+            IdField::new('id', 'ID')->hideOnForm(),
+            MediaField::new('file', 'Archivo'),
             TextField::new('fileName', 'Nombre')->hideOnForm(),
         ];
     }

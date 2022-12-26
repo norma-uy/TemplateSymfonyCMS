@@ -44,9 +44,10 @@ nelmio_security:
             script-src:
                 - 'self'
                 # - 'strict-dynamic'
-                # - 'unsafe-inline'
+                - 'unsafe-inline'
             style-src:
                 - 'self'
+                - 'unsafe-inline'
             # img-src:
             #     - 'self'
             font-src:
