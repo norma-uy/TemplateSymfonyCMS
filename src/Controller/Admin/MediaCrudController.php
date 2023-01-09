@@ -2,19 +2,16 @@
 
 namespace App\Controller\Admin;
 
-use App\Admin\Field\MediaField;
 use App\Entity\Media;
+use App\Form\Admin\Field\MediaField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class MediaCrudController extends AbstractCrudController
 {
@@ -31,7 +28,9 @@ class MediaCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Media');
+            ->setPageTitle('index', 'Media')
+            ->setEntityLabelInSingular('Media')
+            ->setEntityLabelInPlural('Media');
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument
@@ -47,7 +46,6 @@ class MediaCrudController extends AbstractCrudController
         return $filters->add(TextFilter::new('fileName', 'Nombre'));
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -61,6 +59,11 @@ class MediaCrudController extends AbstractCrudController
     {
         return $actions
             ->disable()
-            ->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
+            ->add(
+                Crud::PAGE_INDEX,
+                Action::DETAIL,
+                Action::NEW,
+                Action::DELETE,
+            );
     }
 }

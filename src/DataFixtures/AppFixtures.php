@@ -22,8 +22,8 @@ class AppFixtures extends Fixture
             ->setEmail('master@admincms.com.uy')
             ->setRoles(['ROLE_SUPER_ADMIN'])
             ->setIsVerified(true)
-            ->setName("Master")
-            ->setUsername("master@admincms.com.uy")
+            ->setName('Master')
+            ->setUsername('master@admincms.com.uy')
             ->setPassword(
                 $this->passwordHasher->hashPassword(
                     $masterUser,

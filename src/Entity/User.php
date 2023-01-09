@@ -45,7 +45,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
+    #[
+        ORM\OneToMany(
+            mappedBy: 'author',
+            targetEntity: Post::class,
+            orphanRemoval: true,
+        ),
+    ]
     private Collection $posts;
 
     public function __construct()

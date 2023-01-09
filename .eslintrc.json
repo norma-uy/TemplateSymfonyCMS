@@ -4,7 +4,7 @@
         "es6": true,
         "jquery": true
     },
-    "extends": ["standard", "prettier", "jquery"],
+    "extends": ["prettier"],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"

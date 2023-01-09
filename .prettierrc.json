@@ -4,10 +4,7 @@
     "semi": false,
     "singleQuote": true,
     "printWidth": 80,
-    "plugins": [
-        "./node_modules/prettier-plugin-twig-melody",
-        "./node_modules/@prettier/plugin-php"
-    ],
+    "plugins": ["prettier-plugin-twig-melody", "@prettier/plugin-php"],
     "twigPrintWidth": 100,
     "twigSingleQuote": true,
     "twigAlwaysBreakObjects": true,

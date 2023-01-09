@@ -9,6 +9,10 @@
 /public/build/*
 /public/bundle/*
 
+# Templates
+/templates/bundles/EasyAdminBundle/layout.html.twig
+/templates/bundles/EasyAdminBundle/page/login_minimal.html.twig
+
 # BUILD FILES
 /bower_components/*
 /node_modules/*

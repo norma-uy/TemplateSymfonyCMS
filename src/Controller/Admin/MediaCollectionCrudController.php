@@ -2,36 +2,27 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Post;
+use App\Entity\MediaCollection;
+use App\Form\Type\MediaCollectionType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class PostCrudController extends AbstractCrudController
+class MediaCollectionCrudController extends AbstractCrudController
 {
-    /**
-     * Undocumented function
-     *
-     * @param Security $security
-     */
-    public function __construct(private Security $security)
-    {
-    }
-
     public static function getEntityFqcn(): string
     {
-        return Post::class;
+        return MediaCollection::class;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -42,9 +33,9 @@ class PostCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Noticias')
-            ->setEntityLabelInSingular('Noticia')
-            ->setEntityLabelInPlural('Noticias');
+            ->setPageTitle('index', 'Colecciones')
+            ->setEntityLabelInSingular('Colección')
+            ->setEntityLabelInPlural('Colecciones');
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument
@@ -65,11 +56,15 @@ class PostCrudController extends AbstractCrudController
         return [
             IdField::new('id', 'ID')->hideOnForm(),
             TextField::new('title', 'Título'),
-            DateField::new('publishedAt', 'Fecha de publicación'),
-            AssociationField::new('thumbnailPhoto', 'Foto miniatura'),
-            AssociationField::new('mediaSlider', 'Slider de fotos'),
-            TextField::new('summary', 'Resumen'),
-            TextEditorField::new('content', 'Contenido'),
+            TextField::new('linkTo', 'Enlace a'),
+            TextEditorField::new('description', 'Descripción'),
+            CollectionField::new('mediaList', 'Lista de images')->setEntryType(
+                MediaCollectionType::class,
+            ),
+            BooleanField::new(
+                'setAsHomeSlider',
+                'Establecer como slider de la página de inicio',
+            ),
         ];
     }
 
@@ -77,16 +72,39 @@ class PostCrudController extends AbstractCrudController
         EntityManagerInterface $entityManager,
         $entityInstance,
     ): void {
-        $currentUser = $this->security->getUser();
-
-        if ($currentUser && $entityInstance instanceof Post) {
-            $entityInstance->setAuthor($currentUser);
-
+        if ($entityInstance instanceof MediaCollection) {
             $slugger = new AsciiSlugger();
 
             $title_slug = $slugger->slug($entityInstance->getTitle())->lower();
 
             $entityInstance->setSlug($title_slug);
+
+            $entityManager->persist($entityInstance);
+            $entityManager->flush();
+        }
+    }
+
+    public function updateEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        if ($entityInstance instanceof MediaCollection) {
+            $mediaCollectionRepository = $entityManager->getRepository(
+                MediaCollection::class,
+            );
+
+            /**
+             * @var MediaCollection $mediaCollection
+             */
+            foreach (
+                $mediaCollectionRepository->findAll()
+                as $mediaCollection
+            ) {
+                if ($mediaCollection->getId() !== $entityInstance->getId()) {
+                    $mediaCollection->setAsHomeSlider(false);
+                    $entityManager->persist($mediaCollection);
+                }
+            }
 
             $entityManager->persist($entityInstance);
             $entityManager->flush();

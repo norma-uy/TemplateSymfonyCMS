@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MediaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -16,14 +18,16 @@ class Media
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Vich\UploadableField(
-        mapping: 'media',
-        fileNameProperty: 'fileName',
-        size: 'size',
-        mimeType: 'mimeType',
-        originalName: 'originalName',
-        dimensions: 'dimensions',
-    )]
+    #[
+        Vich\UploadableField(
+            mapping: 'media',
+            fileNameProperty: 'fileName',
+            size: 'size',
+            mimeType: 'mimeType',
+            originalName: 'originalName',
+            dimensions: 'dimensions',
+        ),
+    ]
     private ?File $file = null;
 
     #[ORM\Column(length: 255)]
@@ -39,7 +43,20 @@ class Media
     private ?string $mimeType = null;
 
     #[ORM\Column(nullable: true)]
-    private array $dimensions = [];
+    private ?array $dimensions = [];
+
+    #[
+        ORM\ManyToMany(
+            targetEntity: MediaCollection::class,
+            mappedBy: 'mediaList',
+        ),
+    ]
+    private Collection $mediaCollections;
+
+    public function __construct()
+    {
+        $this->mediaCollections = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,7 +78,7 @@ class Media
         return $this->fileName;
     }
 
-    public function setFileName(string $fileName): self
+    public function setFileName(?string $fileName): self
     {
         $this->fileName = $fileName;
 
@@ -73,7 +90,7 @@ class Media
         return $this->originalName;
     }
 
-    public function setOriginalName(string $originalName): self
+    public function setOriginalName(?string $originalName): self
     {
         $this->originalName = $originalName;
 
@@ -85,7 +102,7 @@ class Media
         return $this->size;
     }
 
-    public function setSize(int $size): self
+    public function setSize(?int $size): self
     {
         $this->size = $size;
 
@@ -97,7 +114,7 @@ class Media
         return $this->mimeType;
     }
 
-    public function setMimeType(string $mimeType): self
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -112,6 +129,39 @@ class Media
     public function setDimensions(?array $dimensions): self
     {
         $this->dimensions = $dimensions;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @return Collection<int, MediaCollection>
+     */
+    public function getMediaCollections(): Collection
+    {
+        return $this->mediaCollections;
+    }
+
+    public function addMediaCollection(MediaCollection $mediaCollection): self
+    {
+        if (!$this->mediaCollections->contains($mediaCollection)) {
+            $this->mediaCollections->add($mediaCollection);
+            $mediaCollection->addMediaList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaCollection(
+        MediaCollection $mediaCollection,
+    ): self {
+        if ($this->mediaCollections->removeElement($mediaCollection)) {
+            $mediaCollection->removeMediaList($this);
+        }
 
         return $this;
     }

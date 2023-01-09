@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Media;
+use App\Entity\MediaCollection;
 use App\Entity\Post;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -103,6 +104,12 @@ class DashboardController extends AbstractDashboardController
             'Media',
             'fas fa-photo-video',
             Media::class,
+        )->setPermission('ROLE_ADMIN');
+
+        yield MenuItem::linkToCrud(
+            'Colecciones',
+            'fas fa-layer-group',
+            MediaCollection::class,
         )->setPermission('ROLE_ADMIN');
 
         yield MenuItem::linkToCrud(

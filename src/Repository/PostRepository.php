@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +41,40 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Post[] Returns an array of Post objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Post[] Returns an array of Post objects
+     */
+    public function findByDate(
+        DateTimeImmutable $date = new DateTime('now'),
+        ?int $maxResults = 5,
+        ?Post $postException = null,
+    ): array {
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere('p.publishedAt <= :date')
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->orderBy('p.publishedAt', 'ASC');
 
-//    public function findOneBySomeField($value): ?Post
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($maxResults !== null) {
+            $qb->setMaxResults($maxResults);
+        }
+
+        if ($postException !== null) {
+            $qb->andWhere('p.id <> :postException')->setParameter(
+                'postException',
+                $postException,
+            );
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    //    public function findOneBySomeField($value): ?Post
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

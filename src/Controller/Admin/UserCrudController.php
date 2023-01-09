@@ -39,7 +39,9 @@ class UserCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Listado - Usuarios');
+            ->setPageTitle('index', 'Usuarios')
+            ->setEntityLabelInSingular('Usuario')
+            ->setEntityLabelInPlural('Usuarios');
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument

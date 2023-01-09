@@ -33,6 +33,12 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\ManyToOne]
+    private ?Media $thumbnailPhoto = null;
+
+    #[ORM\ManyToOne]
+    private ?MediaCollection $mediaSlider = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +112,30 @@ class Post
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getThumbnailPhoto(): ?Media
+    {
+        return $this->thumbnailPhoto;
+    }
+
+    public function setThumbnailPhoto(?Media $thumbnailPhoto): self
+    {
+        $this->thumbnailPhoto = $thumbnailPhoto;
+
+        return $this;
+    }
+
+    public function getMediaSlider(): ?MediaCollection
+    {
+        return $this->mediaSlider;
+    }
+
+    public function setMediaSlider(?MediaCollection $mediaSlider): self
+    {
+        $this->mediaSlider = $mediaSlider;
 
         return $this;
     }
