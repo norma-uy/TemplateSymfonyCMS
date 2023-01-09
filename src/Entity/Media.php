@@ -53,6 +53,9 @@ class Media
     ]
     private Collection $mediaCollections;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
         $this->mediaCollections = new ArrayCollection();
@@ -162,6 +165,18 @@ class Media
         if ($this->mediaCollections->removeElement($mediaCollection)) {
             $mediaCollection->removeMediaList($this);
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Media;
 use App\Form\Admin\Field\MediaField;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -65,5 +67,18 @@ class MediaCrudController extends AbstractCrudController
                 Action::NEW,
                 Action::DELETE,
             );
+    }
+
+    public function persistEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        if ($entityInstance instanceof Media) {
+            if (!$entityInstance->getCreatedAt()) {
+                $entityInstance->setCreatedAt(new DateTimeImmutable("now"));
+                $entityManager->persist($entityInstance);
+                $entityManager->flush();
+            }
+        }
     }
 }

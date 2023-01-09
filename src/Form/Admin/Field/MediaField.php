@@ -4,6 +4,7 @@ namespace App\Form\Admin\Field;
 
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 final class MediaField implements FieldInterface
@@ -24,7 +25,15 @@ final class MediaField implements FieldInterface
 
             // this is used in 'edit' and 'new' pages to edit the field contents
             // you can use your own form types too
-            ->setFormType(VichImageType::class)
+            ->setFormType(VichFileType::class, [
+                'required' => true,
+                'allow_delete' => false,
+                'delete_label' => 'vich_uploader.form_label.delete_confirm',
+                'download_uri' => true,
+                'download_label' => 'vich_uploader.link.download',
+                'asset_helper' => true,
+                'translation_domain' => 'VichUploaderBundle',
+            ])
             ->addCssClass('field-media');
 
         // loads the CSS and JS assets associated to the given Webpack Encore entry

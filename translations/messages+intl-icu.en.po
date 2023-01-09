@@ -18,3 +18,6 @@ msgstr "Error 403"
 
 msgid "Blog Template · Bootstrap v5.2"
 msgstr "__Blog Template · Bootstrap v5.2"
+
+msgid "vich_uploader.link.download"
+msgstr "__Blog Template · Bootstrap v5.2"

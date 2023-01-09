@@ -20,7 +20,7 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $summary = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

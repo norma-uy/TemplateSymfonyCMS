@@ -42,9 +42,9 @@ class PostCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Noticias')
-            ->setEntityLabelInSingular('Noticia')
-            ->setEntityLabelInPlural('Noticias');
+            ->setPageTitle('index', 'Publicaciones')
+            ->setEntityLabelInSingular('Publicación')
+            ->setEntityLabelInPlural('Publicaciones');
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument
@@ -68,8 +68,8 @@ class PostCrudController extends AbstractCrudController
             DateField::new('publishedAt', 'Fecha de publicación'),
             AssociationField::new('thumbnailPhoto', 'Foto miniatura'),
             AssociationField::new('mediaSlider', 'Slider de fotos'),
-            TextField::new('summary', 'Resumen'),
-            TextEditorField::new('content', 'Contenido'),
+            TextEditorField::new('summary', 'Resumen')->onlyOnForms(),
+            TextEditorField::new('content', 'Contenido')->onlyOnForms(),
         ];
     }
 
