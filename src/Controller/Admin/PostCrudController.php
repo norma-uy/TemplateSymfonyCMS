@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -25,8 +26,10 @@ class PostCrudController extends AbstractCrudController
      *
      * @param Security $security
      */
-    public function __construct(private Security $security)
-    {
+    public function __construct(
+        private Security $security,
+        private PostRepository $postRepository,
+    ) {
     }
 
     public static function getEntityFqcn(): string
@@ -82,11 +85,23 @@ class PostCrudController extends AbstractCrudController
         if ($currentUser && $entityInstance instanceof Post) {
             $entityInstance->setAuthor($currentUser);
 
-            $slugger = new AsciiSlugger();
+            $titleSlug = $this->makeSlug($entityInstance);
 
-            $title_slug = $slugger->slug($entityInstance->getTitle())->lower();
+            $entityInstance->setSlug($titleSlug);
 
-            $entityInstance->setSlug($title_slug);
+            $entityManager->persist($entityInstance);
+            $entityManager->flush();
+        }
+    }
+
+    public function updateEntity(
+        EntityManagerInterface $entityManager,
+        $entityInstance,
+    ): void {
+        if ($entityInstance instanceof Post) {
+            $titleSlug = $this->makeSlug($entityInstance);
+
+            $entityInstance->setSlug($titleSlug);
 
             $entityManager->persist($entityInstance);
             $entityManager->flush();
@@ -103,5 +118,21 @@ class PostCrudController extends AbstractCrudController
                 Action::NEW,
                 Action::DELETE,
             );
+    }
+
+    private function makeSlug(Post $entityInstance): string
+    {
+        $slugger = new AsciiSlugger();
+
+        $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
+
+        $postByCurrentSlug = $this->postRepository->findOneBySlug(
+            $titleSlug,
+            $entityInstance,
+        );
+
+        $titleSlug = $postByCurrentSlug ? "{$titleSlug}-duplicate" : $titleSlug;
+
+        return $titleSlug;
     }
 }

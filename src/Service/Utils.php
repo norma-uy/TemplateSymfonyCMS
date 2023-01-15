@@ -63,7 +63,7 @@ class Utils
         }
     }
 
-    public function base64_to_jpeg(string $base64_string, string $output_file)
+    public function base64ToJpeg(string $base64_string, string $output_file)
     {
         // open the output file for writing
         $ifp = fopen($output_file, 'wb');

@@ -61,4 +61,25 @@ class MediaCollectionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findOneBySlug(
+        string $slug,
+        ?MediaCollection $mediaColletionException = null,
+    ): ?MediaCollection {
+        $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.slug = :slug')
+            ->setParameter('slug', $slug);
+
+        if (
+            $mediaColletionException !== null &&
+            $mediaColletionException->getId()
+        ) {
+            $qb->andWhere('m.id <> :mediaColletionException')->setParameter(
+                'mediaColletionException',
+                $mediaColletionException->getId(),
+            );
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

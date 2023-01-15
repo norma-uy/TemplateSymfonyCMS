@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\MediaCollection;
 use App\Form\Type\MediaCollectionType;
+use App\Repository\MediaCollectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -20,6 +21,16 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class MediaCollectionCrudController extends AbstractCrudController
 {
+    /**
+     * Undocumented function
+     *
+     * @param Security $security
+     */
+    public function __construct(
+        private MediaCollectionRepository $mediaCollectionRepository,
+    ) {
+    }
+
     public static function getEntityFqcn(): string
     {
         return MediaCollection::class;
@@ -73,11 +84,9 @@ class MediaCollectionCrudController extends AbstractCrudController
         $entityInstance,
     ): void {
         if ($entityInstance instanceof MediaCollection) {
-            $slugger = new AsciiSlugger();
+            $titleSlug = $this->makeSlug($entityInstance);
 
-            $title_slug = $slugger->slug($entityInstance->getTitle())->lower();
-
-            $entityInstance->setSlug($title_slug);
+            $entityInstance->setSlug($titleSlug);
 
             $entityManager->persist($entityInstance);
             $entityManager->flush();
@@ -89,15 +98,14 @@ class MediaCollectionCrudController extends AbstractCrudController
         $entityInstance,
     ): void {
         if ($entityInstance instanceof MediaCollection) {
-            $mediaCollectionRepository = $entityManager->getRepository(
-                MediaCollection::class,
-            );
+            $titleSlug = $this->makeSlug($entityInstance);
+            $entityInstance->setSlug($titleSlug);
 
             /**
              * @var MediaCollection $mediaCollection
              */
             foreach (
-                $mediaCollectionRepository->findAll()
+                $this->mediaCollectionRepository->findAll()
                 as $mediaCollection
             ) {
                 if ($mediaCollection->getId() !== $entityInstance->getId()) {
@@ -121,5 +129,23 @@ class MediaCollectionCrudController extends AbstractCrudController
                 Action::NEW,
                 Action::DELETE,
             );
+    }
+
+    private function makeSlug(MediaCollection $entityInstance): string
+    {
+        $slugger = new AsciiSlugger();
+
+        $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
+
+        $mediaColletionByCurrentSlug = $this->mediaCollectionRepository->findOneBySlug(
+            $titleSlug,
+            $entityInstance,
+        );
+
+        $titleSlug = $mediaColletionByCurrentSlug
+            ? "{$titleSlug}-duplicate"
+            : $titleSlug;
+
+        return $titleSlug;
     }
 }
