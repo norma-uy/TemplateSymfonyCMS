@@ -1,0 +1,20 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+flysystem:
+    storages:
+        default.storage.media:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/%media_storage_path%'
+                lock: 0
+                skip_links: false
+                permissions:
+                    file:
+                        public: 0o744
+                        private: 0o700
+                    dir:
+                        public: 0o755
+                        private: 0o700
+            visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            case_sensitive: true
+            disable_asserts: false
