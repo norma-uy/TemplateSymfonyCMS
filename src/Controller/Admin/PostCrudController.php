@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -74,6 +75,13 @@ class PostCrudController extends AbstractCrudController
             TextEditorField::new('summary', 'Resumen')->onlyOnForms(),
             TextEditorField::new('content', 'Contenido')->onlyOnForms(),
         ];
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $post = new Post();
+        $post->setCreatedAt(new DateTimeImmutable('now'));
+        return $post;
     }
 
     public function persistEntity(

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\MediaCollection;
 use App\Form\Type\MediaCollectionType;
 use App\Repository\MediaCollectionRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -17,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class MediaCollectionCrudController extends AbstractCrudController
@@ -27,6 +29,7 @@ class MediaCollectionCrudController extends AbstractCrudController
      * @param Security $security
      */
     public function __construct(
+        private Security $security,
         private MediaCollectionRepository $mediaCollectionRepository,
     ) {
     }
@@ -79,11 +82,22 @@ class MediaCollectionCrudController extends AbstractCrudController
         ];
     }
 
+    public function createEntity(string $entityFqcn)
+    {
+        $mediaCollection = new MediaCollection();
+        $mediaCollection->setCreatedAt(new DateTimeImmutable('now'));
+        return $mediaCollection;
+    }
+
     public function persistEntity(
         EntityManagerInterface $entityManager,
         $entityInstance,
     ): void {
-        if ($entityInstance instanceof MediaCollection) {
+        $currentUser = $this->security->getUser();
+
+        if ($currentUser && $entityInstance instanceof MediaCollection) {
+            $entityInstance->setAuthor($currentUser);
+
             $titleSlug = $this->makeSlug($entityInstance);
 
             $entityInstance->setSlug($titleSlug);

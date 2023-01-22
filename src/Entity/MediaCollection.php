@@ -28,6 +28,13 @@ class MediaCollection
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $linkTo = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'mediaCollections')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     #[
         ORM\ManyToMany(
             targetEntity: Media::class,
@@ -93,6 +100,30 @@ class MediaCollection
     public function setLinkTo(?string $linkTo): self
     {
         $this->linkTo = $linkTo;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

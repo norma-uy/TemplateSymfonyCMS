@@ -54,9 +54,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     ]
     private Collection $posts;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Media::class)]
+    private Collection $media;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: MediaCollection::class)]
+    private Collection $mediaCollections;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->media = new ArrayCollection();
+        $this->mediaCollections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,6 +213,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($post->getAuthor() === $this) {
                 $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media->add($medium);
+            $medium->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getAuthor() === $this) {
+                $medium->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MediaCollection>
+     */
+    public function getMediaCollections(): Collection
+    {
+        return $this->mediaCollections;
+    }
+
+    public function addMediaCollection(MediaCollection $mediaCollection): self
+    {
+        if (!$this->mediaCollections->contains($mediaCollection)) {
+            $this->mediaCollections->add($mediaCollection);
+            $mediaCollection->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaCollection(MediaCollection $mediaCollection): self
+    {
+        if ($this->mediaCollections->removeElement($mediaCollection)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaCollection->getAuthor() === $this) {
+                $mediaCollection->setAuthor(null);
             }
         }
 
