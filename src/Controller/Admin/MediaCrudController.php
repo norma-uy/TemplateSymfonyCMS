@@ -72,16 +72,14 @@ class MediaCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        return $filters->add(
-            TextFilter::new('originalImageFileName', 'Nombre'),
-        );
+        return $filters->add(TextFilter::new('originalFileName', 'Nombre'));
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id', 'ID')->hideOnForm(),
-            MediaField::new('originalImageFile', 'Archivo'),
+            MediaField::new('originalFile', 'Archivo'),
             TextField::new('title', 'Título'),
             TextareaField::new('altText', 'Texto alternativo')->onlyOnForms(),
         ];
@@ -131,7 +129,7 @@ class MediaCrudController extends AbstractCrudController
         if ($entityInstance instanceof Media) {
             $titleSlug = $this->makeSlug($entityInstance);
 
-            $this->makeImageSizes($entityInstance, $entityManager);
+            // $this->makeImageSizes($entityInstance, $entityManager);
 
             $entityInstance->setSlug($titleSlug);
 
@@ -170,20 +168,15 @@ class MediaCrudController extends AbstractCrudController
 
         foreach ($widthList as $rKey => $rWidth) {
             $rootProjectPath = getcwd();
-            $originalImageFilePath = $this->helper->asset(
-                $media,
-                'originalImageFile',
-            );
-            $filePathParts = pathinfo(
-                $rootProjectPath . $originalImageFilePath,
-            );
+            $originalFilePath = $this->helper->asset($media, 'originalFile');
+            $filePathParts = pathinfo($rootProjectPath . $originalFilePath);
             $tmpStoragePath = $this->getParameter('tmp_storage_path');
 
             $targetFileName = "{$filePathParts['filename']}_{$rKey}.{$filePathParts['extension']}";
             $tmpTargetFilePath = "{$rootProjectPath}{$tmpStoragePath}/{$targetFileName}";
 
             $filesystem->copy(
-                $rootProjectPath . $originalImageFilePath,
+                $rootProjectPath . $originalFilePath,
                 $tmpTargetFilePath,
                 true,
             );

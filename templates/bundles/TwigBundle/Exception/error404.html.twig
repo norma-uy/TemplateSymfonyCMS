@@ -6,9 +6,7 @@
 
 {% block stylesheets %}
     {% for cssFile in encore_entry_css_files('global', 'website-config') %}
-        <link {{ app.environment == 'prod' ? 'nonce="' ~ csp_nonce('style') ~ '"' : '' }}
-            rel="stylesheet"
-            href="{{ cssFile }}" />
+        <link rel="stylesheet" href="{{ cssFile }}" />
     {% endfor %}
 {% endblock stylesheets %}
 
@@ -24,7 +22,8 @@
 
 {% block main %}
     <h1>
-        {{ status_code }} {{ status_text }}
+        {{ status_code }}
+        {{ status_text }}
     </h1>
 
     <p>

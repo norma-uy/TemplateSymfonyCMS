@@ -3,6 +3,7 @@ webpack_encore:
     output_path: '%kernel.project_dir%/public'
     builds:
         'website-config': '%kernel.project_dir%/public/build/website'
+        'admin-config': '%kernel.project_dir%/public/build/admin'
     # If multiple builds are defined (as shown below), you can disable the default build:
     # output_path: false
 
@@ -41,6 +42,8 @@ framework:
         packages:
             'website-config':
                 json_manifest_path: '%kernel.project_dir%/public/build/website/manifest.json'
+            'admin-config':
+                json_manifest_path: '%kernel.project_dir%/public/build/admin/manifest.json'
 
 #when@prod:
 #    webpack_encore:

@@ -39,7 +39,7 @@ final class MediaField implements FieldInterface
         // loads the CSS and JS assets associated to the given Webpack Encore entry
         // in any CRUD page (index/detail/edit/new). It's equivalent to calling
         // encore_entry_link_tags('...') and encore_entry_script_tags('...')
-        // ->addWebpackEncoreEntries('admin-field-map')
+        // ->addWebpackEncoreEntries('admin-config');
 
         // these methods allow to define the web assets loaded when the
         // field is displayed in any CRUD page (index/detail/edit/new)

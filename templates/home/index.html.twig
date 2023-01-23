@@ -6,16 +6,14 @@
 
 {% block stylesheets %}
     {% for cssFile in encore_entry_css_files('global', 'website-config') %}
-        <link {{ app.environment == 'prod' ? 'nonce="' ~ csp_nonce('style') ~ '"' : '' }}
-            rel="stylesheet"
-            href="{{ cssFile }}" />
+        <link rel="stylesheet" href="{{ cssFile }}" />
     {% endfor %}
 {% endblock stylesheets %}
 
 {% block javascripts %}
     {% for jsFile in encore_entry_js_files('app-home', 'website-config') %}
         {% cspscript %}
-        <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+        <script src="{{ asset(jsFile) }}" defer></script>
         {% endcspscript %}
     {% endfor %}
 {% endblock javascripts %}
@@ -42,7 +40,7 @@
                             stroke-width="2"
                             class="mx-3"
                             role="img"
-                            viewBox="0 0 24 24">
+                            viewbox="0 0 24 24">
                             <title>
                                 Search
                             </title>
@@ -115,7 +113,7 @@
                             xmlns="http://www.w3.org/2000/svg"
                             role="img"
                             aria-label="Placeholder: Thumbnail"
-                            preserveAspectRatio="xMidYMid slice"
+                            preserveaspectratio="xMidYMid slice"
                             focusable="false">
                             <title>
                                 Placeholder
@@ -151,7 +149,7 @@
                             xmlns="http://www.w3.org/2000/svg"
                             role="img"
                             aria-label="Placeholder: Thumbnail"
-                            preserveAspectRatio="xMidYMid slice"
+                            preserveaspectratio="xMidYMid slice"
                             focusable="false">
                             <title>
                                 Placeholder
@@ -177,7 +175,8 @@
                         Sample blog post
                     </h2>
                     <p class="blog-post-meta">
-                        January 1, 2021 by <a href="#">Mark</a>
+                        January 1, 2021 by
+                        <a href="#">Mark</a>
                     </p>
 
                     <p>
@@ -255,51 +254,55 @@
                     </h2>
                     <p>
                         HTML defines a long list of available inline tags, a complete list of which
-                        can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">
+                        can be found on the
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">
                             Mozilla Developer Network
                         </a>.
                     </p>
                     <ul>
                         <li>
-                            <strong>To bold text</strong>, use <code class="language-plaintext highlighter-rouge">
+                            <strong>To bold text</strong>, use
+                            <code class="language-plaintext highlighter-rouge">
                                 &lt;strong&gt;
                             </code>.
                         </li>
                         <li>
-                            <em>To italicize text</em>, use <code class="language-plaintext highlighter-rouge">
-                                &lt;em&gt;
-                            </code>.
+                            <em>To italicize text</em>, use
+                            <code class="language-plaintext highlighter-rouge">&lt;em&gt;</code>.
                         </li>
                         <li>
-                            Abbreviations, like <abbr title="HyperText Markup Language">HTML</abbr> should
-                            use <code class="language-plaintext highlighter-rouge">
-                                &lt;abbr&gt;
-                            </code>, with an optional <code class="language-plaintext highlighter-rouge">
-                                title
-                            </code> attribute for the full phrase.
+                            Abbreviations, like
+                            <abbr title="HyperText Markup Language">HTML</abbr>
+                            should use
+                            <code class="language-plaintext highlighter-rouge">&lt;abbr&gt;</code>,
+                            with an optional
+                            <code class="language-plaintext highlighter-rouge">title</code>
+                            attribute for the full phrase.
                         </li>
                         <li>
-                            Citations, like <cite>— Mark Otto</cite>, should use <code class="language-plaintext highlighter-rouge">
-                                &lt;cite&gt;
-                            </code>.
+                            Citations, like
+                            <cite>— Mark Otto</cite>, should use
+                            <code class="language-plaintext highlighter-rouge">&lt;cite&gt;</code>.
                         </li>
                         <li>
                             <del>
                                 Deleted
-                            </del>text should use <code class="language-plaintext highlighter-rouge">
-                                &lt;del&gt;
-                            </code> and<ins>
+                            </del>text should use
+                            <code class="language-plaintext highlighter-rouge">&lt;del&gt;</code>
+                            and<ins>
                                 inserted
-                            </ins>text should use <code class="language-plaintext highlighter-rouge">
-                                &lt;ins&gt;
-                            </code>.
+                            </ins>text should use
+                            <code class="language-plaintext highlighter-rouge">&lt;ins&gt;</code>.
                         </li>
                         <li>
-                            Superscript <sup>text</sup> uses <code class="language-plaintext highlighter-rouge">
-                                &lt;sup&gt;
-                            </code> and subscript <sub>text</sub> uses <code class="language-plaintext highlighter-rouge">
-                                &lt;sub&gt;
-                            </code>.
+                            Superscript
+                            <sup>text</sup>
+                            uses
+                            <code class="language-plaintext highlighter-rouge">&lt;sup&gt;</code>
+                            and subscript
+                            <sub>text</sub>
+                            uses
+                            <code class="language-plaintext highlighter-rouge">&lt;sub&gt;</code>.
                         </li>
                     </ul>
                     <p>
@@ -338,7 +341,8 @@
                         Another blog post
                     </h2>
                     <p class="blog-post-meta">
-                        December 23, 2020 by <a href="#">Jacob</a>
+                        December 23, 2020 by
+                        <a href="#">Jacob</a>
                     </p>
 
                     <p>
@@ -349,7 +353,8 @@
                     </p>
                     <blockquote>
                         <p>
-                            Longer quote goes here, maybe with some <strong>emphasized text</strong>
+                            Longer quote goes here, maybe with some
+                            <strong>emphasized text</strong>
                             in the middle of it.
                         </p>
                     </blockquote>
@@ -440,7 +445,8 @@
                         New feature
                     </h2>
                     <p class="blog-post-meta">
-                        December 14, 2020 by <a href="#">Chris</a>
+                        December 14, 2020 by
+                        <a href="#">Chris</a>
                     </p>
 
                     <p>
@@ -519,9 +525,10 @@
 {% block footer %}
     <footer class="blog-footer">
         <p>
-            Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">
-                @mdo
-            </a>.
+            Blog template built for
+            <a href="https://getbootstrap.com/">Bootstrap</a>
+            by
+            <a href="https://twitter.com/mdo">@mdo</a>.
         </p>
         <p>
             <a href="#">Back to top</a>

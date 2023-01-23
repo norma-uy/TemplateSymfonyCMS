@@ -116,8 +116,7 @@
                 </div>
             </form>
 
-            <script nonce="{{ csp_nonce('script') }}"
-                src="{{ asset('bundles/easyadmin/login.js') }}"></script>
+            {{ encore_entry_script_tags('login', null, 'admin-config') }}
         </section>
     </div>
 {% endblock wrapper_wrapper %}

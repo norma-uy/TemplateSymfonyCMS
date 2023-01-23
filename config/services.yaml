@@ -27,5 +27,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\EventListener\MediaListener:
+        tags:
+            - { name: kernel.event_listener, event: vich_uploader.post_upload }
+            - { name: kernel.event_listener, event: vich_uploader.post_inject }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

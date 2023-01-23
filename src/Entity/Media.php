@@ -37,17 +37,17 @@ class Media
     #[
         Vich\UploadableField(
             mapping: 'media.original',
-            fileNameProperty: 'originalImageFileName',
+            fileNameProperty: 'originalFileName',
             size: 'size',
             mimeType: 'mimeType',
             originalName: 'originalName',
             dimensions: 'dimensions',
         ),
     ]
-    private ?File $originalImageFile = null;
+    private ?File $originalFile = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $originalImageFileName = null;
+    private ?string $originalFileName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $originalName = null;
@@ -172,25 +172,24 @@ class Media
         return $this;
     }
 
-    public function getOriginalImageFile(): ?File
+    public function getOriginalFile(): ?File
     {
-        return $this->originalImageFile;
+        return $this->originalFile;
     }
 
-    public function setOriginalImageFile(?File $originalImageFile = null): void
+    public function setOriginalFile(?File $originalFile = null): void
     {
-        $this->originalImageFile = $originalImageFile;
+        $this->originalFile = $originalFile;
     }
 
-    public function getOriginalImageFileName(): ?string
+    public function getOriginalFileName(): ?string
     {
-        return $this->originalImageFileName;
+        return $this->originalFileName;
     }
 
-    public function setOriginalImageFileName(
-        ?string $originalImageFileName,
-    ): self {
-        $this->originalImageFileName = $originalImageFileName;
+    public function setOriginalFileName(?string $originalFileName): self
+    {
+        $this->originalFileName = $originalFileName;
 
         return $this;
     }
@@ -245,7 +244,7 @@ class Media
 
     public function __toString(): string
     {
-        return $this->originalImageFileName;
+        return $this->originalFileName;
     }
 
     /**

@@ -11,11 +11,11 @@
     <a href="#{{ html_id }}"
         class="ea-lightbox-thumbnail"
         data-ea-lightbox-content-selector="#{{ html_id }}">
-        <img src="{{ vich_uploader_asset(entity.instance, 'originalImageFile') }}" class="img-fluid" />
+        <img src="{{ vich_uploader_asset(entity.instance, 'imageFile100w') }}" class="img-fluid" />
     </a>
 
     <div id="{{ html_id }}" class="ea-lightbox">
-        <img src="{{ vich_uploader_asset(entity.instance, 'originalImageFile') }}" />
+        <img src="{{ vich_uploader_asset(entity.instance, 'originalFile') }}" />
     </div>
 {% else %}
     <a href="#{{ html_id }}"

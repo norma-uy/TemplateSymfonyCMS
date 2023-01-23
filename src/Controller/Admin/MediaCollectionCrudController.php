@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\MediaCollection;
+use App\Form\Admin\Field\TextEditorField;
 use App\Form\Type\MediaCollectionType;
 use App\Repository\MediaCollectionRepository;
 use DateTimeImmutable;
@@ -15,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use Symfony\Bundle\SecurityBundle\Security;

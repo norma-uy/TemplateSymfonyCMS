@@ -267,8 +267,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeMediaCollection(MediaCollection $mediaCollection): self
-    {
+    public function removeMediaCollection(
+        MediaCollection $mediaCollection,
+    ): self {
         if ($this->mediaCollections->removeElement($mediaCollection)) {
             // set the owning side to null (unless already changed)
             if ($mediaCollection->getAuthor() === $this) {
