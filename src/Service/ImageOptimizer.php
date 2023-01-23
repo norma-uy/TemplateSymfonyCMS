@@ -6,9 +6,6 @@ use Imagine\Image\Box;
 
 class ImageOptimizer
 {
-    private const MAX_WIDTH = 200;
-    private const MAX_HEIGHT = 150;
-
     private $imagine;
 
     public function __construct()
@@ -16,12 +13,31 @@ class ImageOptimizer
         $this->imagine = new Imagine();
     }
 
-    public function resize(string $filename): void
-    {
+    public function widthResize(
+        string $filename,
+        int $width,
+        string $newFilName = null,
+    ): void {
         [$iwidth, $iheight] = getimagesize($filename);
         $ratio = $iwidth / $iheight;
-        $width = self::MAX_WIDTH;
-        $height = self::MAX_HEIGHT;
+
+        $height = $width / $ratio;
+
+        $photo = $this->imagine->open($filename);
+        $photo
+            ->resize(new Box($width, $height))
+            ->save($newFilName ? $newFilName : $filename);
+    }
+
+    public function resize(
+        string $filename,
+        int $width,
+        int $height,
+        string $newFilName = null,
+    ): void {
+        [$iwidth, $iheight] = getimagesize($filename);
+        $ratio = $iwidth / $iheight;
+
         if ($width / $height > $ratio) {
             $width = $height * $ratio;
         } else {
@@ -29,6 +45,8 @@ class ImageOptimizer
         }
 
         $photo = $this->imagine->open($filename);
-        $photo->resize(new Box($width, $height))->save($filename);
+        $photo
+            ->resize(new Box($width, $height))
+            ->save($newFilName ? $newFilName : $filename);
     }
 }

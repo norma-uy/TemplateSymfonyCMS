@@ -13,16 +13,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use League\Flysystem\Config;
+use League\Flysystem\FilesystemOperator;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class MediaCrudController extends AbstractCrudController
@@ -34,9 +35,12 @@ class MediaCrudController extends AbstractCrudController
      */
     public function __construct(
         private Security $security,
+        private LoggerInterface $manualDevLogger,
         private MediaRepository $mediaRepository,
         private UploaderHelper $helper,
         private ImageOptimizer $imageOptimizer,
+        private FilesystemOperator $storageMediaOriginal,
+        private FilesystemOperator $storageMedia100w,
     ) {
     }
 
@@ -68,14 +72,16 @@ class MediaCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        return $filters->add(TextFilter::new('fileName', 'Nombre'));
+        return $filters->add(
+            TextFilter::new('originalImageFileName', 'Nombre'),
+        );
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id', 'ID')->hideOnForm(),
-            MediaField::new('file', 'Archivo'),
+            MediaField::new('originalImageFile', 'Archivo'),
             TextField::new('title', 'Título'),
             TextareaField::new('altText', 'Texto alternativo')->onlyOnForms(),
         ];
@@ -125,6 +131,8 @@ class MediaCrudController extends AbstractCrudController
         if ($entityInstance instanceof Media) {
             $titleSlug = $this->makeSlug($entityInstance);
 
+            $this->makeImageSizes($entityInstance, $entityManager);
+
             $entityInstance->setSlug($titleSlug);
 
             $entityManager->persist($entityInstance);
@@ -152,30 +160,54 @@ class MediaCrudController extends AbstractCrudController
         Media $media,
         EntityManagerInterface $entityManager,
     ): Media {
-        $resolutionList = [
-            '100x100' => ['x' => 100, 'y' => 100],
-            '150x150' => ['x' => 150, 'y' => 150],
-            '300x213' => ['x' => 300, 'y' => 213],
-        ];
-
         $filesystem = new Filesystem();
 
-        foreach ($resolutionList as $rKey => $rValue) {
-            $mainFilePath = getcwd() . $this->helper->asset($media, 'file');
-            $filePathParts = pathinfo($mainFilePath);
+        $widthList = [
+            '100w' => 100,
+            '150w' => 150,
+            '300w' => 300,
+        ];
 
-            /* $ancientUmask = umask(0);
-            chmod($filePathParts['dirname'], 0755);
-            $targetDir = "{$filePathParts['dirname']}/{$rKey}";
-            $filesystem->mkdir($targetDir, 0744);
-            umask($ancientUmask); */
-
-            $targetDir = "{$filePathParts['dirname']}";
+        foreach ($widthList as $rKey => $rWidth) {
+            $rootProjectPath = getcwd();
+            $originalImageFilePath = $this->helper->asset(
+                $media,
+                'originalImageFile',
+            );
+            $filePathParts = pathinfo(
+                $rootProjectPath . $originalImageFilePath,
+            );
+            $tmpStoragePath = $this->getParameter('tmp_storage_path');
 
             $targetFileName = "{$filePathParts['filename']}_{$rKey}.{$filePathParts['extension']}";
-            $targetFilePath = "{$targetDir}/{$targetFileName}";
+            $tmpTargetFilePath = "{$rootProjectPath}{$tmpStoragePath}/{$targetFileName}";
 
-            // $filesystem->copy($mainFilePath, $targetFilePath, true);
+            $filesystem->copy(
+                $rootProjectPath . $originalImageFilePath,
+                $tmpTargetFilePath,
+                true,
+            );
+
+            $this->imageOptimizer->widthResize($tmpTargetFilePath, $rWidth);
+
+            if ($rKey === '100w') {
+                $media->imageFile100w = new UploadedFile(
+                    $tmpTargetFilePath,
+                    $targetFileName,
+                );
+            } elseif ($rKey === '150w') {
+                $media->imageFile150w = new UploadedFile(
+                    $tmpTargetFilePath,
+                    $targetFileName,
+                );
+            } elseif ($rKey === '300w') {
+                $media->imageFile300w = new UploadedFile(
+                    $tmpTargetFilePath,
+                    $targetFileName,
+                );
+            }
+
+            // @unlink($tmpTargetFilePath);
         }
 
         $entityManager->persist($media);

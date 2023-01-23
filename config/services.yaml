@@ -8,6 +8,7 @@ parameters:
     lang: '%env(APP_LANG)%'
     website.urlBase: '%env(APP_WEBSITE_URL_BASE)%'
     website.name: '%env(APP_WEBSITE_NAME)%'
+    tmp_storage_path: '%env(TMP_STORAGE_PATH)%'
     media_storage_path: '%env(MEDIA_STORAGE_PATH)%'
     media_storage_path_index: '%env(MEDIA_STORAGE_PATH_INDEX)%'
 

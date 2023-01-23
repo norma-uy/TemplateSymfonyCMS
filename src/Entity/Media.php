@@ -36,18 +36,18 @@ class Media
 
     #[
         Vich\UploadableField(
-            mapping: 'media',
-            fileNameProperty: 'fileName',
+            mapping: 'media.original',
+            fileNameProperty: 'originalImageFileName',
             size: 'size',
             mimeType: 'mimeType',
             originalName: 'originalName',
             dimensions: 'dimensions',
         ),
     ]
-    private ?File $file = null;
+    private ?File $originalImageFile = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $fileName = null;
+    private ?string $originalImageFileName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $originalName = null;
@@ -68,6 +68,39 @@ class Media
         ),
     ]
     private Collection $mediaCollections;
+
+    #[
+        Vich\UploadableField(
+            mapping: 'media.100w',
+            fileNameProperty: 'imageFileName100w',
+        ),
+    ]
+    public ?File $imageFile100w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName100w = null;
+
+    #[
+        Vich\UploadableField(
+            mapping: 'media.150w',
+            fileNameProperty: 'imageFileName150w',
+        ),
+    ]
+    public ?File $imageFile150w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName150w = null;
+
+    #[
+        Vich\UploadableField(
+            mapping: 'media.300w',
+            fileNameProperty: 'imageFileName300w',
+        ),
+    ]
+    public ?File $imageFile300w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName300w = null;
 
     public function __construct()
     {
@@ -139,24 +172,25 @@ class Media
         return $this;
     }
 
-    public function getFile(): ?File
+    public function getOriginalImageFile(): ?File
     {
-        return $this->file;
+        return $this->originalImageFile;
     }
 
-    public function setFile(?File $file = null): void
+    public function setOriginalImageFile(?File $originalImageFile = null): void
     {
-        $this->file = $file;
+        $this->originalImageFile = $originalImageFile;
     }
 
-    public function getFileName(): ?string
+    public function getOriginalImageFileName(): ?string
     {
-        return $this->fileName;
+        return $this->originalImageFileName;
     }
 
-    public function setFileName(?string $fileName): self
-    {
-        $this->fileName = $fileName;
+    public function setOriginalImageFileName(
+        ?string $originalImageFileName,
+    ): self {
+        $this->originalImageFileName = $originalImageFileName;
 
         return $this;
     }
@@ -211,7 +245,7 @@ class Media
 
     public function __toString(): string
     {
-        return $this->fileName;
+        return $this->originalImageFileName;
     }
 
     /**
