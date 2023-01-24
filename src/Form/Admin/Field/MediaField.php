@@ -48,7 +48,7 @@ final class MediaField implements FieldInterface
 
             // these methods allow to define the web assets loaded when the
             // field is displayed in any CRUD page (index/detail/edit/new)
-            ->addCssFiles(Asset::new($package->getUrl('build/admin/field-media.css'))->onlyOnForms())
-            ->addJsFiles(Asset::new($package->getUrl('build/admin/field-media.js'))->onlyOnForms());
+            ->addCssFiles(Asset::new($package->getUrl('build/admin/mediaField.css'))->onlyOnForms())
+            ->addJsFiles(Asset::new($package->getUrl('build/admin/mediaField.js'))->onlyOnForms());
     }
 }

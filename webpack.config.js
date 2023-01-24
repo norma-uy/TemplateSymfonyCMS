@@ -149,7 +149,8 @@ Encore
     .addEntry('field-slug', './assets/admin/field/field-slug.js')
     .addEntry('field-textarea', './assets/admin/field/field-textarea.js')
     .addEntry('field-text-editor', './assets/admin/field/field-text-editor.js')
-    .addEntry('field-media', './assets/admin/field/field-media.js')
+    .addEntry('mediaField', './assets/admin/field/mediaField.js')
+    .addEntry('textEditorField', './assets/admin/field/textEditorField.js')
     .addEntry('login', './assets/admin/login.js')
 
     .copyFiles({
@@ -175,6 +176,11 @@ Encore
 
         // only copy files matching this pattern
         // pattern: /\.(png|jpg|jpeg)$/
+    })
+
+    .copyFiles({
+        from: './node_modules/tinymce/skins',
+        to: 'skins/[path]/[name].[ext]'
     })
 
     .addPlugin(new WebpackRTLPlugin())

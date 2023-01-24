@@ -561,6 +561,12 @@
     </div>
 {% endblock ea_text_editor_widget %}
 
+{% block text_editor_widget %}
+    {{ form_widget(form, { attr: attr|merge({
+        class: 'text-editor text-editor-content',
+    }) }) }}
+{% endblock text_editor_widget %}
+
 {# EasyAdminSection form type #}
 {% block ea_form_row_row %}
     <div class="{{ form.vars.row_attr.class }}"></div>

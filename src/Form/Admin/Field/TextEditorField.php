@@ -2,12 +2,11 @@
 
 namespace App\Form\Admin\Field;
 
+use App\Form\Admin\Type\TextEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\TextEditorType;
 use Symfony\Component\Asset\Package;
-use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 use Symfony\Contracts\Translation\TranslatableInterface;
 
@@ -31,10 +30,10 @@ final class TextEditorField implements FieldInterface
             ->setTemplateName('crud/field/text_editor')
             ->setFormType(TextEditorType::class)
             ->addCssClass('field-text_editor')
-            ->addCssFiles(Asset::new($package->getUrl('build/admin/field-text-editor.css'))->onlyOnForms())
-            ->addJsFiles(Asset::new($package->getUrl('build/admin/field-text-editor.js'))->onlyOnForms())
+            ->addCssFiles(Asset::new($package->getUrl('build/admin/textEditorField.css'))->onlyOnForms())
+            ->addJsFiles(Asset::new($package->getUrl('build/admin/textEditorField.js'))->onlyOnForms())
             ->setDefaultColumns('col-md-9 col-xxl-7')
-            ->setCustomOption(self::OPTION_NUM_OF_ROWS, null)
+            ->setCustomOption(self::OPTION_NUM_OF_ROWS, 10)
             ->setCustomOption(self::OPTION_TRIX_EDITOR_CONFIG, null);
     }
 
