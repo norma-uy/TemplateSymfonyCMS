@@ -11,8 +11,10 @@
 %}
 
 {% block head_javascript %}
-    {{ parent() }}
-    <script src="{{ asset('form.js', ea.assets.defaultAssetPackageName) }}"></script>
+    {# {{ parent() }} #}
+    {# <script src="{{ asset('form.js', ea.assets.defaultAssetPackageName) }}"></script> #}
+    {{ encore_entry_script_tags('app', null, 'admin-config') }}
+    {{ encore_entry_script_tags('form', null, 'admin-config') }}
 {% endblock head_javascript %}
 
 {% block configured_head_contents %}
@@ -31,46 +33,10 @@
 
 {% block configured_stylesheets %}
     {{ parent() }}
-    {{
-        include(
-            '@EasyAdmin/includes/_css_assets.html.twig',
-            {
-                assets: ea_field_assets.cssAssets
-            },
-            with_context = false
-        )
-    }}
-    {{
-        include(
-            '@EasyAdmin/includes/_encore_link_tags.html.twig',
-            {
-                assets: ea_field_assets.webpackEncoreAssets
-            },
-            with_context = false
-        )
-    }}
 {% endblock configured_stylesheets %}
 
 {% block configured_javascripts %}
     {{ parent() }}
-    {{
-        include(
-            '@EasyAdmin/includes/_js_assets.html.twig',
-            {
-                assets: ea_field_assets.jsAssets
-            },
-            with_context = false
-        )
-    }}
-    {{
-        include(
-            '@EasyAdmin/includes/_encore_script_tags.html.twig',
-            {
-                assets: ea_field_assets.webpackEncoreAssets
-            },
-            with_context = false
-        )
-    }}
 {% endblock configured_javascripts %}
 
 {% block content_title %}

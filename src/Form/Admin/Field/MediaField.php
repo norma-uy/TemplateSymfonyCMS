@@ -2,8 +2,11 @@
 
 namespace App\Form\Admin\Field;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
@@ -16,12 +19,18 @@ final class MediaField implements FieldInterface
      */
     public static function new(string $propertyName, $label = null): self
     {
+        $package = new Package(
+            new JsonManifestVersionStrategy(
+                getcwd() . '/build/admin/manifest.json',
+            ),
+        );
+
         return (new self())
             ->setProperty($propertyName)
             ->setLabel($label)
 
             // this template is used in 'index' and 'detail' pages
-            ->setTemplatePath('admin/field/media.html.twig')
+            ->setTemplatePath('bundles\EasyAdminBundle\crud\field\media.html.twig')
 
             // this is used in 'edit' and 'new' pages to edit the field contents
             // you can use your own form types too
@@ -34,16 +43,24 @@ final class MediaField implements FieldInterface
                 'asset_helper' => true,
                 'translation_domain' => 'VichUploaderBundle',
             ])
-            ->addCssClass('field-media');
+            ->addCssClass('field-media')
 
-        // loads the CSS and JS assets associated to the given Webpack Encore entry
-        // in any CRUD page (index/detail/edit/new). It's equivalent to calling
-        // encore_entry_link_tags('...') and encore_entry_script_tags('...')
-        // ->addWebpackEncoreEntries('admin-config');
+            // loads the CSS and JS assets associated to the given Webpack Encore entry
+            // in any CRUD page (index/detail/edit/new). It's equivalent to calling
+            // encore_entry_link_tags('...') and encore_entry_script_tags('...')
+            // ->addWebpackEncoreEntries('admin-config');
 
-        // these methods allow to define the web assets loaded when the
-        // field is displayed in any CRUD page (index/detail/edit/new)
-        // ->addCssFiles('js/admin/field-map.css')
-        // ->addJsFiles('js/admin/field-map.js')
+            // these methods allow to define the web assets loaded when the
+            // field is displayed in any CRUD page (index/detail/edit/new)
+            ->addCssFiles(
+                Asset::new(
+                    $package->getUrl('build/admin/field-media.css'),
+                )->onlyOnForms(),
+            )
+            ->addJsFiles(
+                Asset::new(
+                    $package->getUrl('build/admin/field-media.js'),
+                )->onlyOnForms(),
+            );
     }
 }

@@ -149,6 +149,7 @@ Encore
     .addEntry('field-slug', './assets/admin/field/field-slug.js')
     .addEntry('field-textarea', './assets/admin/field/field-textarea.js')
     .addEntry('field-text-editor', './assets/admin/field/field-text-editor.js')
+    .addEntry('field-media', './assets/admin/field/field-media.js')
     .addEntry('login', './assets/admin/login.js')
 
     .copyFiles({
@@ -188,11 +189,11 @@ Encore
     // .enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
+    // .splitEntryChunks()
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
+    .disableSingleRuntimeChunk()
 
     /*
      * FEATURE CONFIG
@@ -214,10 +215,10 @@ Encore
     // })
 
     // enables and configure @babel/preset-env polyfills
-    .configureBabelPresetEnv((config) => {
-        config.useBuiltIns = 'usage'
-        config.corejs = '3.23'
-    })
+    // .configureBabelPresetEnv((config) => {
+    //     config.useBuiltIns = 'usage'
+    //     config.corejs = '3.23'
+    // })
 
     // enables Sass/SCSS support
     .enableSassLoader()

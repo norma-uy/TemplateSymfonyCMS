@@ -4,11 +4,19 @@ import DirtyForm from 'dirty-form'
 import Trix from 'trix/dist/trix'
 
 document.addEventListener('DOMContentLoaded', () => {
-    new TextEditorField()
+    const txtEditor = new TextEditorField()
+
+    document.addEventListener('trix-attachment-add', function (event) {
+        if (event.attachment.file) {
+            txtEditor.uploadFileAttachment(event.attachment)
+        }
+    })
 })
 
 class TextEditorField {
     constructor() {
+        this.HOST = 'https://d13txem1unpe48.cloudfront.net/'
+
         this.#processRequiredAttribute()
         this.#enableFormChangesDetection()
         this.#handleFormSubmission()
@@ -213,5 +221,57 @@ class TextEditorField {
         }
 
         return intoObject
+    }
+
+    uploadFileAttachment(attachment) {
+        this.uploadFile(
+            attachment.file,
+            (progress) => {
+                attachment.setUploadProgress(progress)
+            },
+            (attributes) => {
+                attachment.setAttributes(attributes)
+            }
+        )
+    }
+
+    uploadFile(file, progressCallback, successCallback) {
+        var key = this.createStorageKey(file)
+        var formData = this.createFormData(key, file)
+        var xhr = new XMLHttpRequest()
+
+        xhr.open('POST', this.HOST, true)
+
+        xhr.upload.addEventListener('progress', function (event) {
+            var progress = (event.loaded / event.total) * 100
+            progressCallback(progress)
+        })
+
+        xhr.addEventListener('load', function (event) {
+            if (xhr.status == 204) {
+                var attributes = {
+                    url: this.HOST + key,
+                    href: this.HOST + key + '?content-disposition=attachment'
+                }
+                successCallback(attributes)
+            }
+        })
+
+        xhr.send(formData)
+    }
+
+    createStorageKey(file) {
+        var date = new Date()
+        var day = date.toISOString().slice(0, 10)
+        var name = date.getTime() + '-' + file.name
+        return ['tmp', day, name].join('/')
+    }
+
+    createFormData(key, file) {
+        var data = new FormData()
+        data.append('key', key)
+        data.append('Content-Type', file.type)
+        data.append('file', file)
+        return data
     }
 }
