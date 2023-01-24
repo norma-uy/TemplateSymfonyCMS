@@ -25,9 +25,7 @@ class DashboardController extends AbstractDashboardController
         // return parent::index();
 
         $routeBuilder = $this->container->get(AdminUrlGenerator::class);
-        $url = $routeBuilder
-            ->setController(UserCrudController::class)
-            ->generateUrl();
+        $url = $routeBuilder->setController(UserCrudController::class)->generateUrl();
 
         return $this->redirect($url);
 
@@ -100,29 +98,15 @@ class DashboardController extends AbstractDashboardController
 
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::linkToCrud(
-            'Media',
-            'fas fa-photo-video',
-            Media::class,
-        )->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Media', 'fas fa-photo-video', Media::class)->setPermission('ROLE_ADMIN');
 
-        yield MenuItem::linkToCrud(
-            'Colecciones',
-            'fas fa-layer-group',
-            MediaCollection::class,
-        )->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Colecciones', 'fas fa-layer-group', MediaCollection::class)->setPermission(
+            'ROLE_ADMIN',
+        );
 
-        yield MenuItem::linkToCrud(
-            'Post',
-            'fas fa-pager',
-            Post::class,
-        )->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Post', 'fas fa-pager', Post::class)->setPermission('ROLE_ADMIN');
 
-        yield MenuItem::linkToCrud(
-            'Usuarios',
-            'fas fa-users',
-            User::class,
-        )->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Usuarios', 'fas fa-users', User::class)->setPermission('ROLE_SUPER_ADMIN');
     }
 
     /**

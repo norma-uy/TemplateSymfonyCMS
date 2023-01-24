@@ -19,11 +19,7 @@ final class MediaField implements FieldInterface
      */
     public static function new(string $propertyName, $label = null): self
     {
-        $package = new Package(
-            new JsonManifestVersionStrategy(
-                getcwd() . '/build/admin/manifest.json',
-            ),
-        );
+        $package = new Package(new JsonManifestVersionStrategy(getcwd() . '/build/admin/manifest.json'));
 
         return (new self())
             ->setProperty($propertyName)
@@ -52,15 +48,7 @@ final class MediaField implements FieldInterface
 
             // these methods allow to define the web assets loaded when the
             // field is displayed in any CRUD page (index/detail/edit/new)
-            ->addCssFiles(
-                Asset::new(
-                    $package->getUrl('build/admin/field-media.css'),
-                )->onlyOnForms(),
-            )
-            ->addJsFiles(
-                Asset::new(
-                    $package->getUrl('build/admin/field-media.js'),
-                )->onlyOnForms(),
-            );
+            ->addCssFiles(Asset::new($package->getUrl('build/admin/field-media.css'))->onlyOnForms())
+            ->addJsFiles(Asset::new($package->getUrl('build/admin/field-media.js'))->onlyOnForms());
     }
 }

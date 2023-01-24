@@ -86,14 +86,7 @@ class MediaCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable()
-            ->add(
-                Crud::PAGE_INDEX,
-                Action::DETAIL,
-                Action::NEW,
-                Action::DELETE,
-            );
+        return $actions->disable()->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
     }
 
     public function createEntity(string $entityFqcn)
@@ -103,10 +96,8 @@ class MediaCrudController extends AbstractCrudController
         return $media;
     }
 
-    public function persistEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         $currentUser = $this->security->getUser();
 
         if ($currentUser && $entityInstance instanceof Media) {
@@ -121,10 +112,8 @@ class MediaCrudController extends AbstractCrudController
         }
     }
 
-    public function updateEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         if ($entityInstance instanceof Media) {
             $titleSlug = $this->makeSlug($entityInstance);
 
@@ -143,20 +132,15 @@ class MediaCrudController extends AbstractCrudController
 
         $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
 
-        $postByCurrentSlug = $this->mediaRepository->findOneBySlug(
-            $titleSlug,
-            $entityInstance,
-        );
+        $postByCurrentSlug = $this->mediaRepository->findOneBySlug($titleSlug, $entityInstance);
 
         $titleSlug = $postByCurrentSlug ? "{$titleSlug}-duplicate" : $titleSlug;
 
         return $titleSlug;
     }
 
-    private function makeImageSizes(
-        Media $media,
-        EntityManagerInterface $entityManager,
-    ): Media {
+    private function makeImageSizes(Media $media, EntityManagerInterface $entityManager): Media
+    {
         $filesystem = new Filesystem();
 
         $widthList = [
@@ -174,29 +158,16 @@ class MediaCrudController extends AbstractCrudController
             $targetFileName = "{$filePathParts['filename']}_{$rKey}.{$filePathParts['extension']}";
             $tmpTargetFilePath = "{$rootProjectPath}{$tmpStoragePath}/{$targetFileName}";
 
-            $filesystem->copy(
-                $rootProjectPath . $originalFilePath,
-                $tmpTargetFilePath,
-                true,
-            );
+            $filesystem->copy($rootProjectPath . $originalFilePath, $tmpTargetFilePath, true);
 
             $this->imageOptimizer->widthResize($tmpTargetFilePath, $rWidth);
 
             if ($rKey === '100w') {
-                $media->imageFile100w = new UploadedFile(
-                    $tmpTargetFilePath,
-                    $targetFileName,
-                );
+                $media->imageFile100w = new UploadedFile($tmpTargetFilePath, $targetFileName);
             } elseif ($rKey === '150w') {
-                $media->imageFile150w = new UploadedFile(
-                    $tmpTargetFilePath,
-                    $targetFileName,
-                );
+                $media->imageFile150w = new UploadedFile($tmpTargetFilePath, $targetFileName);
             } elseif ($rKey === '300w') {
-                $media->imageFile300w = new UploadedFile(
-                    $tmpTargetFilePath,
-                    $targetFileName,
-                );
+                $media->imageFile300w = new UploadedFile($tmpTargetFilePath, $targetFileName);
             }
 
             // @unlink($tmpTargetFilePath);

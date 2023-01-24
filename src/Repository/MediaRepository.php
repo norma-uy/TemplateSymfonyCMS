@@ -54,19 +54,14 @@ class MediaRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findOneBySlug(
-        string $slug,
-        ?Media $mediaException = null,
-    ): ?Media {
+    public function findOneBySlug(string $slug, ?Media $mediaException = null): ?Media
+    {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.slug = :slug')
             ->setParameter('slug', $slug);
 
         if ($mediaException !== null && $mediaException->getId()) {
-            $qb->andWhere('m.id <> :mediaException')->setParameter(
-                'mediaException',
-                $mediaException->getId(),
-            );
+            $qb->andWhere('m.id <> :mediaException')->setParameter('mediaException', $mediaException->getId());
         }
 
         return $qb->getQuery()->getOneOrNullResult();

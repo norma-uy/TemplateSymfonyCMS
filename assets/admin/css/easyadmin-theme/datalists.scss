@@ -18,8 +18,7 @@ dl.datalist .data-row {
     padding: 8px;
 
     &:first-child {
-        box-shadow: inset 0 -1px var(--datalist-border-color),
-            inset 0 1px var(--datalist-border-color);
+        box-shadow: inset 0 -1px var(--datalist-border-color), inset 0 1px var(--datalist-border-color);
     }
 }
 

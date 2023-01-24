@@ -20,9 +20,7 @@ class Autogrow {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document
-        .querySelectorAll('[data-ea-textarea-field]')
-        .forEach(function (field) {
-            new Autogrow(field)
-        })
+    document.querySelectorAll('[data-ea-textarea-field]').forEach(function (field) {
+        new Autogrow(field)
+    })
 })

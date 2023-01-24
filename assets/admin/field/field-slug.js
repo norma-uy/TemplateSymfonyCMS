@@ -91,9 +91,7 @@ class Slugger {
                     this.unlock()
                 } else {
                     let formattedConfirmMessage = decodeURIComponent(
-                        JSON.parse(
-                            '"' + confirmMessage.replace(/\"/g, '\\"') + '"'
-                        )
+                        JSON.parse('"' + confirmMessage.replace(/\"/g, '\\"') + '"')
                     )
                     if (true === confirm(formattedConfirmMessage)) {
                         this.unlock()
@@ -132,14 +130,11 @@ class Slugger {
     }
 
     updateValue() {
-        this.field.value = slugify(
-            this.targets.map((target) => target.value).join('-'),
-            {
-                remove: /[^A-Za-z0-9\s-]/g,
-                lower: true,
-                strict: true
-            }
-        )
+        this.field.value = slugify(this.targets.map((target) => target.value).join('-'), {
+            remove: /[^A-Za-z0-9\s-]/g,
+            lower: true,
+            strict: true
+        })
     }
 
     /**

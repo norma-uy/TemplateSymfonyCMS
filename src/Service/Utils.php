@@ -33,10 +33,7 @@ class Utils
             return 'ie';
         } elseif (strpos($user_agent, 'Opera Mini') !== false) {
             return 'op';
-        } elseif (
-            strpos($user_agent, 'Opera') ||
-            strpos($user_agent, 'OPR') !== false
-        ) {
+        } elseif (strpos($user_agent, 'Opera') || strpos($user_agent, 'OPR') !== false) {
             return 'op';
         } elseif (strpos($user_agent, 'Firefox') !== false) {
             return 'moz';

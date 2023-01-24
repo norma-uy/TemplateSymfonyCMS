@@ -529,9 +529,7 @@ form .invalid-feedback {
     padding-top: 6px;
 }
 .form-check-input.is-invalid ~ .form-check-label,
-.was-validated
-    .form-check-input:not([type='checkbox']):invalid
-    ~ .form-check-label {
+.was-validated .form-check-input:not([type='checkbox']):invalid ~ .form-check-label {
     color: inherit;
 }
 

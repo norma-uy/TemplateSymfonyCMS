@@ -35,8 +35,8 @@
 }
 .dropdown-input:focus {
     border: 0;
-    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0), 0 0 0 1px rgba(6, 122, 184, 0.2),
-        0 0 0 2px rgba(6, 122, 184, 0.25), 0 1px 1px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0), 0 0 0 1px rgba(6, 122, 184, 0.2), 0 0 0 2px rgba(6, 122, 184, 0.25),
+        0 1px 1px rgba(0, 0, 0, 0.08);
     outline: 0;
 }
 
@@ -127,8 +127,7 @@
 .ts-wrapper.plugin-clear_button.multi .clear-button {
     right: 10px;
 }
-.ts-wrapper.plugin-remove_button.plugin-clear_button.multi.has-items
-    .clear-button {
+.ts-wrapper.plugin-remove_button.plugin-clear_button.multi.has-items .clear-button {
     right: 32px;
 }
 .plugin-clear_button.ts-wrapper .clear-button:hover,

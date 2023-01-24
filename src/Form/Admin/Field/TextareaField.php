@@ -25,11 +25,7 @@ final class TextareaField implements FieldInterface
      */
     public static function new(string $propertyName, $label = null): self
     {
-        $package = new Package(
-            new JsonManifestVersionStrategy(
-                getcwd() . '/build/admin/manifest.json',
-            ),
-        );
+        $package = new Package(new JsonManifestVersionStrategy(getcwd() . '/build/admin/manifest.json'));
 
         return (new self())
             ->setProperty($propertyName)
@@ -37,11 +33,7 @@ final class TextareaField implements FieldInterface
             ->setTemplateName('crud/field/textarea')
             ->setFormType(TextareaType::class)
             ->addCssClass('field-textarea')
-            ->addJsFiles(
-                Asset::new(
-                    $package->getUrl('build/admin/field-textarea.js'),
-                )->onlyOnForms(),
-            )
+            ->addJsFiles(Asset::new($package->getUrl('build/admin/field-textarea.js'))->onlyOnForms())
             ->setDefaultColumns('col-md-9 col-xxl-7')
             ->setCustomOption(self::OPTION_MAX_LENGTH, null)
             ->setCustomOption(self::OPTION_NUM_OF_ROWS, 5)
@@ -57,11 +49,7 @@ final class TextareaField implements FieldInterface
     {
         if ($length < 1) {
             throw new \InvalidArgumentException(
-                sprintf(
-                    'The argument of the "%s()" method must be 1 or higher (%d given).',
-                    __METHOD__,
-                    $length,
-                ),
+                sprintf('The argument of the "%s()" method must be 1 or higher (%d given).', __METHOD__, $length),
             );
         }
 
@@ -74,11 +62,7 @@ final class TextareaField implements FieldInterface
     {
         if ($rows < 1) {
             throw new \InvalidArgumentException(
-                sprintf(
-                    'The argument of the "%s()" method must be 1 or higher (%d given).',
-                    __METHOD__,
-                    $rows,
-                ),
+                sprintf('The argument of the "%s()" method must be 1 or higher (%d given).', __METHOD__, $rows),
             );
         }
 

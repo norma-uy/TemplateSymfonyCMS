@@ -6,9 +6,7 @@
 {% block body_id 'ea-edit-' ~ entity.name ~ '-' ~ entity.primaryKeyValue %}
 {% block body_class 'ea-edit ea-edit-' ~ entity.name %}
 
-{% set ea_field_assets =
-    ea.crud.fieldAssets(constant('EasyCorp\\Bundle\\EasyAdminBundle\\Config\\Crud::PAGE_EDIT'))
-%}
+{% set ea_field_assets = ea.crud.fieldAssets(constant('EasyCorp\\Bundle\\EasyAdminBundle\\Config\\Crud::PAGE_EDIT')) %}
 
 {% block head_javascript %}
     {# {{ parent() }} #}
@@ -42,11 +40,7 @@
 {% block content_title %}
     {%- apply spaceless -%}
     {% set custom_page_title =
-        ea.crud.customPageTitle(
-            pageName,
-            entity ? entity.instance : null,
-            ea.i18n.translationParameters
-        )
+        ea.crud.customPageTitle(pageName, entity ? entity.instance : null, ea.i18n.translationParameters)
     %}
     {{ custom_page_title is null
         ? ea.crud.defaultPageTitle(null, null, ea.i18n.translationParameters)|trans|raw

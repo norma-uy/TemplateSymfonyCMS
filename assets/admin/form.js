@@ -37,103 +37,59 @@ class Form {
                 .querySelector('.ea-edit, .ea-new')
                 .querySelectorAll('[type="submit"]')
                 .forEach((button) => {
-                    button.addEventListener(
-                        'click',
-                        function onSubmitButtonsClick(clickEvent) {
-                            let formHasErrors = false
+                    button.addEventListener('click', function onSubmitButtonsClick(clickEvent) {
+                        let formHasErrors = false
 
-                            // Remove all error counter badges
-                            document
-                                .querySelectorAll(
-                                    '.form-tabs .nav-item .badge-danger.badge'
-                                )
-                                .forEach((badge) => {
-                                    badge.parentElement.removeChild(badge)
-                                })
+                        // Remove all error counter badges
+                        document.querySelectorAll('.form-tabs .nav-item .badge-danger.badge').forEach((badge) => {
+                            badge.parentElement.removeChild(badge)
+                        })
 
-                            form.querySelectorAll(
-                                'input,select,textarea'
-                            ).forEach((input) => {
-                                if (!input.disabled && !input.validity.valid) {
-                                    formHasErrors = true
+                        form.querySelectorAll('input,select,textarea').forEach((input) => {
+                            if (!input.disabled && !input.validity.valid) {
+                                formHasErrors = true
 
-                                    // Visual feedback for tabs
-                                    // Adding a badge with a error count next to the tab label
-                                    const formTab =
-                                        input.closest('div.tab-pane')
-                                    if (formTab) {
-                                        const navLinkTab =
-                                            document.querySelector(
-                                                `#${formTab.id}-tab`
-                                            )
-                                        const badge =
-                                            navLinkTab.querySelector('.badge')
-                                        if (badge) {
-                                            // Increment number of error
-                                            badge.textContent = (
-                                                parseInt(badge.textContent) + 1
-                                            ).toString()
-                                        } else {
-                                            // Create a new badge
-                                            let newErrorBadge =
-                                                document.createElement('span')
-                                            newErrorBadge.classList.add(
-                                                'badge',
-                                                'badge-danger'
-                                            )
-                                            newErrorBadge.title =
-                                                'form.tab.error_badge_title'
-                                            newErrorBadge.textContent = '1'
-                                            navLinkTab.appendChild(
-                                                newErrorBadge
-                                            )
-                                        }
-                                        navLinkTab.addEventListener(
-                                            'click',
-                                            function onFormNavLinkTabClick() {
-                                                navLinkTab
-                                                    .querySelectorAll(
-                                                        '.badge-danger.badge'
-                                                    )
-                                                    .forEach((badge) => {
-                                                        badge.parentElement.removeChild(
-                                                            badge
-                                                        )
-                                                    })
-                                                navLinkTab.removeEventListener(
-                                                    'click',
-                                                    onFormNavLinkTabClick
-                                                )
-                                            }
-                                        )
+                                // Visual feedback for tabs
+                                // Adding a badge with a error count next to the tab label
+                                const formTab = input.closest('div.tab-pane')
+                                if (formTab) {
+                                    const navLinkTab = document.querySelector(`#${formTab.id}-tab`)
+                                    const badge = navLinkTab.querySelector('.badge')
+                                    if (badge) {
+                                        // Increment number of error
+                                        badge.textContent = (parseInt(badge.textContent) + 1).toString()
+                                    } else {
+                                        // Create a new badge
+                                        let newErrorBadge = document.createElement('span')
+                                        newErrorBadge.classList.add('badge', 'badge-danger')
+                                        newErrorBadge.title = 'form.tab.error_badge_title'
+                                        newErrorBadge.textContent = '1'
+                                        navLinkTab.appendChild(newErrorBadge)
                                     }
-
-                                    // Visual feedback for group
-                                    const formGroup =
-                                        input.closest('div.form-group')
-                                    formGroup.classList.add('has-error')
-
-                                    formGroup.addEventListener(
-                                        'click',
-                                        function onFormGroupClick() {
-                                            formGroup.classList.remove(
-                                                'has-error'
-                                            )
-                                            formGroup.removeEventListener(
-                                                'click',
-                                                onFormGroupClick
-                                            )
-                                        }
-                                    )
+                                    navLinkTab.addEventListener('click', function onFormNavLinkTabClick() {
+                                        navLinkTab.querySelectorAll('.badge-danger.badge').forEach((badge) => {
+                                            badge.parentElement.removeChild(badge)
+                                        })
+                                        navLinkTab.removeEventListener('click', onFormNavLinkTabClick)
+                                    })
                                 }
-                            })
 
-                            if (formHasErrors) {
-                                clickEvent.preventDefault()
-                                clickEvent.stopPropagation()
+                                // Visual feedback for group
+                                const formGroup = input.closest('div.form-group')
+                                formGroup.classList.add('has-error')
+
+                                formGroup.addEventListener('click', function onFormGroupClick() {
+                                    formGroup.classList.remove('has-error')
+                                    formGroup.removeEventListener('click', onFormGroupClick)
+                                })
                             }
+                        })
+
+                        if (formHasErrors) {
+                            clickEvent.preventDefault()
+                            clickEvent.stopPropagation()
                         }
-                    )
+                    })
                 })
 
             form.addEventListener('submit', (submitEvent) => {
@@ -152,10 +108,7 @@ class Form {
         ;['.ea-new-form', '.ea-edit-form'].forEach((formSelector) => {
             const form = document.querySelector(formSelector)
             if (null !== form) {
-                handleFieldsWithErrors(
-                    form,
-                    formSelector.includes('-new-') ? 'new' : 'edit'
-                )
+                handleFieldsWithErrors(form, formSelector.includes('-new-') ? 'new' : 'edit')
             }
         })
     }

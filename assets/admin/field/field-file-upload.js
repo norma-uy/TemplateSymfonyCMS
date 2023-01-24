@@ -1,11 +1,9 @@
 import { toggleVisibilityClasses } from '../helpers'
 
 document.addEventListener('DOMContentLoaded', () => {
-    document
-        .querySelectorAll('.ea-fileupload input[type="file"]')
-        .forEach((fileUploadElement) => {
-            new FileUploadField(fileUploadElement)
-        })
+    document.querySelectorAll('.ea-fileupload input[type="file"]').forEach((fileUploadElement) => {
+        new FileUploadField(fileUploadElement)
+    })
 })
 
 class FileUploadField {
@@ -30,9 +28,7 @@ class FileUploadField {
         const filename =
             1 === this.field.files.length
                 ? this.field.files[0].name
-                : this.field.files.length +
-                  ' ' +
-                  this.field.getAttribute('data-files-label')
+                : this.field.files.length + ' ' + this.field.getAttribute('data-files-label')
 
         let totalSizeInBytes = 0
         for (const file of this.field.files) {
@@ -41,26 +37,17 @@ class FileUploadField {
 
         this.#getFieldCustomInput().innerHTML = filename
         this.#getFieldDeleteButton().style.display = 'block'
-        this.#getFieldSizeLabel().childNodes.forEach(
-            (fileUploadFileSizeLabelChild) => {
-                if (fileUploadFileSizeLabelChild.nodeType === Node.TEXT_NODE) {
-                    this.#getFieldSizeLabel().removeChild(
-                        fileUploadFileSizeLabelChild
-                    )
-                }
+        this.#getFieldSizeLabel().childNodes.forEach((fileUploadFileSizeLabelChild) => {
+            if (fileUploadFileSizeLabelChild.nodeType === Node.TEXT_NODE) {
+                this.#getFieldSizeLabel().removeChild(fileUploadFileSizeLabelChild)
             }
-        )
-        this.#getFieldSizeLabel().prepend(
-            this.#humanizeFileSize(totalSizeInBytes)
-        )
+        })
+        this.#getFieldSizeLabel().prepend(this.#humanizeFileSize(totalSizeInBytes))
     }
 
     #resetField() {
-        const fieldDeleteCheckbox = this.#fieldContainerElement.querySelector(
-            'input[type=checkbox].form-check-input'
-        )
-        const fieldListOfFiles =
-            this.#fieldContainerElement.querySelector('.fileupload-list')
+        const fieldDeleteCheckbox = this.#fieldContainerElement.querySelector('input[type=checkbox].form-check-input')
+        const fieldListOfFiles = this.#fieldContainerElement.querySelector('.fileupload-list')
 
         if (fieldDeleteCheckbox) {
             fieldDeleteCheckbox.checked = true
@@ -93,9 +80,7 @@ class FileUploadField {
     }
 
     #getFieldDeleteButton() {
-        return this.#fieldContainerElement.querySelector(
-            '.ea-fileupload-delete-btn'
-        )
+        return this.#fieldContainerElement.querySelector('.ea-fileupload-delete-btn')
     }
 
     #getFieldSizeLabel() {

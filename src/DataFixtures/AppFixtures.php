@@ -9,9 +9,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(
-        private UserPasswordHasherInterface $passwordHasher,
-    ) {
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
+    {
     }
 
     public function load(ObjectManager $manager): void
@@ -24,12 +23,7 @@ class AppFixtures extends Fixture
             ->setIsVerified(true)
             ->setName('Master')
             ->setUsername('master@admincms.com.uy')
-            ->setPassword(
-                $this->passwordHasher->hashPassword(
-                    $masterUser,
-                    'master@admincms.com.uy',
-                ),
-            );
+            ->setPassword($this->passwordHasher->hashPassword($masterUser, 'master@admincms.com.uy'));
         $manager->persist($masterUser);
 
         $manager->flush();

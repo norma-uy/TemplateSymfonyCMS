@@ -35,12 +35,7 @@ class MediaCollection
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[
-        ORM\ManyToMany(
-            targetEntity: Media::class,
-            inversedBy: 'mediaCollections',
-        ),
-    ]
+    #[ORM\ManyToMany(targetEntity: Media::class, inversedBy: 'mediaCollections')]
     private Collection $mediaList;
 
     #[ORM\Column]

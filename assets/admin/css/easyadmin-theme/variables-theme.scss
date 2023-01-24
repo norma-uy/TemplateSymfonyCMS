@@ -8,13 +8,10 @@
 @import './color-palette.scss';
 
 :root {
-    --font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto,
-        'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
-    --font-family-monospace: 'JetBrains Mono', ui-monospace, 'Roboto Mono',
-        SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-        'Courier New', monospace;
+    --font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-family-monospace: 'JetBrains Mono', ui-monospace, 'Roboto Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+        'Liberation Mono', 'Courier New', monospace;
     --font-family-base: var(--font-family-sans-serif);
 
     --font-size-xs: 12px;
@@ -25,12 +22,9 @@
     --font-size-xxl: 24px;
     --font-size-xxxl: 28px;
 
-    --shadow-md: 0 4px 6px -1px rgb(15, 23, 43, 0.1),
-        0 2px 4px -2px rgb(15, 23, 42, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(15, 23, 43, 0.1),
-        0 4px 6px -4px rgb(15, 23, 42, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.2),
-        0 8px 10px -6px rgba(15, 23, 42, 0.2);
+    --shadow-md: 0 4px 6px -1px rgb(15, 23, 43, 0.1), 0 2px 4px -2px rgb(15, 23, 42, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(15, 23, 43, 0.1), 0 4px 6px -4px rgb(15, 23, 42, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.2), 0 8px 10px -6px rgba(15, 23, 42, 0.2);
 
     --width-sm: 576px;
     --width-md: 768px;
@@ -75,8 +69,7 @@
     --sidebar-menu-icon-color: var(--gray-500);
     --sidebar-menu-active-item-bg: var(--gray-200);
     --sidebar-menu-active-item-color: var(--color-primary);
-    --sidebar-menu-compact-hover-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --sidebar-menu-compact-hover-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --resize-handler-width: 10px;
     --content-section-border-color: var(--gray-200);
     --resize-handler-hover-bg: var(--indigo-600);
@@ -171,9 +164,7 @@
     --form-type-collection-item-collapsed-hover-bg: var(--gray-100);
     --form-type-autocomplete-dropdown-bg: var(--white);
     --form-type-autocomplete-dropdown-input-wrapper-bg: var(--gray-100);
-    --form-type-autocomplete-dropdown-input-border-color: var(
-        --form-input-border-color
-    );
+    --form-type-autocomplete-dropdown-input-border-color: var(--form-input-border-color);
     --form-type-autocomplete-dropdown-active-item-bg: var(--gray-200);
     --form-type-autocomplete-close-button-bg: var(--gray-500);
     --form-type-autocomplete-close-button-hover-bg: var(--gray-700);
@@ -263,16 +254,13 @@
         /* drop shadow lg (--gray-700) */ 0 2px 5px 0 hsla(215, 25%, 27%, 0.1),
         /* drop shadow xl (--gray-700) */ 0 3px 9px 0 hsla(215, 25%, 27%, 0.1);
     --button-active-shadow:
-        /* border */ 0 0 0 1px var(--gray-300),
-        /* ring */ 0 0 0 4px var(--gray-200),
+        /* border */ 0 0 0 1px var(--gray-300), /* ring */ 0 0 0 4px var(--gray-200),
         /* drop shadow md (--gray-900) */ 0 1px 1px 0 hsla(222, 47%, 11%, 0.1),
         /* drop shadow lg (--gray-700) */ 0 2px 5px 0 hsla(215, 25%, 27%, 0.1),
         /* drop shadow xl (--gray-700) */ 0 3px 9px 0 hsla(215, 25%, 27%, 0.1);
     --button-active-primary-shadow:
-        /* border */ 0 0 0 1px
-            var(--gray-300),
-        /* ring */ 0 0 0 4px var(--indigo-200),
-        /* drop shadow md (--gray-900) */ 0 1px 1px 0 hsla(222, 47%, 11%, 0.1),
+        /* border */ 0 0 0 1px var(--gray-300),
+        /* ring */ 0 0 0 4px var(--indigo-200), /* drop shadow md (--gray-900) */ 0 1px 1px 0 hsla(222, 47%, 11%, 0.1),
         /* drop shadow lg (--gray-700) */ 0 2px 5px 0 hsla(215, 25%, 27%, 0.1),
         /* drop shadow xl (--gray-700) */ 0 3px 9px 0 hsla(215, 25%, 27%, 0.1);
     --button-primary-bg: var(--color-primary);
@@ -290,8 +278,7 @@
     --text-color: var(--gray-800);
     --text-color-dark: hsl(229, 24%, 21%);
     --text-color-light: hsl(215, 14%, 67%);
-    --box-shadow-lg: 0 10px 15px -3px hsla(222, 47%, 11%, 0.1),
-        0 4px 6px -2px hsla(222, 47%, 11%, 0.05); // it uses --gray-900
+    --box-shadow-lg: 0 10px 15px -3px hsla(222, 47%, 11%, 0.1), 0 4px 6px -2px hsla(222, 47%, 11%, 0.05); // it uses --gray-900
     --content-panel-bg: hsl(210, 45%, 98%);
     --fieldset-bg: hsl(210, 30%, 97%);
     --code-editor-string-color: #032f62;
@@ -323,11 +310,7 @@
     --text-red-600: hsl(338, 71%, 37%);
     --text-yellow-600: hsl(20, 94%, 30%);
 
-    --color-primary: hsl(
-        230,
-        61%,
-        58%
-    ); // custom shade between indigo-400 and indigo-500
+    --color-primary: hsl(230, 61%, 58%); // custom shade between indigo-400 and indigo-500
     --color-success: hsl(157, 69%, 38%);
     --color-info: hsl(201, 94%, 37%);
     --color-warning: hsl(30, 81%, 47%);
@@ -361,12 +344,9 @@
     --secondary-bg: var(--true-gray-700);
     --tertiary-bg: var(--true-gray-900);
 
-    --shadow-md: 0 4px 6px -1px rgb(0, 0, 0, 0.3),
-        0 2px 4px -2px rgb(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0, 0, 0, 0.3),
-        0 4px 6px -4px rgb(0, 0, 0, 0.3);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4),
-        0 8px 10px -6px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgb(0, 0, 0, 0.3), 0 2px 4px -2px rgb(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0, 0, 0, 0.3), 0 4px 6px -4px rgb(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
     --body-bg: #222222; // custom value between --true-gray-900 and --true-gray-800
     --responsive-header-bg: #303030;
     --responsive-header-border-color: var(--true-gray-600);
@@ -386,8 +366,7 @@
     --sidebar-menu-icon-color: var(--true-gray-500);
     --sidebar-menu-active-item-bg: var(--true-gray-700);
     --sidebar-menu-active-item-color: var(--blue-400);
-    --sidebar-menu-compact-hover-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --sidebar-menu-compact-hover-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --resize-handler-hover-bg: var(--indigo-400);
     --content-section-border-color: var(--true-gray-700);
     --content-search-input-bg: var(--body-bg);
@@ -481,15 +460,11 @@
     --form-type-autocomplete-dropdown-active-item-bg: var(--true-gray-700);
     --form-type-autocomplete-close-button-bg: var(--true-gray-500);
     --form-type-autocomplete-close-button-hover-bg: var(--true-gray-800);
-    --form-type-autocomplete-optgroup-bg: var(
-        --form-type-autocomplete-dropdown-bg
-    );
+    --form-type-autocomplete-optgroup-bg: var(--form-type-autocomplete-dropdown-bg);
     --form-type-autocomplete-optgroup-color: var(--true-gray-400);
     --form-type-autocomplete-multi-item-bg: var(--true-gray-700);
     --form-type-autocomplete-multi-item-border-color: var(--true-gray-500);
-    --form-type-autocomplete-multi-item-remove-button-hover-bg: var(
-        --true-gray-800
-    );
+    --form-type-autocomplete-multi-item-remove-button-hover-bg: var(--true-gray-800);
     --form-help-color: var(--true-gray-500);
     --form-help-error-color: var(--true-gray-200);
     --form-help-active-color: var(--true-gray-300);
@@ -577,10 +552,8 @@
         /* drop shadow lg (--true-gray-800) */ 0 2px 5px 0 hsla(0, 0%, 15%, 0.9),
         /* drop shadow xl (--true-gray-800) */ 0 3px 9px 0 hsla(0, 0%, 15%, 0.9);
     --button-active-primary-shadow:
-        /* border */ 0 0 0 1px
-            var(--true-gray-700),
-        /* ring */ 0 0 0 4px var(--blue-700),
-        /* drop shadow md (--true-gray-900) */ 0 1px 1px 0 hsla(0, 0%, 9%, 0.9),
+        /* border */ 0 0 0 1px var(--true-gray-700),
+        /* ring */ 0 0 0 4px var(--blue-700), /* drop shadow md (--true-gray-900) */ 0 1px 1px 0 hsla(0, 0%, 9%, 0.9),
         /* drop shadow lg (--true-gray-800) */ 0 2px 5px 0 hsla(0, 0%, 15%, 0.9),
         /* drop shadow xl (--true-gray-800) */ 0 3px 9px 0 hsla(0, 0%, 15%, 0.9);
     --button-primary-bg: var(--blue-600);
@@ -598,8 +571,7 @@
     --text-color: var(--true-gray-300);
     --text-color-dark: var(--true-gray-200);
     --text-color-light: var(--true-gray-400);
-    --box-shadow-lg: 0 10px 15px -3px hsla(222, 47%, 11%, 0.1),
-        0 4px 6px -2px hsla(222, 47%, 11%, 0.05); // it uses --true-gray-900
+    --box-shadow-lg: 0 10px 15px -3px hsla(222, 47%, 11%, 0.1), 0 4px 6px -2px hsla(222, 47%, 11%, 0.05); // it uses --true-gray-900
     --content-panel-bg: hsl(210, 45%, 98%);
     --fieldset-bg: hsl(210, 30%, 97%);
     --code-editor-string-color: #a5d6ff;

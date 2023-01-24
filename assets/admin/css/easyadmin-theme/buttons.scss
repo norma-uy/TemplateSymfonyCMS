@@ -27,18 +27,10 @@
 }
 
 .btn-primary,
-.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):hover,
-.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):focus,
-.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active,
-.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active:focus {
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):hover,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):focus,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active:focus {
     background-color: var(--button-primary-bg);
     color: var(--button-primary-color);
 }
@@ -66,26 +58,16 @@
 .btn-info:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):hover,
 .btn-info:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):focus,
 .btn-info:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active,
-.btn-info:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active:focus {
+.btn-info:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active:focus {
     background-color: var(--button-info-bg);
     color: var(--button-info-color);
 }
 
 .btn-success,
-.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):hover,
-.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):focus,
-.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active,
-.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active:focus {
+.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):hover,
+.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):focus,
+.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active,
+.btn-success:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active:focus {
     background-color: var(--button-success-bg);
     color: var(--button-success-color);
 }
@@ -101,18 +83,10 @@
 }
 
 .btn-warning,
-.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):hover,
-.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):focus,
-.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active,
-.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(
-        .btn-danger
-    ):active:focus {
+.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):hover,
+.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):focus,
+.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active,
+.btn-warning:not(:disabled):not(.disabled):not(.btn-link):not(.btn-danger):active:focus {
     background-color: var(--button-warning-bg);
     color: var(--button-warning-color);
 }

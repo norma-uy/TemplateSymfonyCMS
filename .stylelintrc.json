@@ -7,10 +7,7 @@
         "at-rule-no-unknown": null,
         "declaration-block-trailing-semicolon": null,
         "no-descending-specificity": null,
-        "annotation-no-unknown": [
-            true,
-            { "ignoreAnnotations": ["/^default/"] }
-        ],
+        "annotation-no-unknown": [true, { "ignoreAnnotations": ["/^default/"] }],
         "scss/at-rule-no-unknown": [
             true,
             {

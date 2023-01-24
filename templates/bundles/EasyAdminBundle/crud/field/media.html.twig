@@ -8,9 +8,7 @@
 {% set mimeType = entity.instance.getMimeType()|split('/') %}
 
 {% if mimeType[0] == 'image' %}
-    <a href="#{{ html_id }}"
-        class="ea-lightbox-thumbnail"
-        data-ea-lightbox-content-selector="#{{ html_id }}">
+    <a href="#{{ html_id }}" class="ea-lightbox-thumbnail" data-ea-lightbox-content-selector="#{{ html_id }}">
         <img src="{{ vich_uploader_asset(entity.instance, 'imageFile100w') }}" class="img-fluid" />
     </a>
 
@@ -18,9 +16,7 @@
         <img src="{{ vich_uploader_asset(entity.instance, 'originalFile') }}" />
     </div>
 {% else %}
-    <a href="#{{ html_id }}"
-        class="ea-lightbox-thumbnail"
-        data-ea-lightbox-content-selector="#{{ html_id }}">
+    <a href="#{{ html_id }}" class="ea-lightbox-thumbnail" data-ea-lightbox-content-selector="#{{ html_id }}">
         <img src="{{ asset('build/website/images/file-1453.png') }}" class="img-fluid" />
     </a>
 {% endif %}

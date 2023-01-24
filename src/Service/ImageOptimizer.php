@@ -13,28 +13,19 @@ class ImageOptimizer
         $this->imagine = new Imagine();
     }
 
-    public function widthResize(
-        string $filename,
-        int $width,
-        string $newFilName = null,
-    ): void {
+    public function widthResize(string $filename, int $width, string $newFilName = null): void
+    {
         [$iwidth, $iheight] = getimagesize($filename);
         $ratio = $iwidth / $iheight;
 
         $height = $width / $ratio;
 
         $photo = $this->imagine->open($filename);
-        $photo
-            ->resize(new Box($width, $height))
-            ->save($newFilName ? $newFilName : $filename);
+        $photo->resize(new Box($width, $height))->save($newFilName ? $newFilName : $filename);
     }
 
-    public function resize(
-        string $filename,
-        int $width,
-        int $height,
-        string $newFilName = null,
-    ): void {
+    public function resize(string $filename, int $width, int $height, string $newFilName = null): void
+    {
         [$iwidth, $iheight] = getimagesize($filename);
         $ratio = $iwidth / $iheight;
 
@@ -45,8 +36,6 @@ class ImageOptimizer
         }
 
         $photo = $this->imagine->open($filename);
-        $photo
-            ->resize(new Box($width, $height))
-            ->save($newFilName ? $newFilName : $filename);
+        $photo->resize(new Box($width, $height))->save($newFilName ? $newFilName : $filename);
     }
 }

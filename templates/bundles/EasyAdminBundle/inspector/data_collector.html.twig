@@ -17,9 +17,7 @@
 
 {% block panel %}
     <h2>
-        EasyAdmin <small>({{
-                constant('EasyCorp\\Bundle\\EasyAdminBundle\\EasyAdminBundle::VERSION')
-            }})</small>
+        EasyAdmin <small>({{ constant('EasyCorp\\Bundle\\EasyAdminBundle\\EasyAdminBundle::VERSION') }})</small>
     </h2>
 
     {% if not collector.isEasyAdminRequest %}
@@ -46,11 +44,7 @@
 
     <ul>
         <li><a href="https://github.com/EasyCorp/EasyAdminBundle/issues">Report an issue</a></li>
-        <li>
-            <a href="https://symfony.com/doc/current/bundles/EasyAdminBundle/index.html">
-                Read documentation
-            </a>
-        </li>
+        <li><a href="https://symfony.com/doc/current/bundles/EasyAdminBundle/index.html">Read documentation</a></li>
         <li><a href="https://github.com/EasyCorp/EasyAdminBundle">Project homepage</a></li>
     </ul>
 {% endblock panel %}

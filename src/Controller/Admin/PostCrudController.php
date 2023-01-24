@@ -27,10 +27,8 @@ class PostCrudController extends AbstractCrudController
      *
      * @param Security $security
      */
-    public function __construct(
-        private Security $security,
-        private PostRepository $postRepository,
-    ) {
+    public function __construct(private Security $security, private PostRepository $postRepository)
+    {
     }
 
     public static function getEntityFqcn(): string
@@ -84,10 +82,8 @@ class PostCrudController extends AbstractCrudController
         return $post;
     }
 
-    public function persistEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         $currentUser = $this->security->getUser();
 
         if ($currentUser && $entityInstance instanceof Post) {
@@ -102,10 +98,8 @@ class PostCrudController extends AbstractCrudController
         }
     }
 
-    public function updateEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         if ($entityInstance instanceof Post) {
             $titleSlug = $this->makeSlug($entityInstance);
 
@@ -118,14 +112,7 @@ class PostCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable()
-            ->add(
-                Crud::PAGE_INDEX,
-                Action::DETAIL,
-                Action::NEW,
-                Action::DELETE,
-            );
+        return $actions->disable()->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
     }
 
     private function makeSlug(Post $entityInstance): string
@@ -134,10 +121,7 @@ class PostCrudController extends AbstractCrudController
 
         $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
 
-        $postByCurrentSlug = $this->postRepository->findOneBySlug(
-            $titleSlug,
-            $entityInstance,
-        );
+        $postByCurrentSlug = $this->postRepository->findOneBySlug($titleSlug, $entityInstance);
 
         $titleSlug = $postByCurrentSlug ? "{$titleSlug}-duplicate" : $titleSlug;
 

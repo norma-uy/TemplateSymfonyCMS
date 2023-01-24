@@ -21,9 +21,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[IsGranted('ROLE_SUPER_ADMIN')]
 class UserCrudController extends AbstractCrudController
 {
-    public function __construct(
-        private UserPasswordHasherInterface $userPasswordHasher,
-    ) {
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
+    {
     }
 
     public static function getEntityFqcn(): string
@@ -80,16 +79,11 @@ class UserCrudController extends AbstractCrudController
         return new $entityFqcn();
     }
 
-    public function persistEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         if ($entityInstance->getPlainPassword()) {
             $entityInstance->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $entityInstance,
-                    $entityInstance->getPlainPassword(),
-                ),
+                $this->userPasswordHasher->hashPassword($entityInstance, $entityInstance->getPlainPassword()),
             );
 
             $entityInstance->eraseCredentials();
@@ -101,16 +95,11 @@ class UserCrudController extends AbstractCrudController
         $entityManager->flush();
     }
 
-    public function updateEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         if ($entityInstance->getPlainPassword()) {
             $entityInstance->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $entityInstance,
-                    $entityInstance->getPlainPassword(),
-                ),
+                $this->userPasswordHasher->hashPassword($entityInstance, $entityInstance->getPlainPassword()),
             );
 
             $entityInstance->eraseCredentials();

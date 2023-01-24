@@ -23,11 +23,7 @@ final class TextEditorField implements FieldInterface
      */
     public static function new(string $propertyName, $label = null): self
     {
-        $package = new Package(
-            new JsonManifestVersionStrategy(
-                getcwd() . '/build/admin/manifest.json',
-            ),
-        );
+        $package = new Package(new JsonManifestVersionStrategy(getcwd() . '/build/admin/manifest.json'));
 
         return (new self())
             ->setProperty($propertyName)
@@ -35,16 +31,8 @@ final class TextEditorField implements FieldInterface
             ->setTemplateName('crud/field/text_editor')
             ->setFormType(TextEditorType::class)
             ->addCssClass('field-text_editor')
-            ->addCssFiles(
-                Asset::new(
-                    $package->getUrl('build/admin/field-text-editor.css'),
-                )->onlyOnForms(),
-            )
-            ->addJsFiles(
-                Asset::new(
-                    $package->getUrl('build/admin/field-text-editor.js'),
-                )->onlyOnForms(),
-            )
+            ->addCssFiles(Asset::new($package->getUrl('build/admin/field-text-editor.css'))->onlyOnForms())
+            ->addJsFiles(Asset::new($package->getUrl('build/admin/field-text-editor.js'))->onlyOnForms())
             ->setDefaultColumns('col-md-9 col-xxl-7')
             ->setCustomOption(self::OPTION_NUM_OF_ROWS, null)
             ->setCustomOption(self::OPTION_TRIX_EDITOR_CONFIG, null);
@@ -54,11 +42,7 @@ final class TextEditorField implements FieldInterface
     {
         if ($rows < 1) {
             throw new \InvalidArgumentException(
-                sprintf(
-                    'The argument of the "%s()" method must be 1 or higher (%d given).',
-                    __METHOD__,
-                    $rows,
-                ),
+                sprintf('The argument of the "%s()" method must be 1 or higher (%d given).', __METHOD__, $rows),
             );
         }
 

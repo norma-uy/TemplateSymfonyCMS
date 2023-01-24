@@ -61,42 +61,22 @@ class Media
     #[ORM\Column(nullable: true)]
     private ?array $dimensions = [];
 
-    #[
-        ORM\ManyToMany(
-            targetEntity: MediaCollection::class,
-            mappedBy: 'mediaList',
-        ),
-    ]
+    #[ORM\ManyToMany(targetEntity: MediaCollection::class, mappedBy: 'mediaList')]
     private Collection $mediaCollections;
 
-    #[
-        Vich\UploadableField(
-            mapping: 'media.100w',
-            fileNameProperty: 'imageFileName100w',
-        ),
-    ]
+    #[Vich\UploadableField(mapping: 'media.100w', fileNameProperty: 'imageFileName100w')]
     public ?File $imageFile100w = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     public ?string $imageFileName100w = null;
 
-    #[
-        Vich\UploadableField(
-            mapping: 'media.150w',
-            fileNameProperty: 'imageFileName150w',
-        ),
-    ]
+    #[Vich\UploadableField(mapping: 'media.150w', fileNameProperty: 'imageFileName150w')]
     public ?File $imageFile150w = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     public ?string $imageFileName150w = null;
 
-    #[
-        Vich\UploadableField(
-            mapping: 'media.300w',
-            fileNameProperty: 'imageFileName300w',
-        ),
-    ]
+    #[Vich\UploadableField(mapping: 'media.300w', fileNameProperty: 'imageFileName300w')]
     public ?File $imageFile300w = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -265,9 +245,8 @@ class Media
         return $this;
     }
 
-    public function removeMediaCollection(
-        MediaCollection $mediaCollection,
-    ): self {
+    public function removeMediaCollection(MediaCollection $mediaCollection): self
+    {
         if ($this->mediaCollections->removeElement($mediaCollection)) {
             $mediaCollection->removeMediaList($this);
         }

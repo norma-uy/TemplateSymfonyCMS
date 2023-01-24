@@ -6,8 +6,7 @@ class ColorSchemeHandler {
     }
 
     updateColorScheme() {
-        const selectedColorScheme =
-            localStorage.getItem(this.#colorSchemeLocalStorageKey) || 'auto'
+        const selectedColorScheme = localStorage.getItem(this.#colorSchemeLocalStorageKey) || 'auto'
         this.#setColorScheme(selectedColorScheme)
     }
 
@@ -18,10 +17,8 @@ class ColorSchemeHandler {
 
         // for·responsive design" reasons, pages contain two settings dropdowns (and inside them, one
         // scheme selector each) instead of one and the selected scheme must be kept in sync in both
-        const colorSchemeSelectors =
-            document.querySelectorAll('.dropdown-settings')
-        const currentScheme =
-            localStorage.getItem(this.#colorSchemeLocalStorageKey) || 'auto'
+        const colorSchemeSelectors = document.querySelectorAll('.dropdown-settings')
+        const currentScheme = localStorage.getItem(this.#colorSchemeLocalStorageKey) || 'auto'
 
         colorSchemeSelectors.forEach((colorSchemeSelector) => {
             const selectorOptions = colorSchemeSelector.querySelectorAll(
@@ -38,9 +35,7 @@ class ColorSchemeHandler {
 
             selectorOptions.forEach((selector) => {
                 selector.addEventListener('click', () => {
-                    const selectedColorScheme = selector.getAttribute(
-                        'data-ea-color-scheme'
-                    )
+                    const selectedColorScheme = selector.getAttribute('data-ea-color-scheme')
                     this.#setColorScheme(selectedColorScheme)
 
                     const allSelectorOptions = document.querySelectorAll(
@@ -61,10 +56,7 @@ class ColorSchemeHandler {
     }
 
     #setColorScheme(colorScheme) {
-        if (
-            'false' ===
-            document.body.getAttribute('data-ea-dark-scheme-is-enabled')
-        ) {
+        if ('false' === document.body.getAttribute('data-ea-dark-scheme-is-enabled')) {
             return
         }
 
@@ -76,11 +68,7 @@ class ColorSchemeHandler {
                 : colorScheme
 
         document.body.classList.remove('ea-light-scheme', 'ea-dark-scheme')
-        document.body.classList.add(
-            'light' === resolvedColorScheme
-                ? 'ea-light-scheme'
-                : 'ea-dark-scheme'
-        )
+        document.body.classList.add('light' === resolvedColorScheme ? 'ea-light-scheme' : 'ea-dark-scheme')
         localStorage.setItem(this.#colorSchemeLocalStorageKey, colorScheme)
         document.body.style.colorScheme = resolvedColorScheme
     }
@@ -90,11 +78,9 @@ const colorSchemeHandler = new ColorSchemeHandler()
 // this method needs to be called even before 'DOMContentLoaded' because
 // otherwise the page shows an annoying flicker when loading it
 colorSchemeHandler.updateColorScheme()
-window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', function (e) {
-        colorSchemeHandler.updateColorScheme()
-    })
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+    colorSchemeHandler.updateColorScheme()
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     colorSchemeHandler.createColorSchemeSelector()

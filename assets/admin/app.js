@@ -31,16 +31,12 @@ class App {
         this.#createModalWindowsForDeleteActions()
         this.#createPopovers()
 
-        document.addEventListener('ea.collection.item-added', () =>
-            this.#createAutoCompleteFields()
-        )
+        document.addEventListener('ea.collection.item-added', () => this.#createAutoCompleteFields())
     }
 
     #createMainMenu() {
         // inspired by https://codepen.io/phileflanagan/pen/mwpQpY
-        const menuItemsWithSubmenus = document.querySelectorAll(
-            '#main-menu .menu-item.has-submenu'
-        )
+        const menuItemsWithSubmenus = document.querySelectorAll('#main-menu .menu-item.has-submenu')
         menuItemsWithSubmenus.forEach((menuItem) => {
             const menuItemSubmenu = menuItem.querySelector('.submenu')
 
@@ -48,86 +44,59 @@ class App {
             // visible elements must be initialized with a explicit max-height; otherwise
             // when you click on them the first time, the animation is not smooth
             if (menuItem.classList.contains('expanded')) {
-                menuItemSubmenu.style.maxHeight =
-                    menuItemSubmenu.scrollHeight + 'px'
+                menuItemSubmenu.style.maxHeight = menuItemSubmenu.scrollHeight + 'px'
             }
 
-            menuItem
-                .querySelector('.submenu-toggle')
-                .addEventListener('click', (event) => {
-                    event.preventDefault()
+            menuItem.querySelector('.submenu-toggle').addEventListener('click', (event) => {
+                event.preventDefault()
 
-                    // hide other submenus
-                    menuItemsWithSubmenus.forEach((otherMenuItem) => {
-                        if (menuItem === otherMenuItem) {
-                            return
-                        }
+                // hide other submenus
+                menuItemsWithSubmenus.forEach((otherMenuItem) => {
+                    if (menuItem === otherMenuItem) {
+                        return
+                    }
 
-                        const otherMenuItemSubmenu =
-                            otherMenuItem.querySelector('.submenu')
-                        if (otherMenuItem.classList.contains('expanded')) {
-                            otherMenuItemSubmenu.style.maxHeight = '0px'
-                            otherMenuItem.classList.remove('expanded')
-                        }
-                    })
-
-                    // toggle the state of this submenu
-                    if (menuItem.classList.contains('expanded')) {
-                        menuItemSubmenu.style.maxHeight = '0px'
-                        menuItem.classList.remove('expanded')
-                    } else {
-                        menuItemSubmenu.style.maxHeight =
-                            menuItemSubmenu.scrollHeight + 'px'
-                        menuItem.classList.add('expanded')
+                    const otherMenuItemSubmenu = otherMenuItem.querySelector('.submenu')
+                    if (otherMenuItem.classList.contains('expanded')) {
+                        otherMenuItemSubmenu.style.maxHeight = '0px'
+                        otherMenuItem.classList.remove('expanded')
                     }
                 })
+
+                // toggle the state of this submenu
+                if (menuItem.classList.contains('expanded')) {
+                    menuItemSubmenu.style.maxHeight = '0px'
+                    menuItem.classList.remove('expanded')
+                } else {
+                    menuItemSubmenu.style.maxHeight = menuItemSubmenu.scrollHeight + 'px'
+                    menuItem.classList.add('expanded')
+                }
+            })
         })
     }
 
     #createLayoutResizeControls() {
-        const sidebarResizerHandler = document.querySelector(
-            '#sidebar-resizer-handler'
-        )
+        const sidebarResizerHandler = document.querySelector('#sidebar-resizer-handler')
         if (null !== sidebarResizerHandler) {
             sidebarResizerHandler.addEventListener('click', () => {
-                const oldValue =
-                    localStorage.getItem(this.#sidebarWidthLocalStorageKey) ||
-                    'normal'
+                const oldValue = localStorage.getItem(this.#sidebarWidthLocalStorageKey) || 'normal'
                 const newValue = 'normal' === oldValue ? 'compact' : 'normal'
 
-                document
-                    .querySelector('body')
-                    .classList.remove(`ea-sidebar-width-${oldValue}`)
-                document
-                    .querySelector('body')
-                    .classList.add(`ea-sidebar-width-${newValue}`)
-                localStorage.setItem(
-                    this.#sidebarWidthLocalStorageKey,
-                    newValue
-                )
+                document.querySelector('body').classList.remove(`ea-sidebar-width-${oldValue}`)
+                document.querySelector('body').classList.add(`ea-sidebar-width-${newValue}`)
+                localStorage.setItem(this.#sidebarWidthLocalStorageKey, newValue)
             })
         }
 
-        const contentResizerHandler = document.querySelector(
-            '#content-resizer-handler'
-        )
+        const contentResizerHandler = document.querySelector('#content-resizer-handler')
         if (null !== contentResizerHandler) {
             contentResizerHandler.addEventListener('click', () => {
-                const oldValue =
-                    localStorage.getItem(this.#contentWidthLocalStorageKey) ||
-                    'normal'
+                const oldValue = localStorage.getItem(this.#contentWidthLocalStorageKey) || 'normal'
                 const newValue = 'normal' === oldValue ? 'full' : 'normal'
 
-                document
-                    .querySelector('body')
-                    .classList.remove(`ea-content-width-${oldValue}`)
-                document
-                    .querySelector('body')
-                    .classList.add(`ea-content-width-${newValue}`)
-                localStorage.setItem(
-                    this.#contentWidthLocalStorageKey,
-                    newValue
-                )
+                document.querySelector('body').classList.remove(`ea-content-width-${oldValue}`)
+                document.querySelector('body').classList.add(`ea-content-width-${newValue}`)
+                localStorage.setItem(this.#contentWidthLocalStorageKey, newValue)
             })
         }
     }
@@ -144,15 +113,11 @@ class App {
         toggler.addEventListener('click', () => {
             document.querySelector('body').classList.toggle(cssClassName)
 
-            if (
-                document.querySelector('body').classList.contains(cssClassName)
-            ) {
+            if (document.querySelector('body').classList.contains(cssClassName)) {
                 modalBackdrop = document.createElement('div')
                 modalBackdrop.classList.add('modal-backdrop', 'fade', 'show')
                 modalBackdrop.onclick = () => {
-                    document
-                        .querySelector('body')
-                        .classList.remove(cssClassName)
+                    document.querySelector('body').classList.remove(cssClassName)
                     document.body.removeChild(modalBackdrop)
                     modalBackdrop = null
                 }
@@ -166,9 +131,7 @@ class App {
     }
 
     #createSearchHighlight() {
-        const searchElement = document.querySelector(
-            '.form-action-search [name="query"]'
-        )
+        const searchElement = document.querySelector('.form-action-search [name="query"]')
         if (null === searchElement) {
             return
         }
@@ -178,30 +141,21 @@ class App {
             return
         }
 
-        const elementsToHighlight = document.querySelectorAll(
-            'table tbody td:not(.actions)'
-        )
+        const elementsToHighlight = document.querySelectorAll('table tbody td:not(.actions)')
         const highlighter = new Mark(elementsToHighlight)
         highlighter.mark(searchQuery)
     }
 
     #createFilters() {
-        const filterButton = document.querySelector(
-            '.datagrid-filters .action-filters-button'
-        )
+        const filterButton = document.querySelector('.datagrid-filters .action-filters-button')
         if (null === filterButton) {
             return
         }
 
-        const filterModal = document.querySelector(
-            filterButton.getAttribute('data-bs-target')
-        )
+        const filterModal = document.querySelector(filterButton.getAttribute('data-bs-target'))
 
         // this is needed to avoid errors when connection is slow
-        filterButton.setAttribute(
-            'href',
-            filterButton.getAttribute('data-href')
-        )
+        filterButton.setAttribute('href', filterButton.getAttribute('data-href'))
         filterButton.removeAttribute('data-href')
         filterButton.classList.remove('disabled')
 
@@ -229,9 +183,7 @@ class App {
         const removeFilter = (filterField) => {
             filterField
                 .closest('form')
-                .querySelectorAll(
-                    `input[name^="filters[${filterField.dataset.filterProperty}]"]`
-                )
+                .querySelectorAll(`input[name^="filters[${filterField.dataset.filterProperty}]"]`)
                 .forEach((filterFieldInput) => {
                     filterFieldInput.remove()
                 })
@@ -239,41 +191,29 @@ class App {
             filterField.remove()
         }
 
-        document
-            .querySelector('#modal-clear-button')
-            .addEventListener('click', () => {
-                filterModal
-                    .querySelectorAll('.filter-field')
-                    .forEach((filterField) => {
-                        removeFilter(filterField)
-                    })
-                filterModal.querySelector('form').submit()
+        document.querySelector('#modal-clear-button').addEventListener('click', () => {
+            filterModal.querySelectorAll('.filter-field').forEach((filterField) => {
+                removeFilter(filterField)
             })
+            filterModal.querySelector('form').submit()
+        })
 
-        document
-            .querySelector('#modal-apply-button')
-            .addEventListener('click', () => {
-                filterModal
-                    .querySelectorAll('.filter-checkbox:not(:checked)')
-                    .forEach((notAppliedFilter) => {
-                        removeFilter(notAppliedFilter.closest('.filter-field'))
-                    })
-                filterModal.querySelector('form').submit()
+        document.querySelector('#modal-apply-button').addEventListener('click', () => {
+            filterModal.querySelectorAll('.filter-checkbox:not(:checked)').forEach((notAppliedFilter) => {
+                removeFilter(notAppliedFilter.closest('.filter-field'))
             })
+            filterModal.querySelector('form').submit()
+        })
     }
 
     #createBatchActions() {
         let lastUpdatedRowCheckbox = null
-        const selectAllCheckbox = document.querySelector(
-            '.form-batch-checkbox-all'
-        )
+        const selectAllCheckbox = document.querySelector('.form-batch-checkbox-all')
         if (null === selectAllCheckbox) {
             return
         }
 
-        const rowCheckboxes = document.querySelectorAll(
-            'input[type="checkbox"].form-batch-checkbox'
-        )
+        const rowCheckboxes = document.querySelectorAll('input[type="checkbox"].form-batch-checkbox')
         selectAllCheckbox.addEventListener('change', () => {
             rowCheckboxes.forEach((rowCheckbox) => {
                 rowCheckbox.checked = selectAllCheckbox.checked
@@ -281,9 +221,7 @@ class App {
             })
         })
 
-        const deselectAllButton = document.querySelector(
-            '.deselect-batch-button'
-        )
+        const deselectAllButton = document.querySelector('.deselect-batch-button')
         if (null !== deselectAllButton) {
             deselectAllButton.addEventListener('click', () => {
                 selectAllCheckbox.checked = false
@@ -296,19 +234,14 @@ class App {
 
             rowCheckbox.addEventListener('click', (e) => {
                 if (lastUpdatedRowCheckbox && e.shiftKey) {
-                    const lastIndex = parseInt(
-                        lastUpdatedRowCheckbox.dataset.rowIndex
-                    )
+                    const lastIndex = parseInt(lastUpdatedRowCheckbox.dataset.rowIndex)
                     const currentIndex = parseInt(e.target.dataset.rowIndex)
                     const valueToApply = e.target.checked
                     const lowest = Math.min(lastIndex, currentIndex)
                     const highest = Math.max(lastIndex, currentIndex)
 
                     rowCheckboxes.forEach((rowCheckbox2, rowCheckboxIndex2) => {
-                        if (
-                            lowest <= rowCheckboxIndex2 &&
-                            rowCheckboxIndex2 <= highest
-                        ) {
+                        if (lowest <= rowCheckboxIndex2 && rowCheckboxIndex2 <= highest) {
                             rowCheckbox2.checked = valueToApply
                             rowCheckbox2.dispatchEvent(new Event('change'))
                         }
@@ -332,9 +265,7 @@ class App {
                 }
 
                 const rowsAreSelected = 0 !== selectedRowCheckboxes.length
-                const contentTitle = document.querySelector(
-                    '.content-header-title > .title'
-                )
+                const contentTitle = document.querySelector('.content-header-title > .title')
                 const filters = content.querySelector('.datagrid-filters')
                 const globalActions = content.querySelector('.global-actions')
                 const batchActions = content.querySelector('.batch-actions')
@@ -354,92 +285,58 @@ class App {
             })
         })
 
-        const modalTitle = document.querySelector(
-            '#batch-action-confirmation-title'
-        )
+        const modalTitle = document.querySelector('#batch-action-confirmation-title')
         const titleContentWithPlaceholders = modalTitle.textContent
 
-        document
-            .querySelectorAll('[data-action-batch]')
-            .forEach((dataActionBatch) => {
-                dataActionBatch.addEventListener('click', (event) => {
-                    event.preventDefault()
+        document.querySelectorAll('[data-action-batch]').forEach((dataActionBatch) => {
+            dataActionBatch.addEventListener('click', (event) => {
+                event.preventDefault()
 
-                    const actionElement =
-                        event.target.tagName.toUpperCase() === 'A'
-                            ? event.target
-                            : event.target.parentNode
-                    const actionName =
-                        actionElement.textContent.trim() ||
-                        actionElement.getAttribute('title')
-                    const selectedItems = document.querySelectorAll(
-                        'input[type="checkbox"].form-batch-checkbox:checked'
-                    )
-                    modalTitle.textContent = titleContentWithPlaceholders
-                        .replace('%action_name%', actionName)
-                        .replace('%num_items%', selectedItems.length.toString())
+                const actionElement =
+                    event.target.tagName.toUpperCase() === 'A' ? event.target : event.target.parentNode
+                const actionName = actionElement.textContent.trim() || actionElement.getAttribute('title')
+                const selectedItems = document.querySelectorAll('input[type="checkbox"].form-batch-checkbox:checked')
+                modalTitle.textContent = titleContentWithPlaceholders
+                    .replace('%action_name%', actionName)
+                    .replace('%num_items%', selectedItems.length.toString())
 
-                    document
-                        .querySelector('#modal-batch-action-button')
-                        .addEventListener('click', () => {
-                            // prevent double submission of the batch action form
-                            actionElement.setAttribute('disabled', 'disabled')
+                document.querySelector('#modal-batch-action-button').addEventListener('click', () => {
+                    // prevent double submission of the batch action form
+                    actionElement.setAttribute('disabled', 'disabled')
 
-                            const batchFormFields = {
-                                batchActionName:
-                                    actionElement.getAttribute(
-                                        'data-action-name'
-                                    ),
-                                entityFqcn:
-                                    actionElement.getAttribute(
-                                        'data-entity-fqcn'
-                                    ),
-                                batchActionUrl:
-                                    actionElement.getAttribute(
-                                        'data-action-url'
-                                    ),
-                                batchActionCsrfToken:
-                                    actionElement.getAttribute(
-                                        'data-action-csrf-token'
-                                    )
-                            }
-                            selectedItems.forEach((item, i) => {
-                                batchFormFields[`batchActionEntityIds[${i}]`] =
-                                    item.value
-                            })
+                    const batchFormFields = {
+                        batchActionName: actionElement.getAttribute('data-action-name'),
+                        entityFqcn: actionElement.getAttribute('data-entity-fqcn'),
+                        batchActionUrl: actionElement.getAttribute('data-action-url'),
+                        batchActionCsrfToken: actionElement.getAttribute('data-action-csrf-token')
+                    }
+                    selectedItems.forEach((item, i) => {
+                        batchFormFields[`batchActionEntityIds[${i}]`] = item.value
+                    })
 
-                            const batchForm = document.createElement('form')
-                            batchForm.setAttribute('method', 'POST')
-                            batchForm.setAttribute(
-                                'action',
-                                actionElement.getAttribute('data-action-url')
-                            )
-                            for (let fieldName in batchFormFields) {
-                                const formField =
-                                    document.createElement('input')
-                                formField.setAttribute('type', 'hidden')
-                                formField.setAttribute('name', fieldName)
-                                formField.setAttribute(
-                                    'value',
-                                    batchFormFields[fieldName]
-                                )
-                                batchForm.appendChild(formField)
-                            }
+                    const batchForm = document.createElement('form')
+                    batchForm.setAttribute('method', 'POST')
+                    batchForm.setAttribute('action', actionElement.getAttribute('data-action-url'))
+                    for (let fieldName in batchFormFields) {
+                        const formField = document.createElement('input')
+                        formField.setAttribute('type', 'hidden')
+                        formField.setAttribute('name', fieldName)
+                        formField.setAttribute('value', batchFormFields[fieldName])
+                        batchForm.appendChild(formField)
+                    }
 
-                            document.body.appendChild(batchForm)
-                            batchForm.submit()
-                        })
+                    document.body.appendChild(batchForm)
+                    batchForm.submit()
                 })
             })
+        })
     }
 
     #createAutoCompleteFields() {
         const autocomplete = new Autocomplete()
-        document
-            .querySelectorAll('[data-ea-widget="ea-autocomplete"]')
-            .forEach((autocompleteElement) => {
-                autocomplete.create(autocompleteElement)
-            })
+        document.querySelectorAll('[data-ea-widget="ea-autocomplete"]').forEach((autocompleteElement) => {
+            autocomplete.create(autocompleteElement)
+        })
     }
 
     #createModalWindowsForDeleteActions() {
@@ -447,90 +344,68 @@ class App {
             actionElement.addEventListener('click', (event) => {
                 event.preventDefault()
 
-                document
-                    .querySelector('#modal-delete-button')
-                    .addEventListener('click', () => {
-                        const deleteFormAction =
-                            actionElement.getAttribute('formaction')
-                        const deleteForm =
-                            document.querySelector('#delete-form')
-                        deleteForm.setAttribute('action', deleteFormAction)
-                        deleteForm.submit()
-                    })
+                document.querySelector('#modal-delete-button').addEventListener('click', () => {
+                    const deleteFormAction = actionElement.getAttribute('formaction')
+                    const deleteForm = document.querySelector('#delete-form')
+                    deleteForm.setAttribute('action', deleteFormAction)
+                    deleteForm.submit()
+                })
             })
         })
     }
 
     #createPopovers() {
-        document
-            .querySelectorAll('[data-bs-toggle="popover"]')
-            .forEach((popoverElement) => {
-                new bootstrap.Popover(popoverElement)
-            })
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach((popoverElement) => {
+            new bootstrap.Popover(popoverElement)
+        })
     }
 
     #createFilterToggles() {
-        document
-            .querySelectorAll('.filter-checkbox')
-            .forEach((filterCheckbox) => {
-                filterCheckbox.addEventListener('change', () => {
-                    const filterToggleLink = filterCheckbox.nextElementSibling
-                    const filterExpandedAttribute =
-                        filterCheckbox.nextElementSibling.getAttribute(
-                            'aria-expanded'
-                        )
+        document.querySelectorAll('.filter-checkbox').forEach((filterCheckbox) => {
+            filterCheckbox.addEventListener('change', () => {
+                const filterToggleLink = filterCheckbox.nextElementSibling
+                const filterExpandedAttribute = filterCheckbox.nextElementSibling.getAttribute('aria-expanded')
 
-                    if (
-                        (filterCheckbox.checked &&
-                            'false' === filterExpandedAttribute) ||
-                        (!filterCheckbox.checked &&
-                            'true' === filterExpandedAttribute)
-                    ) {
-                        filterToggleLink.click()
-                    }
-                })
+                if (
+                    (filterCheckbox.checked && 'false' === filterExpandedAttribute) ||
+                    (!filterCheckbox.checked && 'true' === filterExpandedAttribute)
+                ) {
+                    filterToggleLink.click()
+                }
             })
+        })
 
-        document
-            .querySelectorAll('form[data-ea-filters-form-id]')
-            .forEach((form) => {
-                // TODO: when using the native datepicker, 'change' isn't fired unless you input the entire date + time information
-                form.addEventListener('change', (event) => {
-                    if (event.target.classList.contains('filter-checkbox')) {
-                        return
-                    }
+        document.querySelectorAll('form[data-ea-filters-form-id]').forEach((form) => {
+            // TODO: when using the native datepicker, 'change' isn't fired unless you input the entire date + time information
+            form.addEventListener('change', (event) => {
+                if (event.target.classList.contains('filter-checkbox')) {
+                    return
+                }
 
-                    const filterCheckbox = event.target
-                        .closest('.filter-field')
-                        .querySelector('.filter-checkbox')
-                    if (!filterCheckbox.checked) {
-                        filterCheckbox.checked = true
-                    }
-                })
+                const filterCheckbox = event.target.closest('.filter-field').querySelector('.filter-checkbox')
+                if (!filterCheckbox.checked) {
+                    filterCheckbox.checked = true
+                }
             })
+        })
 
-        document
-            .querySelectorAll('[data-ea-comparison-id]')
-            .forEach((comparisonWidget) => {
-                comparisonWidget.addEventListener('change', (event) => {
-                    const comparisonWidget = event.currentTarget
-                    const comparisonId = comparisonWidget.dataset.eaComparisonId
+        document.querySelectorAll('[data-ea-comparison-id]').forEach((comparisonWidget) => {
+            comparisonWidget.addEventListener('change', (event) => {
+                const comparisonWidget = event.currentTarget
+                const comparisonId = comparisonWidget.dataset.eaComparisonId
 
-                    if (comparisonId === undefined) {
-                        return
-                    }
+                if (comparisonId === undefined) {
+                    return
+                }
 
-                    const secondValue = document.querySelector(
-                        `[data-ea-value2-of-comparison-id="${comparisonId}"]`
-                    )
+                const secondValue = document.querySelector(`[data-ea-value2-of-comparison-id="${comparisonId}"]`)
 
-                    if (secondValue === null) {
-                        return
-                    }
+                if (secondValue === null) {
+                    return
+                }
 
-                    secondValue.style.display =
-                        comparisonWidget.value === 'between' ? '' : 'none'
-                })
+                secondValue.style.display = comparisonWidget.value === 'between' ? '' : 'none'
             })
+        })
     }
 }

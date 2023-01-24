@@ -7,19 +7,12 @@ export default class Autocomplete {
             return
         }
 
-        const autocompleteEndpointUrl = element.getAttribute(
-            'data-ea-autocomplete-endpoint-url'
-        )
+        const autocompleteEndpointUrl = element.getAttribute('data-ea-autocomplete-endpoint-url')
         if (null !== autocompleteEndpointUrl) {
-            return this.#createAutocompleteWithRemoteData(
-                element,
-                autocompleteEndpointUrl
-            )
+            return this.#createAutocompleteWithRemoteData(element, autocompleteEndpointUrl)
         }
 
-        const renderOptionsAsHtml =
-            'true' ===
-            element.getAttribute('data-ea-autocomplete-render-items-as-html')
+        const renderOptionsAsHtml = 'true' === element.getAttribute('data-ea-autocomplete-render-items-as-html')
         if (renderOptionsAsHtml) {
             return this.#createAutocompleteWithHtmlContents(element)
         }
@@ -31,9 +24,7 @@ export default class Autocomplete {
         const config = {
             render: {
                 no_results: function (data, escape) {
-                    return `<div class="no-results">${element.getAttribute(
-                        'data-ea-i18n-no-results-found'
-                    )}</div>`
+                    return `<div class="no-results">${element.getAttribute('data-ea-i18n-no-results-found')}</div>`
                 }
             },
             plugins: {
@@ -41,10 +32,7 @@ export default class Autocomplete {
             }
         }
 
-        if (
-            null === element.getAttribute('required') &&
-            null === element.getAttribute('disabled')
-        ) {
+        if (null === element.getAttribute('required') && null === element.getAttribute('disabled')) {
             config.plugins.clear_button = { title: '' }
         }
 
@@ -52,16 +40,11 @@ export default class Autocomplete {
             config.plugins.remove_button = { title: '' }
         }
 
-        if (
-            null !== element.getAttribute('data-ea-autocomplete-endpoint-url')
-        ) {
+        if (null !== element.getAttribute('data-ea-autocomplete-endpoint-url')) {
             config.plugins.virtual_scroll = {}
         }
 
-        if (
-            'true' ===
-            element.getAttribute('data-ea-autocomplete-allow-item-create')
-        ) {
+        if ('true' === element.getAttribute('data-ea-autocomplete-allow-item-create')) {
             config.create = true
         }
 
@@ -114,11 +97,7 @@ export default class Autocomplete {
             labelField: 'entityAsString',
             searchField: ['entityAsString'],
             firstUrl: (query) => {
-                return (
-                    autocompleteEndpointUrl +
-                    '&query=' +
-                    encodeURIComponent(query)
-                )
+                return autocompleteEndpointUrl + '&query=' + encodeURIComponent(query)
             },
             // VERY IMPORTANT: use 'function (query, callback) { ... }' instead of the
             // '(query, callback) => { ... }' syntax because, otherwise,
@@ -154,14 +133,10 @@ export default class Autocomplete {
                     )}</div>`
                 },
                 no_more_results: function (data, escape) {
-                    return `<div class="no-more-results">${element.getAttribute(
-                        'data-ea-i18n-no-more-results'
-                    )}</div>`
+                    return `<div class="no-more-results">${element.getAttribute('data-ea-i18n-no-more-results')}</div>`
                 },
                 no_results: function (data, escape) {
-                    return `<div class="no-results">${element.getAttribute(
-                        'data-ea-i18n-no-results-found'
-                    )}</div>`
+                    return `<div class="no-results">${element.getAttribute('data-ea-i18n-no-results-found')}</div>`
                 }
             }
         })

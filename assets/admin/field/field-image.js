@@ -1,11 +1,9 @@
 import * as basicLightbox from 'basiclightbox'
 
 document.addEventListener('DOMContentLoaded', () => {
-    document
-        .querySelectorAll('.ea-lightbox-thumbnail')
-        .forEach((imageElement) => {
-            new Image(imageElement)
-        })
+    document.querySelectorAll('.ea-lightbox-thumbnail').forEach((imageElement) => {
+        new Image(imageElement)
+    })
 })
 
 class Image {

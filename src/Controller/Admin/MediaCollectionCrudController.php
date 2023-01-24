@@ -72,13 +72,8 @@ class MediaCollectionCrudController extends AbstractCrudController
             TextField::new('title', 'Título'),
             TextField::new('linkTo', 'Enlace a'),
             TextEditorField::new('description', 'Descripción'),
-            CollectionField::new('mediaList', 'Lista de images')->setEntryType(
-                MediaCollectionType::class,
-            ),
-            BooleanField::new(
-                'setAsHomeSlider',
-                'Establecer como slider de la página de inicio',
-            ),
+            CollectionField::new('mediaList', 'Lista de images')->setEntryType(MediaCollectionType::class),
+            BooleanField::new('setAsHomeSlider', 'Establecer como slider de la página de inicio'),
         ];
     }
 
@@ -89,10 +84,8 @@ class MediaCollectionCrudController extends AbstractCrudController
         return $mediaCollection;
     }
 
-    public function persistEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         $currentUser = $this->security->getUser();
 
         if ($currentUser && $entityInstance instanceof MediaCollection) {
@@ -107,10 +100,8 @@ class MediaCollectionCrudController extends AbstractCrudController
         }
     }
 
-    public function updateEntity(
-        EntityManagerInterface $entityManager,
-        $entityInstance,
-    ): void {
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
         if ($entityInstance instanceof MediaCollection) {
             $titleSlug = $this->makeSlug($entityInstance);
             $entityInstance->setSlug($titleSlug);
@@ -118,10 +109,7 @@ class MediaCollectionCrudController extends AbstractCrudController
             /**
              * @var MediaCollection $mediaCollection
              */
-            foreach (
-                $this->mediaCollectionRepository->findAll()
-                as $mediaCollection
-            ) {
+            foreach ($this->mediaCollectionRepository->findAll() as $mediaCollection) {
                 if ($mediaCollection->getId() !== $entityInstance->getId()) {
                     $mediaCollection->setAsHomeSlider(false);
                     $entityManager->persist($mediaCollection);
@@ -135,14 +123,7 @@ class MediaCollectionCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable()
-            ->add(
-                Crud::PAGE_INDEX,
-                Action::DETAIL,
-                Action::NEW,
-                Action::DELETE,
-            );
+        return $actions->disable()->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
     }
 
     private function makeSlug(MediaCollection $entityInstance): string
@@ -151,14 +132,9 @@ class MediaCollectionCrudController extends AbstractCrudController
 
         $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
 
-        $mediaColletionByCurrentSlug = $this->mediaCollectionRepository->findOneBySlug(
-            $titleSlug,
-            $entityInstance,
-        );
+        $mediaColletionByCurrentSlug = $this->mediaCollectionRepository->findOneBySlug($titleSlug, $entityInstance);
 
-        $titleSlug = $mediaColletionByCurrentSlug
-            ? "{$titleSlug}-duplicate"
-            : $titleSlug;
+        $titleSlug = $mediaColletionByCurrentSlug ? "{$titleSlug}-duplicate" : $titleSlug;
 
         return $titleSlug;
     }

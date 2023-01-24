@@ -36,39 +36,23 @@ class MediaListener
 
             foreach ($widthList as $rKey => $rWidth) {
                 $rootProjectPath = getcwd();
-                $originalFilePath = $this->helper->asset(
-                    $media,
-                    'originalFile',
-                );
+                $originalFilePath = $this->helper->asset($media, 'originalFile');
                 $filePathParts = pathinfo($rootProjectPath . $originalFilePath);
                 $tmpStoragePath = $this->params->get('tmp_storage_path');
 
                 $targetFileName = "{$filePathParts['filename']}_{$rKey}.{$filePathParts['extension']}";
                 $tmpTargetFilePath = "{$rootProjectPath}{$tmpStoragePath}/{$targetFileName}";
 
-                $filesystem->copy(
-                    $rootProjectPath . $originalFilePath,
-                    $tmpTargetFilePath,
-                    true,
-                );
+                $filesystem->copy($rootProjectPath . $originalFilePath, $tmpTargetFilePath, true);
 
                 $this->imageOptimizer->widthResize($tmpTargetFilePath, $rWidth);
 
                 if ($rKey === '100w') {
-                    $media->imageFile100w = new UploadedFile(
-                        $tmpTargetFilePath,
-                        $targetFileName,
-                    );
+                    $media->imageFile100w = new UploadedFile($tmpTargetFilePath, $targetFileName);
                 } elseif ($rKey === '150w') {
-                    $media->imageFile150w = new UploadedFile(
-                        $tmpTargetFilePath,
-                        $targetFileName,
-                    );
+                    $media->imageFile150w = new UploadedFile($tmpTargetFilePath, $targetFileName);
                 } elseif ($rKey === '300w') {
-                    $media->imageFile300w = new UploadedFile(
-                        $tmpTargetFilePath,
-                        $targetFileName,
-                    );
+                    $media->imageFile300w = new UploadedFile($tmpTargetFilePath, $targetFileName);
                 }
 
                 // @unlink($tmpTargetFilePath);

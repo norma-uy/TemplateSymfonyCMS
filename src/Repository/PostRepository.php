@@ -59,28 +59,20 @@ class PostRepository extends ServiceEntityRepository
         }
 
         if ($postException !== null) {
-            $qb->andWhere('p.id <> :postException')->setParameter(
-                'postException',
-                $postException->getId(),
-            );
+            $qb->andWhere('p.id <> :postException')->setParameter('postException', $postException->getId());
         }
 
         return $qb->getQuery()->getResult();
     }
 
-    public function findOneBySlug(
-        string $slug,
-        ?Post $postException = null,
-    ): ?Post {
+    public function findOneBySlug(string $slug, ?Post $postException = null): ?Post
+    {
         $qb = $this->createQueryBuilder('p')
             ->andWhere('p.slug = :slug')
             ->setParameter('slug', $slug);
 
         if ($postException !== null && $postException->getId()) {
-            $qb->andWhere('p.id <> :postException')->setParameter(
-                'postException',
-                $postException->getId(),
-            );
+            $qb->andWhere('p.id <> :postException')->setParameter('postException', $postException->getId());
         }
 
         return $qb->getQuery()->getOneOrNullResult();
