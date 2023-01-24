@@ -72,12 +72,17 @@ trix-toolbar .trix-dialog {
     font-family: var(--font-family-monospace);
 }
 
+trix-toolbar .trix-button-row {
+    flex-wrap: wrap;
+    overflow-x: unset;
+}
+
 /* there's no way to disable buttons from the Trix toolbar except by hiding them via CSS
    see https://github.com/basecamp/trix/issues/402 */
-trix-toolbar .trix-button-group--file-tools,
+/* trix-toolbar .trix-button-group--file-tools,
 trix-toolbar .trix-button-group--history-tools {
     display: none;
-}
+} */
 @media (min-width: 1200px) {
     trix-toolbar .trix-button-group--history-tools {
         display: flex;

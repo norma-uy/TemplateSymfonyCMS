@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 class TextEditorField {
     constructor() {
-        this.HOST = 'https://d13txem1unpe48.cloudfront.net/'
+        this.uploadImageHost = '/api/upload-image'
 
         this.#processRequiredAttribute()
         this.#enableFormChangesDetection()
@@ -190,7 +190,7 @@ class TextEditorField {
         var formData = this.createFormData(key, file)
         var xhr = new XMLHttpRequest()
 
-        xhr.open('POST', this.HOST, true)
+        xhr.open('POST', this.uploadImageHost, true)
 
         xhr.upload.addEventListener('progress', function (event) {
             var progress = (event.loaded / event.total) * 100
@@ -200,8 +200,8 @@ class TextEditorField {
         xhr.addEventListener('load', function (event) {
             if (xhr.status == 204) {
                 var attributes = {
-                    url: this.HOST + key,
-                    href: this.HOST + key + '?content-disposition=attachment'
+                    url: this.uploadImageHost + key,
+                    href: this.uploadImageHost + key + '?content-disposition=attachment'
                 }
                 successCallback(attributes)
             }
