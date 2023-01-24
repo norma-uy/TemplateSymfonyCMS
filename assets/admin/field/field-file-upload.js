@@ -1,4 +1,4 @@
-import { toggleVisibilityClasses } from './helpers'
+import { toggleVisibilityClasses } from '../helpers'
 
 document.addEventListener('DOMContentLoaded', () => {
     document

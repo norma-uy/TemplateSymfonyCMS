@@ -1,4 +1,4 @@
-import './css/form-type-text-editor.scss'
+import '../css/form-type-text-editor.scss'
 
 import DirtyForm from 'dirty-form'
 import Trix from 'trix/dist/trix'

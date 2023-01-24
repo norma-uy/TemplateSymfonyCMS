@@ -1,4 +1,4 @@
-import './css/form-type-code-editor.scss'
+import '../css/form-type-code-editor.scss'
 
 import CodeMirror from 'codemirror'
 
