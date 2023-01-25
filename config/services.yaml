@@ -32,6 +32,10 @@ services:
             - { name: kernel.event_listener, event: vich_uploader.post_upload }
             - { name: kernel.event_listener, event: vich_uploader.post_inject }
 
+    App\EventListener\ControllerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
+
     App\Form\Admin\Field\Configurator\:
         resource: '../src/Form/Admin/Field/Configurator/*'
         tags:

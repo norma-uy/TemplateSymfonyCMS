@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,6 +43,17 @@ class Post
 
     #[ORM\ManyToOne]
     private ?MediaCollection $mediaSlider = null;
+
+    #[ORM\Column]
+    private ?bool $featured = false;
+
+    #[ORM\ManyToMany(targetEntity: PostCategory::class, mappedBy: 'posts')]
+    private Collection $postCategories;
+
+    public function __construct()
+    {
+        $this->postCategories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -151,6 +164,45 @@ class Post
     public function setMediaSlider(?MediaCollection $mediaSlider): self
     {
         $this->mediaSlider = $mediaSlider;
+
+        return $this;
+    }
+
+    public function isFeatured(): bool
+    {
+        return $this->featured;
+    }
+
+    public function setFeatured(bool $featured): self
+    {
+        $this->featured = $featured;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostCategory>
+     */
+    public function getPostCategories(): Collection
+    {
+        return $this->postCategories;
+    }
+
+    public function addPostCategory(PostCategory $postCategory): self
+    {
+        if (!$this->postCategories->contains($postCategory)) {
+            $this->postCategories->add($postCategory);
+            $postCategory->addPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostCategory(PostCategory $postCategory): self
+    {
+        if ($this->postCategories->removeElement($postCategory)) {
+            $postCategory->removePost($this);
+        }
 
         return $this;
     }

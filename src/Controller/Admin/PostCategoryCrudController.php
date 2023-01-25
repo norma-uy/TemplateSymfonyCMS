@@ -2,10 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Post;
-use App\Form\Admin\Field\TextEditorField;
-use App\Form\Type\CategoriesCollectionType;
-use App\Repository\PostRepository;
+use App\Entity\PostCategory;
+use App\Form\Admin\Field\TextareaField;
+use App\Repository\PostCategoryRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -13,30 +12,27 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class PostCrudController extends AbstractCrudController
+class PostCategoryCrudController extends AbstractCrudController
 {
     /**
      * Undocumented function
      *
      * @param Security $security
      */
-    public function __construct(private Security $security, private PostRepository $postRepository)
+    public function __construct(private Security $security, private PostCategoryRepository $postCategoryRepository)
     {
     }
 
     public static function getEntityFqcn(): string
     {
-        return Post::class;
+        return PostCategory::class;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -47,9 +43,9 @@ class PostCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Publicaciones')
-            ->setEntityLabelInSingular('Publicación')
-            ->setEntityLabelInPlural('Publicaciones');
+            ->setPageTitle('index', 'Categoría')
+            ->setEntityLabelInSingular('Categoría')
+            ->setEntityLabelInPlural('Categorías');
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument
@@ -70,30 +66,20 @@ class PostCrudController extends AbstractCrudController
         return [
             IdField::new('id', 'ID')->hideOnForm(),
             TextField::new('title', 'Título'),
-            BooleanField::new('featured', 'Destacado'),
-            CollectionField::new('postCategories', 'Categorías')->setEntryType(CategoriesCollectionType::class),
-            DateField::new('publishedAt', 'Fecha de publicación'),
-            AssociationField::new('thumbnailPhoto', 'Foto miniatura'),
-            AssociationField::new('mediaSlider', 'Slider de fotos'),
-            TextEditorField::new('summary', 'Resumen'),
-            TextEditorField::new('content', 'Contenido')->hideOnIndex(),
+            BooleanField::new('enableMenu', 'Habilitar en el menú'),
         ];
     }
 
-    public function createEntity(string $entityFqcn)
+    public function configureActions(Actions $actions): Actions
     {
-        $post = new Post();
-        $post->setCreatedAt(new DateTimeImmutable('now'));
-        return $post;
+        return $actions->disable()->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
     }
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $currentUser = $this->security->getUser();
 
-        if ($currentUser && $entityInstance instanceof Post) {
-            $entityInstance->setAuthor($currentUser);
-
+        if ($currentUser && $entityInstance instanceof PostCategory) {
             $titleSlug = $this->makeSlug($entityInstance);
 
             $entityInstance->setSlug($titleSlug);
@@ -105,7 +91,7 @@ class PostCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if ($entityInstance instanceof Post) {
+        if ($entityInstance instanceof PostCategory) {
             $titleSlug = $this->makeSlug($entityInstance);
 
             $entityInstance->setSlug($titleSlug);
@@ -115,18 +101,13 @@ class PostCrudController extends AbstractCrudController
         }
     }
 
-    public function configureActions(Actions $actions): Actions
-    {
-        return $actions->disable()->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
-    }
-
-    private function makeSlug(Post $entityInstance): string
+    private function makeSlug(PostCategory $entityInstance): string
     {
         $slugger = new AsciiSlugger();
 
         $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
 
-        $postByCurrentSlug = $this->postRepository->findOneBySlug($titleSlug, $entityInstance);
+        $postByCurrentSlug = $this->postCategoryRepository->findOneBySlug($titleSlug, $entityInstance);
 
         $titleSlug = $postByCurrentSlug ? "{$titleSlug}-duplicate" : $titleSlug;
 

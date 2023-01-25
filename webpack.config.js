@@ -28,7 +28,9 @@ Encore
      */
     .addEntry('app', './assets/website/index.js')
     .addEntry('app-home', './assets/website/home.js')
+    .addEntry('app-post', './assets/website/post.js')
     .addStyleEntry('global', './assets/website/styles/index.scss')
+    .addStyleEntry('global-mobile', './assets/website/styles/mobile.scss')
 
     .copyFiles({
         from: './assets/website/images',

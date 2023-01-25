@@ -1,3 +1,7 @@
 import 'bootstrap'
 
-$(function () {})
+class WebSite {
+    static initMenu() {}
+}
+
+export default WebSite
