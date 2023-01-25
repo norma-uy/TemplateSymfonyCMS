@@ -70,8 +70,8 @@ class PostCrudController extends AbstractCrudController
             DateField::new('publishedAt', 'Fecha de publicación'),
             AssociationField::new('thumbnailPhoto', 'Foto miniatura'),
             AssociationField::new('mediaSlider', 'Slider de fotos'),
-            TextEditorField::new('summary', 'Resumen')->onlyOnForms(),
-            TextEditorField::new('content', 'Contenido')->onlyOnForms(),
+            TextEditorField::new('summary', 'Resumen'),
+            TextEditorField::new('content', 'Contenido')->hideOnIndex(),
         ];
     }
 

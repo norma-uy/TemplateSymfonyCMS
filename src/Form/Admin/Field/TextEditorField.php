@@ -34,7 +34,8 @@ final class TextEditorField implements FieldInterface
             ->addJsFiles(Asset::new($package->getUrl('build/admin/textEditorField.js'))->onlyOnForms())
             ->setDefaultColumns('col-md-9 col-xxl-7')
             ->setCustomOption(self::OPTION_NUM_OF_ROWS, 10)
-            ->setCustomOption(self::OPTION_TRIX_EDITOR_CONFIG, null);
+            ->setCustomOption(self::OPTION_TRIX_EDITOR_CONFIG, null)
+            ->setColumns(10);
     }
 
     public function setNumOfRows(int $rows): self

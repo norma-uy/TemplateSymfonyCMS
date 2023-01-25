@@ -178,18 +178,23 @@
 {% endmacro %}
 
 {% macro render_field(entity, field) %}
-    <div class="data-row {{ field.cssClass }}">
-        <dt>
-            {{ field.label|trans|raw }}
+    <div class="row {{ field.cssClass }} border-bottom mb-4 p-2">
+ 
+        <div class="col-12">
+           <h4>
+                {{ field.label|trans|raw }}: 
 
-            {% if field.help is not empty %}
-                <a tabindex="0" class="data-help" data-bs-toggle="popover" data-bs-custom-class="ea-content-help-popover" data-bs-animation="true" data-bs-html="true" data-bs-placement="right" data-bs-trigger="focus" data-bs-content="{{ field.help|trans|e('html_attr') }}">
-                    <i class="far fa-question-circle"></i>
-                </a>
-            {% endif %}
-        </dt>
-        <dd>
+                {% if field.help is not empty %}
+                    <a tabindex="0" class="data-help" data-bs-toggle="popover" data-bs-custom-class="ea-content-help-popover" data-bs-animation="true" data-bs-html="true" data-bs-placement="right" data-bs-trigger="focus" data-bs-content="{{ field.help|trans|e('html_attr') }}">
+                        <i class="far fa-question-circle"></i>
+                    </a>
+                {% endif %}
+            </h4>
+        </div>
+        <div class="col-12 pe-5 d-flex">
+            <div class="w-auto border border-dark rounded border-1 bg-secondary text-dark overflow-auto px-4 py-2">
             {{ include(field.templatePath, { field: field, entity: entity }, with_context = false) }}
-        </dd>
+            </div>
+        </div>
     </div>
 {% endmacro %}

@@ -40,7 +40,7 @@ class TextEditorField {
             model: 'dom',
             skin: 'oxide',
             skin_url: '/build/admin/tinymce/skins/ui/oxide',
-            content_css: '/build/admin/tinymce/skins/content/document/content.css',
+            content_css: '/build/admin/tinymce/skins/content/default/content.css',
             language: 'es',
             language_url: '/build/admin/tinymce/langs/es.js',
             promotion: false,
