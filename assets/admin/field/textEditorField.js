@@ -35,14 +35,17 @@ class TextEditorField {
     constructor() {}
 
     static init() {
-        console.log('textEditorField')
-
         tinymce.init({
             selector: 'textarea.text-editor',
             model: 'dom',
-			language: 'es',
-			promotion: false,
-            height: 500,
+            skin: 'oxide',
+            skin_url: '/build/admin/tinymce/skins/ui/oxide',
+            content_css: '/build/admin/tinymce/skins/content/document/content.css',
+            language: 'es',
+            language_url: '/build/admin/tinymce/langs/es.js',
+            promotion: false,
+            height: 600,
+            width: '100%',
             plugins: [
                 'advlist',
                 'autolink',

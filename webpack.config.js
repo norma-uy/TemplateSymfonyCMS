@@ -180,7 +180,12 @@ Encore
 
     .copyFiles({
         from: './node_modules/tinymce/skins',
-        to: 'skins/[path]/[name].[ext]'
+        to: 'tinymce/skins/[path]/[name].[ext]'
+    })
+
+    .copyFiles({
+        from: './assets/admin/lib/tinymce/langs',
+        to: 'tinymce/langs/[path]/[name].[ext]'
     })
 
     .addPlugin(new WebpackRTLPlugin())
