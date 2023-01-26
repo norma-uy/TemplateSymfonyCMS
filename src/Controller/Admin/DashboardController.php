@@ -107,7 +107,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('Post', 'fas fa-pager', Post::class)->setPermission('ROLE_ADMIN');
         
-        yield MenuItem::linkToCrud('Categorías', 'fas fa-pager', PostCategory::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Categorías', 'fas fa-share-nodes', PostCategory::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::linkToCrud('Usuarios', 'fas fa-users', User::class)->setPermission('ROLE_SUPER_ADMIN');
     }

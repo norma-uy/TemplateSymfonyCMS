@@ -677,7 +677,9 @@ form .invalid-feedback > .d-block + .d-block {
 }
 
 .ea-vich-file {
-    display: inline-flex;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
 }
 
 .ea-vich-file-name {
@@ -691,6 +693,12 @@ form .invalid-feedback > .d-block + .d-block {
 
 // this element should use 'display: flex', but that doesn't work with
 // the CSS trick used to customize the <input type="file" /> fields.
+
+.ea-vich-file-actions {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
 
 .ea-vich-image-actions > div,
 .ea-vich-file-actions > div {
