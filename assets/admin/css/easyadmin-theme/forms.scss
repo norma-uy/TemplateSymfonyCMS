@@ -676,6 +676,10 @@ form .invalid-feedback > .d-block + .d-block {
     max-width: 100%;
 }
 
+.ea-vich-file {
+    display: inline-flex;
+}
+
 .ea-vich-file-name {
     display: block;
     margin: 4px 0 8px;

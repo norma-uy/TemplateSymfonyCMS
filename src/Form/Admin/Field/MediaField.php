@@ -40,6 +40,7 @@ final class MediaField implements FieldInterface
                 'translation_domain' => 'VichUploaderBundle',
             ])
             ->addCssClass('field-media')
+            ->setDefaultColumns('col-md-9 col-xxl-7')
 
             // loads the CSS and JS assets associated to the given Webpack Encore entry
             // in any CRUD page (index/detail/edit/new). It's equivalent to calling
