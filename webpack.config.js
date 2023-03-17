@@ -156,15 +156,9 @@ Encore
     .addEntry('login', './assets/admin/login.js')
 
     .copyFiles({
-        from: './node_modules/@fortawesome/fontawesome-free/webfonts/',
+        from: './assets/admin/lib/fontawesome/fonts/',
         // relative to the output dir
         to: 'fonts/[name].[hash].[ext]'
-    })
-
-    .copyFiles({
-        from: './node_modules/country-flag-icons/3x2/',
-        to: 'images/flags/[path][name].[ext]',
-        pattern: /\.svg$/
     })
 
     .copyFiles({
@@ -181,7 +175,7 @@ Encore
     })
 
     .copyFiles({
-        from: './node_modules/tinymce/skins',
+        from: './assets/admin/lib/tinymce/skins',
         to: 'tinymce/skins/[path]/[name].[ext]'
     })
 
@@ -189,8 +183,7 @@ Encore
         from: './assets/admin/lib/tinymce/langs',
         to: 'tinymce/langs/[path]/[name].[ext]'
     })
-
-    .addPlugin(new WebpackRTLPlugin())
+    // .addPlugin(new WebpackRTLPlugin())
 
     .configureFontRule({
         type: 'asset'

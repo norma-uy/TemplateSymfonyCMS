@@ -16,7 +16,7 @@
 {% block javascripts %}
     {% for jsFile in encore_entry_js_files('app-post', 'website-config') %}
         {% cspscript %}
-        <script src="{{ asset(jsFile) }}" defer></script>
+        <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
         {% endcspscript %}
     {% endfor %}
 {% endblock javascripts %}
@@ -48,9 +48,7 @@
                         </header>
                         <!-- Preview image figure -->
                         <figure class="mb-4">
-                            <img class="img-fluid rounded"
-                                src="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'originalFile') }}"
-                                alt="..." />
+                            <img class="img-fluid rounded" src="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'originalFile') }}" alt="..." />
                         </figure>
                         <!-- Post content -->
                         <section class="mb-5">
@@ -138,11 +136,7 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group">
-                            <input class="form-control"
-                                type="text"
-                                placeholder="Enter search term..."
-                                aria-label="Enter search term..."
-                                aria-describedby="button-search" />
+                            <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
                             <button class="btn btn-primary" id="button-search" type="button">Go!</button>
                         </div>
                     </div>
@@ -183,9 +177,7 @@
                                 )
                                 }}">
                                 <figure class="ratio ratio-4x3">
-                                    <img src="{{ vich_uploader_asset(lastNew.getThumbnailPhoto(), 'imageFile300w') }}"
-                                        alt="post photo"
-                                        title="" />
+                                    <img src="{{ vich_uploader_asset(lastNew.getThumbnailPhoto(), 'imageFile300w') }}" alt="post photo" title="" />
                                 </figure>
                                 <section>
                                     <h6 class="mb-0">

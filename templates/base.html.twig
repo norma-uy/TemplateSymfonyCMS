@@ -1,11 +1,11 @@
+{% set pageName = app.request.get('_route') %}
+{% set locale = app.request.get('_locale') %}
+
+{% set webName = 'Blog Template' %}
+
 <!DOCTYPE html>
-<html>
+<html lang="{{ locale }}">
     <head>
-        {% set pageName = app.request.get('_route') %}
-        {% set locale = app.request.get('_locale') %}
-
-        {% set webName = 'Blog Template' %}
-
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
@@ -17,6 +17,10 @@
         <meta name="msapplication-navbutton-color" content="#509F2C" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="#509F2C" />
+
+        {% if app.environment == 'dev' %}
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {% endif %}
 
         <title>
             {% block title %}

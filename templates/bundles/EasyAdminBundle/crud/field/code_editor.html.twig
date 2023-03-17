@@ -4,11 +4,7 @@
 {% if ea.crud.currentAction == 'detail' %}
     {# TODO: improve this to highlight code #}
     {% set configuredHeight = field.customOptions.get('height') %}
-    <pre style="{{
-        configuredHeight is null
-            ? 'max-height: 500px;'
-            : 'max-height: unset; height: ' ~ configuredHeight ~ 'px'
-        }}">
+    <pre style="{{ configuredHeight is null ? 'max-height: 500px;' : 'max-height: unset; height: ' ~ configuredHeight ~ 'px' }}">
         {{- field.value -}}
     </pre>
 {% else %}
@@ -25,12 +21,7 @@
                     <h5 class="modal-title">
                         {{ field.label|trans }}
                     </h5>
-                    <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="{{ 'action.close'|trans([], domain = 'EasyAdminBundle') }}">
-
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans([], domain = 'EasyAdminBundle') }}"></button>
                 </div>
                 <div class="modal-body">
                     {{ field.formattedValue|escape|nl2br }}

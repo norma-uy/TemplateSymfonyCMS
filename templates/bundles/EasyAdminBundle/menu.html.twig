@@ -8,23 +8,17 @@
         {% block main_menu %}
             {% for menuItem in ea.mainMenu.items %}
                 {% block menu_item %}
-                    <li class="{{ menuItem.isMenuSection ? 'menu-header' : 'menu-item' }} {{
-                        menuItem.hasSubItems
-                            ? 'has-submenu'
-                        }} {{ ea.mainMenu.isSelected(menuItem) ? 'active' }} {{
-                        ea.mainMenu.isExpanded(menuItem)
-                            ? 'expanded'
-                        }}">
+                    <li class="{{ menuItem.isMenuSection ? 'menu-header' : 'menu-item' }} {{ menuItem.hasSubItems ? 'has-submenu' }} {{
+                        ea.mainMenu.isSelected(menuItem)
+                            ? 'active'
+                        }} {{ ea.mainMenu.isExpanded(menuItem) ? 'expanded' }}">
                         {{ _self.render_menu_item(menuItem) }}
 
                         {% if menuItem.hasSubItems %}
                             <ul class="submenu">
                                 {% for menuSubItem in menuItem.subItems %}
                                     {% block menu_subitem %}
-                                        <li class="{{ menuSubItem.isMenuSection ? 'menu-header' : 'menu-item' }} {{
-                                            ea.mainMenu.isSelected(menuSubItem)
-                                                ? 'active'
-                                            }}">
+                                        <li class="{{ menuSubItem.isMenuSection ? 'menu-header' : 'menu-item' }} {{ ea.mainMenu.isSelected(menuSubItem) ? 'active' }}">
                                             {{ _self.render_menu_item(menuSubItem) }}
                                         </li>
                                     {% endblock menu_subitem %}
@@ -50,10 +44,7 @@
             {% endif %}
             <span class="menu-item-label position-relative {{ item.cssClass }}">{{ item.label|trans|raw }}</span>
             {% if item.badge %}
-                <span class="menu-item-badge rounded-pill badge {{ item.badge.cssClass }}"
-                    style="{{ item.badge.htmlStyle }}">
-                    {{ item.badge.content }}
-                </span>
+                <span class="menu-item-badge rounded-pill badge {{ item.badge.cssClass }}" style="{{ item.badge.htmlStyle }}">{{ item.badge.content }}</span>
             {% endif %}
         </span>
     {% else %}
@@ -70,10 +61,7 @@
                 <i class="fa fa-fw fa-angle-right submenu-toggle-icon"></i>
             {% endif %}
             {% if item.badge %}
-                <span class="menu-item-badge rounded-pill badge {{ item.badge.cssClass }}"
-                    style="{{ item.badge.htmlStyle }}">
-                    {{ item.badge.content }}
-                </span>
+                <span class="menu-item-badge rounded-pill badge {{ item.badge.cssClass }}" style="{{ item.badge.htmlStyle }}">{{ item.badge.content }}</span>
             {% endif %}
         </a>
     {% endif %}

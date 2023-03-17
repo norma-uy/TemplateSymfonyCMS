@@ -5,12 +5,7 @@
     {% if field.customOption('flagCode') is not null %}
         <img class="country-flag"
             alt="{{ field.formattedValue }}"
-            src="{{
-            asset(
-                'images/flags/' ~ field.customOption('flagCode') ~ '.svg',
-                ea.assets.defaultAssetPackageName
-            )
-            }}" />
+            src="{{ asset('images/flags/' ~ field.customOption('flagCode') ~ '.svg', ea.assets.defaultAssetPackageName) }}" />
     {% endif %}
 {% endif %}
 {% if field.customOptions.get('showName') %}

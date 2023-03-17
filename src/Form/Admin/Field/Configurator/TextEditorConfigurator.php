@@ -18,7 +18,10 @@ final class TextEditorConfigurator implements FieldConfiguratorInterface
     public function configure(FieldDto $field, EntityDto $entityDto, AdminContext $context): void
     {
         if (TextEditorField::class === $field->getFieldFqcn()) {
-            $field->setFormTypeOptionIfNotSet('attr.rows', $field->getCustomOption(TextEditorField::OPTION_NUM_OF_ROWS));
+            $field->setFormTypeOptionIfNotSet(
+                'attr.rows',
+                $field->getCustomOption(TextEditorField::OPTION_NUM_OF_ROWS),
+            );
         }
     }
 }

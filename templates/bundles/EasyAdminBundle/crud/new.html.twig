@@ -14,8 +14,17 @@
 {% block head_javascript %}
     {# {{ parent() }} #}
     {# <script src="{{ asset('form.js', ea.assets.defaultAssetPackageName) }}"></script> #}
-    {{ encore_entry_script_tags('app', null, 'admin-config') }}
-    {{ encore_entry_script_tags('form', null, 'admin-config') }}
+    {% for jsFile in encore_entry_js_files('app', 'admin-config') %}
+        {% cspscript %}
+        <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+        {% endcspscript %}
+    {% endfor %}
+
+    {% for jsFile in encore_entry_js_files('form', 'admin-config') %}
+        {% cspscript %}
+        <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+        {% endcspscript %}
+    {% endfor %}
 {% endblock head_javascript %}
 
 {% block configured_head_contents %}
@@ -43,9 +52,7 @@
 {% block content_title %}
     {%- apply spaceless -%}
     {% set custom_page_title = ea.crud.customPageTitle('new', null, ea.i18n.translationParameters) %}
-    {{ custom_page_title is null
-        ? ea.crud.defaultPageTitle('new', null, ea.i18n.translationParameters)|trans|raw
-        : custom_page_title|trans|raw }}
+    {{ custom_page_title is null ? ea.crud.defaultPageTitle('new', null, ea.i18n.translationParameters)|trans|raw : custom_page_title|trans|raw }}
     {%- endapply -%}
 {% endblock content_title %}
 

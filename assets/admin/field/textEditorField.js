@@ -65,7 +65,7 @@ class TextEditorField {
                 'help',
                 'wordcount'
             ],
-            image_advtab:true,
+            image_advtab: true,
             toolbar:
                 'undo redo | blocks | ' +
                 'bold italic backcolor | alignleft aligncenter ' +

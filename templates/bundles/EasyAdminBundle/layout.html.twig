@@ -1,11 +1,17 @@
 {% extends '@!EasyAdmin/layout.html.twig' %}
 
+{% set locale = app.request.get('_locale') %}
+
 {% block head_metas %}
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate, nocache"/>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<meta name="generator" content="EasyAdmin"/>
+
+	{% if app.environment == 'dev' %}
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	{% endif %}
 {% endblock head_metas %}
 
 {% block head_stylesheets %}
@@ -24,7 +30,11 @@
 
 {% block head_javascript %}
 	{# <script src="{{ asset('app.js', ea.assets.defaultAssetPackageName) }}"></script> #}
-	{{ encore_entry_script_tags('app', null, 'admin-config') }}
+	{% for jsFile in encore_entry_js_files('app', 'admin-config') %}
+        {% cspscript %}
+        	<script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+        {% endcspscript %}
+    {% endfor %}
 {% endblock head_javascript %}
 
 {% block configured_javascripts %}
@@ -37,11 +47,19 @@
 	<body {% block body_attr %} {% endblock %} id="{% block body_id %}{% endblock %}" class="ea {% block body_class %}{% endblock %}" data-ea-content-width="{{ ea.crud.contentWidth ?? ea.dashboardContentWidth ?? 'normal' }}" data-ea-sidebar-width="{{ ea.crud.sidebarWidth ?? ea.dashboardSidebarWidth ?? 'normal' }}" data-ea-dark-scheme-is-enabled="{{ ea.dashboardHasDarkModeEnabled ? 'true' : 'false' }}">
 		{% block javascript_page_layout %}
 			{# <script src="{{ asset('page-layout.js', ea.assets.defaultAssetPackageName) }}"></script> #}
-			{{ encore_entry_script_tags('page-layout', null, 'admin-config') }}
+			{% for jsFile in encore_entry_js_files('page-layout', 'admin-config') %}
+				{% cspscript %}
+					<script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+				{% endcspscript %}
+			{% endfor %}
 		{% endblock javascript_page_layout %}
 		{% block javascript_page_color_scheme %}
 			{# <script src="{{ asset('page-color-scheme.js', ea.assets.defaultAssetPackageName) }}"></script> #}
-			{{ encore_entry_script_tags('page-color-scheme', null, 'admin-config') }}
+			{% for jsFile in encore_entry_js_files('page-color-scheme', 'admin-config') %}
+				{% cspscript %}
+					<script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+				{% endcspscript %}
+			{% endfor %}
 		{% endblock javascript_page_color_scheme %}
 
 		{% block wrapper_wrapper %}

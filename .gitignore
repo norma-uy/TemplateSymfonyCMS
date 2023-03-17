@@ -24,7 +24,9 @@
 
 ###> IDE files ###
 .history/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 .phpintel/
 sftp-config.json
 ###< IDE files ###
@@ -58,6 +60,14 @@ error.error_log
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
+.yarn/*
+!.yarn/cache
+!.yarn/cache/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 /public/build/
 npm-debug.log
 yarn-error.log

@@ -2,26 +2,11 @@
 
 {% block wrapper_wrapper %}
     {% set page_title = block('page_title') %}
-    {% set _username_label = username_label is defined
-        ? username_label|trans
-        : 'login_page.username'|trans({}, 'EasyAdminBundle')
-    %}
-    {% set _password_label = password_label is defined
-        ? password_label|trans
-        : 'login_page.password'|trans({}, 'EasyAdminBundle')
-    %}
-    {% set _forgot_password_label = forgot_password_label is defined
-        ? forgot_password_label|trans
-        : 'login_page.forgot_password'|trans({}, 'EasyAdminBundle')
-    %}
-    {% set _remember_me_label = remember_me_label is defined
-        ? remember_me_label|trans
-        : 'login_page.remember_me'|trans({}, 'EasyAdminBundle')
-    %}
-    {% set _sign_in_label = sign_in_label is defined
-        ? sign_in_label|trans
-        : 'login_page.sign_in'|trans({}, 'EasyAdminBundle')
-    %}
+    {% set _username_label = username_label is defined ? username_label|trans : 'login_page.username'|trans({}, 'EasyAdminBundle') %}
+    {% set _password_label = password_label is defined ? password_label|trans : 'login_page.password'|trans({}, 'EasyAdminBundle') %}
+    {% set _forgot_password_label = forgot_password_label is defined ? forgot_password_label|trans : 'login_page.forgot_password'|trans({}, 'EasyAdminBundle') %}
+    {% set _remember_me_label = remember_me_label is defined ? remember_me_label|trans : 'login_page.remember_me'|trans({}, 'EasyAdminBundle') %}
+    {% set _sign_in_label = sign_in_label is defined ? sign_in_label|trans : 'login_page.sign_in'|trans({}, 'EasyAdminBundle') %}
 
     {% include '@EasyAdmin/flash_messages.html.twig' %}
 
@@ -29,9 +14,7 @@
         <header class="main-header">
             <div id="header-logo" class="my-4">
                 {% block header_logo %}
-                    <img class="w-50 rounded mx-auto d-block"
-                        src="{{ asset('build/website/images/favicon.svg') }}"
-                        alt="Logo" />
+                    <img class="w-50 rounded mx-auto d-block" src="{{ asset('build/website/images/favicon.svg') }}" alt="Logo" />
                 {% endblock header_logo %}
             </div>
         </header>
@@ -70,12 +53,7 @@
                 <div class="form-group">
                     <label class="form-control-label required" for="password">{{ _password_label }}</label>
                     <div class="form-widget">
-                        <input type="password"
-                            id="password"
-                            name="{{ password_parameter|default('_password') }}"
-                            class="form-control"
-                            required
-                            autocomplete="current-password" />
+                        <input type="password" id="password" name="{{ password_parameter|default('_password') }}" class="form-control" required autocomplete="current-password" />
                     </div>
 
                     {% if forgot_password_enabled|default(false) %}
@@ -104,7 +82,11 @@
                 </div>
             </form>
 
-            {{ encore_entry_script_tags('login', null, 'admin-config') }}
+            {% for jsFile in encore_entry_js_files('login', 'admin-config') %}
+                {% cspscript %}
+                <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+                {% endcspscript %}
+            {% endfor %}
         </section>
     </div>
 {% endblock wrapper_wrapper %}

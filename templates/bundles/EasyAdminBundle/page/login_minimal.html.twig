@@ -10,6 +10,10 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <meta name="generator" content="EasyAdmin" />
 
+        {% if app.environment == 'dev' %}
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        {% endif %}
+
         {% block head_favicon %}
             <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⬛</text></svg>">
         {% endblock %}
@@ -23,7 +27,11 @@
 
         {% block head_javascript %}
             {# <script src="{{ asset('app.js', constant('EasyCorp\\Bundle\\EasyAdminBundle\\Asset\\AssetPackage::PACKAGE_NAME')) }}" defer></script> #}
-            {{ encore_entry_script_tags('app', null, 'admin-config') }}
+            {% for jsFile in encore_entry_js_files('app', 'admin-config') %}
+                {% cspscript %}
+                    <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
+                {% endcspscript %}
+            {% endfor %}
         {% endblock head_javascript %}
     </head>
 
