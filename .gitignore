@@ -5,9 +5,9 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/data/tmp/*
-/public/data/media/*
-!/public/data/media/.gitignore
+/public/storage/tmp/*
+/public/storage/media/*
+!/public/storage/media/.gitignore
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
