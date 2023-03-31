@@ -36,7 +36,7 @@ class MediaCollection
     private ?User $author = null;
 
     #[ORM\ManyToMany(targetEntity: Media::class, inversedBy: 'mediaCollections')]
-    private Collection $mediaList;
+    public Collection $mediaList;
 
     #[ORM\Column]
     private bool $setAsHomeSlider = false;
@@ -131,25 +131,25 @@ class MediaCollection
         return $this->mediaList;
     }
 
-    public function addMediaList(Media $mediaList): self
+    public function addMedia(Media $media): self
     {
-        if (!$this->mediaList->contains($mediaList)) {
-            $this->mediaList->add($mediaList);
+        if (!$this->mediaList->contains($media)) {
+            $this->mediaList->add($media);
         }
 
         return $this;
     }
 
-    public function removeMediaList(Media $mediaList): self
+    public function removeMedia(Media $media): self
     {
-        $this->mediaList->removeElement($mediaList);
+        $this->mediaList->removeElement($media);
 
         return $this;
     }
 
     public function __toString(): string
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function isSetAsHomeSlider(): ?bool

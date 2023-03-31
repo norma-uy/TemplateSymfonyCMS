@@ -3,7 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Media;
+use App\Entity\MediaCategory;
 use App\Entity\MediaCollection;
+use App\Entity\Page;
 use App\Entity\Post;
 use App\Entity\PostCategory;
 use App\Entity\User;
@@ -18,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[IsGranted('ROLE_ADMIN')]
+#[Route('/{_locale}', requirements: ['_locale' => 'es|en'])]
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin_dashboard')]
@@ -64,7 +67,7 @@ class DashboardController extends AbstractDashboardController
             ->setFaviconPath('/build/website/images/favicon.svg')
 
             // the domain used by default is 'messages'
-            ->setTranslationDomain('admin')
+            ->setTranslationDomain('EasyAdminBundle')
 
             // there's no need to define the "text direction" explicitly because
             // its default value is inferred dynamically from the user locale
@@ -81,7 +84,7 @@ class DashboardController extends AbstractDashboardController
             // by default, users can select between a "light" and "dark" mode for the
             // backend interface. Call this method if you prefer to disable the "dark"
             // mode for any reason (e.g. if your interface customizations are not ready for it)
-            // ->disableDarkMode()
+            ->disableDarkMode()
 
             // by default, all backend URLs are generated as absolute URLs. If you
             // need to generate relative URLs instead, call this method
@@ -99,11 +102,19 @@ class DashboardController extends AbstractDashboardController
 
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::linkToCrud('Media', 'fas fa-photo-video', Media::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Archivos', 'fas fa-photo-video', Media::class)->setPermission('ROLE_ADMIN');
+
+        yield MenuItem::linkToCrud(
+            'Categoría de Archivos',
+            'fas fa-grip-vertical',
+            MediaCategory::class,
+        )->setPermission('ROLE_ADMIN');
 
         yield MenuItem::linkToCrud('Colecciones', 'fas fa-layer-group', MediaCollection::class)->setPermission(
             'ROLE_ADMIN',
         );
+
+        yield MenuItem::linkToCrud('Páginas', 'fas fa-pager', Page::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::linkToCrud('Post', 'fas fa-pager', Post::class)->setPermission('ROLE_ADMIN');
 

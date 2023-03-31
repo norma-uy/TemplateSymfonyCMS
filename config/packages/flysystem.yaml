@@ -9,28 +9,11 @@ flysystem:
                 skip_links: false
                 permissions:
                     file:
-                        public: 0o744
-                        private: 0o700
+                        public: 0o644
+                        private: 0o644
                     dir:
                         public: 0o755
-                        private: 0o700
-            visibility: ~ # default null. Possible values are 'public' or 'private'
-            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
-            case_sensitive: true
-            disable_asserts: false
-        storage.media.100w:
-            adapter: 'local'
-            options:
-                directory: '%kernel.project_dir%/%media_storage_path%/100w'
-                lock: 0
-                skip_links: false
-                permissions:
-                    file:
-                        public: 0o744
-                        private: 0o700
-                    dir:
-                        public: 0o755
-                        private: 0o700
+                        private: 0o755
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
             case_sensitive: true
@@ -43,28 +26,113 @@ flysystem:
                 skip_links: false
                 permissions:
                     file:
-                        public: 0o744
-                        private: 0o700
+                        public: 0o644
+                        private: 0o644
                     dir:
                         public: 0o755
-                        private: 0o700
+                        private: 0o755
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
             case_sensitive: true
             disable_asserts: false
-        storage.media.300w:
+        storage.media.450w:
             adapter: 'local'
             options:
-                directory: '%kernel.project_dir%/%media_storage_path%/300w'
+                directory: '%kernel.project_dir%/%media_storage_path%/450w'
                 lock: 0
                 skip_links: false
                 permissions:
                     file:
-                        public: 0o744
-                        private: 0o700
+                        public: 0o644
+                        private: 0o644
                     dir:
                         public: 0o755
-                        private: 0o700
+                        private: 0o755
+            visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            case_sensitive: true
+            disable_asserts: false
+        storage.media.800w:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/%media_storage_path%/800w'
+                lock: 0
+                skip_links: false
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o644
+                    dir:
+                        public: 0o755
+                        private: 0o755
+            visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            case_sensitive: true
+            disable_asserts: false
+        storage.media.1280w:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/%media_storage_path%/1280w'
+                lock: 0
+                skip_links: false
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o644
+                    dir:
+                        public: 0o755
+                        private: 0o755
+            visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            case_sensitive: true
+            disable_asserts: false
+        storage.media.1600w:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/%media_storage_path%/1600w'
+                lock: 0
+                skip_links: false
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o644
+                    dir:
+                        public: 0o755
+                        private: 0o755
+            visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            case_sensitive: true
+            disable_asserts: false
+        storage.media.1920w:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/%media_storage_path%/1920w'
+                lock: 0
+                skip_links: false
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o644
+                    dir:
+                        public: 0o755
+                        private: 0o755
+            visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            case_sensitive: true
+            disable_asserts: false
+        storage.media.2400w:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/%media_storage_path%/2400w'
+                lock: 0
+                skip_links: false
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o644
+                    dir:
+                        public: 0o755
+                        private: 0o755
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
             case_sensitive: true

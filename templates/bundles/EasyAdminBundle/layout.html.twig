@@ -191,7 +191,7 @@
 								<a
 									class="user-details" type="button" data-bs-toggle="dropdown" data-bs-offset="0,5" aria-expanded="false">
 									{# to make the site design consistent, always display the user avatar in responsive header
-																																				                                   and hide the user name (because there's no space left) regardless of the user config #}
+																																													                                   and hide the user name (because there's no space left) regardless of the user config #}
 									{% if ea.userMenu.avatarDisplayed %}
 										{{ user_menu_avatar }}
 									{% else %}
@@ -346,6 +346,46 @@
 									{% endblock content_header_wrapper %}
 
 									<section id="main" class="content-body">
+										{% block links_to_translate %}
+										{# {{ dump(ea) }} #}
+											<div class="admin-language {{ locale == 'es' ? 'active-es' : '' }}">
+												<span>{{ 'Idioma seleccionado'|trans({}, 'EasyAdminBundle') }}:</span>
+
+												<section>
+												<a  href="{{
+													path(
+														'admin_dashboard',
+														{
+															_locale: 'es',
+															crudAction: ea.request.query.get('crudAction'),
+															crudControllerFqcn: ea.request.query.get('crudControllerFqcn'),
+															entityId: ea.request.query.get('entityId'),
+															menuIndex: ea.request.query.get('menuIndex'),
+															submenuIndex: ea.request.query.get('submenuIndex')
+														}
+													)
+													}}" class="esp {{ locale == 'es' ? 'active' : '' }}">
+													ES
+												</a>
+												
+												<a  href="{{
+													path(
+														'admin_dashboard',
+														{
+															_locale: 'en',
+															crudAction: ea.request.query.get('crudAction'),
+															crudControllerFqcn: ea.request.query.get('crudControllerFqcn'),
+															entityId: ea.request.query.get('entityId'),
+															menuIndex: ea.request.query.get('menuIndex'),
+															submenuIndex: ea.request.query.get('submenuIndex')
+														}
+													)
+													}}"  class="eng {{ locale == 'en' ? 'active' : '' }}">
+													EN
+												</a>
+												</section>
+											</div>
+										{% endblock links_to_translate %}
 										{% block main %}{% endblock %}
 									</section>
 
@@ -365,6 +405,7 @@
 					</section>
 				{% endblock wrapper %}
 			</div>
+			<footer></footer>
 		{% endblock wrapper_wrapper %}
 
 		{% block body_javascript %}{% endblock body_javascript %}

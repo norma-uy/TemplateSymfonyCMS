@@ -11,7 +11,7 @@ use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Contracts\Translation\TranslatableInterface;
 
-final class TextareaField implements FieldInterface
+final class TextAreaField implements FieldInterface
 {
     use FieldTrait;
 

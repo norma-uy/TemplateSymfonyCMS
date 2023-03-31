@@ -11,6 +11,7 @@
 {% block head_javascript %}
     {# {{ parent() }} #}
     {# <script src="{{ asset('form.js', ea.assets.defaultAssetPackageName) }}"></script> #}
+
     {% for jsFile in encore_entry_js_files('app', 'admin-config') %}
         {% cspscript %}
         <script nonce="{{ csp_nonce('script') }}" src="{{ asset(jsFile) }}" defer></script>
@@ -48,9 +49,21 @@
 
 {% block content_title %}
     {%- apply spaceless -%}
-    {% set custom_page_title = ea.crud.customPageTitle(pageName, entity ? entity.instance : null, ea.i18n.translationParameters) %}
-    {{ custom_page_title is null ? ea.crud.defaultPageTitle(null, null, ea.i18n.translationParameters)|trans|raw : custom_page_title|trans|raw }}
+    {% set custom_page_title =
+        ea.crud.customPageTitle(pageName, entity ? entity.instance : null, ea.i18n.translationParameters)
+    %}
+    {{ custom_page_title is null
+        ? ea.crud.defaultPageTitle(null, null, ea.i18n.translationParameters)|trans|raw
+        : custom_page_title|trans|raw }}:
     {%- endapply -%}
+
+    {% if _context.entity is defined and _context.entity.instance.title is defined %}
+
+        {% set entityLocale = _context.entity.instance.getTranslations() is defined ? _context.entity.instance.getTranslations()|filter(lang => lang.getLanguageCode() == locale)|first : null %}
+        {% set entityLocale = entityLocale is not empty ? entityLocale : _context.entity.instance %}
+
+        <mark class="">{{ entityLocale.getTitle() }}</mark>
+    {% endif %}
 {% endblock content_title %}
 
 {% block page_actions %}

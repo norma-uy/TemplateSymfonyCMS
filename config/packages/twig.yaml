@@ -4,7 +4,8 @@ twig:
         website:
             urlBase: '%website.urlBase%'
             name: '%website.name%'
-    form_themes: ['bootstrap_5_horizontal_layout.html.twig']
+        gg_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    form_themes: ['bootstrap_5_horizontal_layout.html.twig', 'form/custom_types.html.twig']
 
 when@test:
     twig:

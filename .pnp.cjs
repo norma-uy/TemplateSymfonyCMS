@@ -50,7 +50,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-n", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:15.6.1"],\
             ["eslint-plugin-promise", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.1.1"],\
             ["file-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.2.0"],\
+            ["html5sortable", "npm:0.13.3"],\
             ["jquery", "npm:3.6.4"],\
+            ["lazysizes", "npm:5.3.2"],\
             ["mark.js", "npm:8.11.1"],\
             ["postcss", "npm:8.4.21"],\
             ["postcss-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:7.1.0"],\
@@ -6786,6 +6788,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["html5sortable", [\
+        ["npm:0.13.3", {\
+          "packageLocation": "./.yarn/cache/html5sortable-npm-0.13.3-8eb2eee381-619cb6f355.zip/node_modules/html5sortable/",\
+          "packageDependencies": [\
+            ["html5sortable", "npm:0.13.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["htmlparser2", [\
         ["npm:6.1.0", {\
           "packageLocation": "./.yarn/cache/htmlparser2-npm-6.1.0-4ef89ab31e-81a7b3d9c3.zip/node_modules/htmlparser2/",\
@@ -7656,6 +7667,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["launch-editor", "npm:2.6.0"],\
             ["picocolors", "npm:1.0.0"],\
             ["shell-quote", "npm:1.8.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["lazysizes", [\
+        ["npm:5.3.2", {\
+          "packageLocation": "./.yarn/cache/lazysizes-npm-5.3.2-e135ce29c0-6126c800be.zip/node_modules/lazysizes/",\
+          "packageDependencies": [\
+            ["lazysizes", "npm:5.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10328,7 +10348,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-n", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:15.6.1"],\
             ["eslint-plugin-promise", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.1.1"],\
             ["file-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.2.0"],\
+            ["html5sortable", "npm:0.13.3"],\
             ["jquery", "npm:3.6.4"],\
+            ["lazysizes", "npm:5.3.2"],\
             ["mark.js", "npm:8.11.1"],\
             ["postcss", "npm:8.4.21"],\
             ["postcss-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:7.1.0"],\

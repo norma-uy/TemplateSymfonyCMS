@@ -15,9 +15,10 @@ class MediaCollectionType extends AbstractType
         $resolver->setDefaults([
             'class' => Media::class,
             'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('m')->orderBy('m.originalFileName', 'ASC');
+                return $er->createQueryBuilder('m')->orderBy('m.id', 'DESC');
             },
-            'choice_label' => 'originalFileName',
+            'choice_label' => 'getTitle',
+            'expanded' => true,
         ]);
     }
 

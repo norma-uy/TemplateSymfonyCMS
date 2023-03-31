@@ -27,9 +27,18 @@ class PostCategory
     #[ORM\Column]
     private ?bool $enableMenu = false;
 
+    #[ORM\OneToMany(mappedBy: 'postCategory', targetEntity: PostCategoryTranslations::class, orphanRemoval: true)]
+    private Collection $translations;
+
+    #[ORM\Column(length: 4, nullable: true)]
+    private ?string $currentLocale = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->translations = new ArrayCollection();
+        $this->enableMenu = false;
+        $this->currentLocale = 'es';
     }
 
     public function getId(): ?int
@@ -98,6 +107,48 @@ class PostCategory
     public function setEnableMenu(bool $enableMenu): self
     {
         $this->enableMenu = $enableMenu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostCategoryTranslations>
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(PostCategoryTranslations $translation): self
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations->add($translation);
+            $translation->setPostCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(PostCategoryTranslations $translation): self
+    {
+        if ($this->translations->removeElement($translation)) {
+            // set the owning side to null (unless already changed)
+            if ($translation->getPostCategory() === $this) {
+                $translation->setPostCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCurrentLocale(): ?string
+    {
+        return $this->currentLocale;
+    }
+
+    public function setCurrentLocale(?string $currentLocale): self
+    {
+        $this->currentLocale = $currentLocale;
 
         return $this;
     }

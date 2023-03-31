@@ -2,17 +2,22 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Filter\PostCategoryFilter;
 use App\Entity\Post;
+use App\Entity\PostTranslations;
+use App\Form\Admin\Field\TextAreaField;
 use App\Form\Admin\Field\TextEditorField;
+use App\Form\Admin\GalleryRowJsonType;
 use App\Form\Type\CategoriesCollectionType;
-use App\Repository\PostRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -20,8 +25,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 
 class PostCrudController extends AbstractCrudController
 {
@@ -30,7 +37,7 @@ class PostCrudController extends AbstractCrudController
      *
      * @param Security $security
      */
-    public function __construct(private Security $security, private PostRepository $postRepository)
+    public function __construct(private Security $security, private AdminContextProvider $adminContextProvider)
     {
     }
 
@@ -47,9 +54,11 @@ class PostCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Publicaciones')
-            ->setEntityLabelInSingular('Publicación')
-            ->setEntityLabelInPlural('Publicaciones');
+            ->setPageTitle('index', 'Noticias')
+            ->setEntityLabelInSingular('Noticia')
+            ->setEntityLabelInPlural('Noticias')
+            ->showEntityActionsInlined()
+            ->setDefaultSort(['id' => 'DESC', 'title' => 'ASC']);
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument
@@ -62,21 +71,85 @@ class PostCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        return $filters->add(TextFilter::new('title', 'Título'));
+        return $filters
+            ->add(TextFilter::new('title', 'Título'))
+            ->add(PostCategoryFilter::new('postCategories', 'Categorías'));
     }
 
     public function configureFields(string $pageName): iterable
     {
+        $context = $this->adminContextProvider->getContext();
+        $locale = $context->getI18n()->getLocale();
+
+        $package = new Package(new JsonManifestVersionStrategy(getcwd() . '/build/admin/manifest.json'));
+
         return [
             IdField::new('id', 'ID')->hideOnForm(),
-            TextField::new('title', 'Título'),
-            BooleanField::new('featured', 'Destacado'),
-            CollectionField::new('postCategories', 'Categorías')->setEntryType(CategoriesCollectionType::class),
-            DateField::new('publishedAt', 'Fecha de publicación'),
-            AssociationField::new('thumbnailPhoto', 'Foto miniatura'),
-            AssociationField::new('mediaSlider', 'Slider de fotos'),
-            TextEditorField::new('summary', 'Resumen'),
-            TextEditorField::new('content', 'Contenido')->hideOnIndex(),
+            TextField::new('title', 'Título')
+                ->formatValue(function ($value, Post $entity) use ($locale) {
+                    $postCategoryTrans = $entity
+                        ->getTranslations()
+                        ->filter(function (PostTranslations $trans) use ($locale) {
+                            return $trans->getLanguageCode() === $locale;
+                        })
+                        ->first();
+
+                    return $postCategoryTrans ? $postCategoryTrans->getTitle() : $entity->getTitle();
+                })
+                ->setDefaultColumns('col-md-7 col-xxl-6'),
+            AssociationField::new('thumbnailPhoto', 'Foto miniatura')
+                ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
+                    $queryBuilder
+                        ->join('entity.mediaCategories', 'mc')
+                        ->andWhere($queryBuilder->expr()->eq('mc.slug', ':slug'))
+                        ->orderBy('entity.id', 'DESC')
+                        ->setParameter(':slug', 'miniatura');
+                })
+                ->renderAsNativeWidget(false)
+                ->autocomplete()
+                ->setDefaultColumns('col-md-7 col-xxl-6'),
+            BooleanField::new('featured', 'Destacado')->renderAsSwitch(false),
+            CollectionField::new('postCategories', 'Categorías')
+                ->setEntryType(CategoriesCollectionType::class)
+                ->setDefaultColumns('col-md-7 col-xxl-6'),
+            DateField::new('publishedAt', 'Fecha de publicación')->setDefaultColumns('col-md-7 col-xxl-6'),
+            // AssociationField::new('mediaSlider', 'Slider de fotos')->hideOnIndex(),
+            ArrayField::new('desktopSliderGalleryData', 'Slider Desktop')
+                ->setFormType(GalleryRowJsonType::class)
+                ->setDefaultColumns('col-md-7 col-xxl-6')
+                ->hideOnIndex(),
+            ArrayField::new('mobileSliderGalleryData', 'Slider Mobile')
+                ->setFormType(GalleryRowJsonType::class)
+                ->setRequired(false)
+                ->addCssFiles(Asset::new($package->getUrl('build/admin/sliderGalleryField.css'))->onlyOnForms())
+                ->addJsFiles(Asset::new($package->getUrl('build/admin/sliderGalleryField.js'))->onlyOnForms())
+                ->setDefaultColumns('col-md-7 col-xxl-6')
+                ->hideOnIndex(),
+            TextAreaField::new('summary', 'Resumen')
+                ->formatValue(function ($value, Post $entity) use ($locale) {
+                    $postTrans = $entity
+                        ->getTranslations()
+                        ->filter(function (PostTranslations $trans) use ($locale) {
+                            return $trans->getLanguageCode() === $locale;
+                        })
+                        ->first();
+
+                    return $postTrans ? $postTrans->getSummary() : $entity->getSummary();
+                })
+                ->setDefaultColumns('col-md-7 col-xxl-6'),
+            TextEditorField::new('content', 'Contenido')
+                ->formatValue(function ($value, Post $entity) use ($locale) {
+                    $postTrans = $entity
+                        ->getTranslations()
+                        ->filter(function (PostTranslations $trans) use ($locale) {
+                            return $trans->getLanguageCode() === $locale;
+                        })
+                        ->first();
+
+                    return $postTrans ? $postTrans->getContent() : $entity->getContent();
+                })
+                ->setDefaultColumns('col-md-7 col-xxl-6')
+                ->hideOnIndex(),
         ];
     }
 
@@ -89,14 +162,13 @@ class PostCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
+        $context = $this->adminContextProvider->getContext();
+        $locale = $context->getI18n()->getLocale();
+
         $currentUser = $this->security->getUser();
 
         if ($currentUser && $entityInstance instanceof Post) {
-            $entityInstance->setAuthor($currentUser);
-
-            $titleSlug = $this->makeSlug($entityInstance);
-
-            $entityInstance->setSlug($titleSlug);
+            $entityInstance->setAuthor($currentUser)->setCurrentLocale($locale);
 
             $entityManager->persist($entityInstance);
             $entityManager->flush();
@@ -105,10 +177,11 @@ class PostCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if ($entityInstance instanceof Post) {
-            $titleSlug = $this->makeSlug($entityInstance);
+        $context = $this->adminContextProvider->getContext();
+        $locale = $context->getI18n()->getLocale();
 
-            $entityInstance->setSlug($titleSlug);
+        if ($entityInstance instanceof Post) {
+            $entityInstance->setCurrentLocale($locale);
 
             $entityManager->persist($entityInstance);
             $entityManager->flush();
@@ -117,19 +190,6 @@ class PostCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions->disable()->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
-    }
-
-    private function makeSlug(Post $entityInstance): string
-    {
-        $slugger = new AsciiSlugger();
-
-        $titleSlug = $slugger->slug($entityInstance->getTitle())->lower();
-
-        $postByCurrentSlug = $this->postRepository->findOneBySlug($titleSlug, $entityInstance);
-
-        $titleSlug = $postByCurrentSlug ? "{$titleSlug}-duplicate" : $titleSlug;
-
-        return $titleSlug;
+        return $actions->disable(Crud::PAGE_DETAIL)->add(Crud::PAGE_INDEX, Action::DETAIL, Action::NEW, Action::DELETE);
     }
 }

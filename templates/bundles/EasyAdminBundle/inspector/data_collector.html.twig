@@ -2,7 +2,15 @@
 
 {% block menu %}
     <span class="label {{ not collector.isEasyAdminRequest ? 'disabled' }}">
-        <span class="icon">{{ include(profiler_markup_version >= 3 ? '@EasyAdmin/inspector/icon-v3.svg.twig' : '@EasyAdmin/inspector/icon.svg.twig') }}</span>
+        <span class="icon">
+            {{
+                include(
+                    profiler_markup_version >= 3
+                        ? '@EasyAdmin/inspector/icon-v3.svg.twig'
+                        : '@EasyAdmin/inspector/icon.svg.twig'
+                )
+            }}
+        </span>
         <strong>EasyAdmin</strong>
     </span>
 {% endblock menu %}

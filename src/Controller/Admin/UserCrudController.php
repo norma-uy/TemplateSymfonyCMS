@@ -8,7 +8,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -40,7 +39,9 @@ class UserCrudController extends AbstractCrudController
             //   %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', 'Usuarios')
             ->setEntityLabelInSingular('Usuario')
-            ->setEntityLabelInPlural('Usuarios');
+            ->setEntityLabelInPlural('Usuarios')
+            ->showEntityActionsInlined()
+            ->setDefaultSort(['id' => 'DESC', 'name' => 'ASC']);
 
         // in DETAIL and EDIT pages, the closure receives the current entity
         // as the first argument
@@ -55,11 +56,16 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id', 'ID')->hideOnForm(),
-            TextField::new('username', 'Nombre de usuario'),
-            TextField::new('plainPassword', 'Contraseña')->onlyOnForms(),
-            TextField::new('name', 'Nombre'),
-            EmailField::new('email', 'E-mail'),
-            BooleanField::new('isVerified', 'Verificado')->onlyOnForms(),
+            TextField::new('username', 'Nombre de usuario')->setDefaultColumns('col-md-7 col-xxl-6'),
+            TextField::new('plainPassword', 'Contraseña')
+                ->setDefaultColumns('col-md-7 col-xxl-6')
+                ->onlyOnForms(),
+            TextField::new('name', 'Nombre')->setDefaultColumns('col-md-7 col-xxl-6'),
+            EmailField::new('email', 'E-mail')->setDefaultColumns('col-md-7 col-xxl-6'),
+            BooleanField::new('isVerified', 'Verificado')
+                ->onlyOnForms()
+                ->renderAsSwitch(false)
+                ->setDefaultColumns('col-md-7 col-xxl-6'),
         ];
     }
 

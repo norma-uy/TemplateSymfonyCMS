@@ -64,27 +64,56 @@ class Media
     #[ORM\ManyToMany(targetEntity: MediaCollection::class, mappedBy: 'mediaList')]
     private Collection $mediaCollections;
 
-    #[Vich\UploadableField(mapping: 'media.100w', fileNameProperty: 'imageFileName100w')]
-    public ?File $imageFile100w = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    public ?string $imageFileName100w = null;
-
     #[Vich\UploadableField(mapping: 'media.150w', fileNameProperty: 'imageFileName150w')]
     public ?File $imageFile150w = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     public ?string $imageFileName150w = null;
 
-    #[Vich\UploadableField(mapping: 'media.300w', fileNameProperty: 'imageFileName300w')]
-    public ?File $imageFile300w = null;
+    #[Vich\UploadableField(mapping: 'media.450w', fileNameProperty: 'imageFileName450w')]
+    public ?File $imageFile450w = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    public ?string $imageFileName300w = null;
+    public ?string $imageFileName450w = null;
+
+    #[Vich\UploadableField(mapping: 'media.800w', fileNameProperty: 'imageFileName800w')]
+    public ?File $imageFile800w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName800w = null;
+
+    #[Vich\UploadableField(mapping: 'media.1280w', fileNameProperty: 'imageFileName1280w')]
+    public ?File $imageFile1280w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName1280w = null;
+
+    #[Vich\UploadableField(mapping: 'media.1600w', fileNameProperty: 'imageFileName1600w')]
+    public ?File $imageFile1600w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName1600w = null;
+
+    #[Vich\UploadableField(mapping: 'media.1920w', fileNameProperty: 'imageFileName1920w')]
+    public ?File $imageFile1920w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName1920w = null;
+
+    #[Vich\UploadableField(mapping: 'media.2400w', fileNameProperty: 'imageFileName2400w')]
+    public ?File $imageFile2400w = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    public ?string $imageFileName2400w = null;
+
+    #[ORM\ManyToMany(targetEntity: MediaCategory::class, mappedBy: 'medias')]
+    private Collection $mediaCategories;
 
     public function __construct()
     {
         $this->mediaCollections = new ArrayCollection();
+        $this->mediaCategories = new ArrayCollection();
+        $this->title = '';
     }
 
     public function getId(): ?int
@@ -157,9 +186,11 @@ class Media
         return $this->originalFile;
     }
 
-    public function setOriginalFile(?File $originalFile = null): void
+    public function setOriginalFile(?File $originalFile = null): self
     {
         $this->originalFile = $originalFile;
+
+        return $this;
     }
 
     public function getOriginalFileName(): ?string
@@ -224,7 +255,12 @@ class Media
 
     public function __toString(): string
     {
-        return $this->originalFileName;
+        return !empty($this->title) ? $this->title : (string) $this->originalFileName ?? '';
+    }
+
+    public function getMedia(): self
+    {
+        return $this;
     }
 
     /**
@@ -239,7 +275,7 @@ class Media
     {
         if (!$this->mediaCollections->contains($mediaCollection)) {
             $this->mediaCollections->add($mediaCollection);
-            $mediaCollection->addMediaList($this);
+            $mediaCollection->addMedia($this);
         }
 
         return $this;
@@ -248,7 +284,34 @@ class Media
     public function removeMediaCollection(MediaCollection $mediaCollection): self
     {
         if ($this->mediaCollections->removeElement($mediaCollection)) {
-            $mediaCollection->removeMediaList($this);
+            $mediaCollection->removeMedia($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MediaCategory>
+     */
+    public function getMediaCategories(): Collection
+    {
+        return $this->mediaCategories;
+    }
+
+    public function addMediaCategory(MediaCategory $mediaCategory): self
+    {
+        if (!$this->mediaCategories->contains($mediaCategory)) {
+            $this->mediaCategories->add($mediaCategory);
+            $mediaCategory->addMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaCategory(MediaCategory $mediaCategory): self
+    {
+        if ($this->mediaCategories->removeElement($mediaCategory)) {
+            $mediaCategory->removeMedia($this);
         }
 
         return $this;

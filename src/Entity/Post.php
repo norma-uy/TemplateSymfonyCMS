@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -19,7 +20,7 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -45,14 +46,32 @@ class Post
     private ?MediaCollection $mediaSlider = null;
 
     #[ORM\Column]
+    private array $desktopSliderGalleryData = [];
+
+    #[ORM\Column]
+    private array $mobileSliderGalleryData = [];
+
+    #[ORM\Column]
     private ?bool $featured = false;
 
     #[ORM\ManyToMany(targetEntity: PostCategory::class, mappedBy: 'posts')]
     private Collection $postCategories;
 
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostTranslations::class, orphanRemoval: true)]
+    private Collection $translations;
+
+    #[ORM\Column(length: 4, nullable: true)]
+    private ?string $currentLocale = null;
+
     public function __construct()
     {
         $this->postCategories = new ArrayCollection();
+        $this->publishedAt = new DateTimeImmutable('now');
+        $this->desktopSliderGalleryData = [];
+        $this->mobileSliderGalleryData = [];
+        $this->featured = false;
+        $this->translations = new ArrayCollection();
+        $this->currentLocale = 'es';
     }
 
     public function getId(): ?int
@@ -168,6 +187,30 @@ class Post
         return $this;
     }
 
+    public function getDesktopSliderGalleryData(): array
+    {
+        return $this->desktopSliderGalleryData;
+    }
+
+    public function setDesktopSliderGalleryData(array $desktopSliderGalleryData): self
+    {
+        $this->desktopSliderGalleryData = $desktopSliderGalleryData;
+
+        return $this;
+    }
+
+    public function getMobileSliderGalleryData(): array
+    {
+        return $this->mobileSliderGalleryData;
+    }
+
+    public function setMobileSliderGalleryData(array $mobileSliderGalleryData): self
+    {
+        $this->mobileSliderGalleryData = $mobileSliderGalleryData;
+
+        return $this;
+    }
+
     public function isFeatured(): bool
     {
         return $this->featured;
@@ -203,6 +246,48 @@ class Post
         if ($this->postCategories->removeElement($postCategory)) {
             $postCategory->removePost($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostTranslations>
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(PostTranslations $translation): self
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations->add($translation);
+            $translation->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostTranslation(PostTranslations $translation): self
+    {
+        if ($this->translations->removeElement($translation)) {
+            // set the owning side to null (unless already changed)
+            if ($translation->getPost() === $this) {
+                $translation->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCurrentLocale(): ?string
+    {
+        return $this->currentLocale;
+    }
+
+    public function setCurrentLocale(?string $currentLocale): self
+    {
+        $this->currentLocale = $currentLocale;
 
         return $this;
     }

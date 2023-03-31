@@ -6,6 +6,7 @@ use App\Entity\Post;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -52,7 +53,8 @@ class PostRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')
             ->andWhere('p.publishedAt <= :date')
             ->setParameter('date', $date->format('Y-m-d'))
-            ->orderBy('p.publishedAt', 'ASC');
+            ->orderBy('p.publishedAt', 'DESC')
+            ->addOrderBy('p.id', 'DESC');
 
         if ($maxResults !== null) {
             $qb->setMaxResults($maxResults);
@@ -65,16 +67,27 @@ class PostRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findOneBySlug(string $slug, ?Post $postException = null): ?Post
+    public function findOneBySlug(string $slug, string $publishedAt = null): ?Post
     {
-        $qb = $this->createQueryBuilder('p')
-            ->andWhere('p.slug = :slug')
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->leftJoin('p.translations', 'pt')
+            ->where($qb->expr()->orX($qb->expr()->eq('p.slug', ':slug'), $qb->expr()->eq('pt.slug', ':slug')))
+            ->orderBy('p.publishedAt', 'DESC')
+            ->addOrderBy('p.id', 'DESC')
             ->setParameter('slug', $slug);
 
-        if ($postException !== null && $postException->getId()) {
-            $qb->andWhere('p.id <> :postException')->setParameter('postException', $postException->getId());
+        if ($publishedAt) {
+            $publishedAt = new \DateTime($publishedAt);
+            $qb->andWhere($qb->expr()->eq('p.publishedAt', ':publishedAt'))->setParameter('publishedAt', $publishedAt);
         }
 
-        return $qb->getQuery()->getOneOrNullResult();
+        $result = $qb->getQuery()->getResult();
+
+        if (!$result) {
+            return null;
+        }
+
+        return (new ArrayCollection($result))->first();
     }
 }

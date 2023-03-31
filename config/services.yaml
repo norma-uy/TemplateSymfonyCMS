@@ -11,6 +11,12 @@ parameters:
     tmp_storage_path: '%env(TMP_STORAGE_PATH)%'
     media_storage_path: '%env(MEDIA_STORAGE_PATH)%'
     media_storage_path_index: '%env(MEDIA_STORAGE_PATH_INDEX)%'
+    email_config.from_email: '%env(EMAIL_CONFIG_FROM_EMAIL)%'
+    email_config.from_name: '%env(EMAIL_CONFIG_FROM_NAME)%'
+    email_config.contact_to_email: '%env(EMAIL_CONFIG_CONTACT_TO_EMAIL)%'
+    email_config.contact_to_name: '%env(EMAIL_CONFIG_CONTACT_TO_NAME)%'
+    google_recaptcha_site_domain: '%env(GOOGLE_RECAPTCHA_SITE_DOMAIN)%'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
 services:
     # default configuration for services in *this* file

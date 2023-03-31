@@ -1,6 +1,5 @@
 import 'bootstrap'
-import WebSite from '.'
+import 'lazysizes'
 
 $(function () {
-    WebSite.initMenu()
 })

@@ -17,6 +17,8 @@ class CategoriesCollectionType extends AbstractType
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('pc')->orderBy('pc.title', 'ASC');
             },
+            'placeholder' => 'Selecciona una categoría',
+            'empty_data' => null,
             'choice_label' => 'title',
         ]);
     }

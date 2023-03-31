@@ -2,7 +2,7 @@
 
 namespace App\Form\Admin\Field\Configurator;
 
-use App\Form\Admin\Field\TextareaField;
+use App\Form\Admin\Field\TextAreaField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldConfiguratorInterface;
@@ -15,13 +15,13 @@ final class TextConfigurator implements FieldConfiguratorInterface
 {
     public function supports(FieldDto $field, EntityDto $entityDto): bool
     {
-        return \in_array($field->getFieldFqcn(), [TextField::class, TextareaField::class], true);
+        return \in_array($field->getFieldFqcn(), [TextField::class, TextAreaField::class], true);
     }
 
     public function configure(FieldDto $field, EntityDto $entityDto, AdminContext $context): void
     {
-        if (TextareaField::class === $field->getFieldFqcn()) {
-            $field->setFormTypeOptionIfNotSet('attr.rows', $field->getCustomOption(TextareaField::OPTION_NUM_OF_ROWS));
+        if (TextAreaField::class === $field->getFieldFqcn()) {
+            $field->setFormTypeOptionIfNotSet('attr.rows', $field->getCustomOption(TextAreaField::OPTION_NUM_OF_ROWS));
             $field->setFormTypeOptionIfNotSet('attr.data-ea-textarea-field', true);
         }
 
@@ -32,7 +32,7 @@ final class TextConfigurator implements FieldConfiguratorInterface
         if (!\is_string($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
             throw new \RuntimeException(
                 sprintf(
-                    'The value of the "%s" field of the entity with ID = "%s" can\'t be converted into a string, so it cannot be represented by a TextField or a TextareaField.',
+                    'The value of the "%s" field of the entity with ID = "%s" can\'t be converted into a string, so it cannot be represented by a TextField or a TextAreaField.',
                     $field->getProperty(),
                     $entityDto->getPrimaryKeyValue(),
                 ),

@@ -28,7 +28,9 @@ Encore
      */
     .addEntry('app', './assets/website/index.js')
     .addEntry('app-home', './assets/website/home.js')
+    .addEntry('app-contact', './assets/website/contact.js')
     .addEntry('app-post', './assets/website/post.js')
+    .addEntry('app-recaptcha', './assets/website/recaptcha.js')
     .addStyleEntry('global', './assets/website/styles/index.scss')
     .addStyleEntry('global-mobile', './assets/website/styles/mobile.scss')
 
@@ -153,6 +155,9 @@ Encore
     .addEntry('field-text-editor', './assets/admin/field/field-text-editor.js')
     .addEntry('mediaField', './assets/admin/field/mediaField.js')
     .addEntry('textEditorField', './assets/admin/field/textEditorField.js')
+    .addEntry('rowGalleryField', './assets/admin/field/rowGalleryField.js')
+    .addEntry('sliderGalleryField', './assets/admin/field/sliderGalleryField.js')
+    .addEntry('thumbnailPhotoField', './assets/admin/field/thumbnailPhotoField.js')
     .addEntry('login', './assets/admin/login.js')
 
     .copyFiles({

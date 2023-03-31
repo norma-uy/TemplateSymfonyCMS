@@ -175,12 +175,24 @@
             {{ 'action.add_new_item'|trans({}, 'EasyAdminBundle') }}
         </button>
     {% endif %}
+
+    {% if allow_modal|default(false) %}
+    {% endif %}
+
+   {#  <ul>
+        {% for key, val in _context %}
+            <li>{{ key }}</li>
+        {% endfor %}
+    </ul> #}
+
 {% endblock collection_widget %}
 
 {% block collection_entry_row %}
     {% set is_array_field = 'EasyCorp\\Bundle\\EasyAdminBundle\\Field\\ArrayField' == form_parent(form).vars.ea_crud_form.ea_field.fieldFqcn ?? false %}
     {% set is_complex = form_parent(form).vars.ea_crud_form.ea_field.customOptions.get('entryIsComplex') ?? false %}
     {% set allows_deleting_items = form_parent(form).vars.allow_delete|default(false) %}
+    {% set allows_order_items = form_parent(form).vars.allow_order|default(false) %}
+    {% set prefix_name_items = form_parent(form).vars.prefix_name|default(false) %}
     {% set render_expanded = form_parent(form).vars.ea_crud_form.ea_field.customOptions.get('renderExpanded') ?? false %}
     {% set delete_item_button %}
         <button type="button" class="btn btn-link btn-link-danger field-collection-delete-button"
@@ -200,9 +212,40 @@
                 <h2 class="accordion-header">
                     <button class="accordion-button {{ render_expanded ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ id }}-contents">
                         <i class="fas fw fa-chevron-right form-collection-item-collapse-marker"></i>
-                        {{ value|ea_as_string }}
+                        
+                        {% if instanceOf(data, 'App\\Entity\\Media') %}
+                            {% set media = data %}
+                            {% set mimeType = media.getMimeType()|split('/') %}
+                                {% if mimeType[0] == 'image' %}
+                                    <img src="{{vich_uploader_asset(media, 'imageFile150w')}}" class="d-block" alt="" style="width: 80px; margin-right:10px;" />
+                                {% elseif mimeType[0] == 'video' %}
+                                    <video loop muted src="{{vich_uploader_asset(media, 'originalFile')}}" style="width: 80px; margin-right:10px;"></video>
+                                {% endif %}
+                            {{ data ? data.getTitle() is not empty ? data.getTitle()|ea_as_string : data.getOriginalFileName()|ea_as_string : '' }}
+                        {% elseif data is iterable %}
+
+                            {% if data['id'] is defined and data['id'] is not empty %}
+                                {{ prefix_name_items ~ data['id'] }}
+                            {% else %}
+                                {{ prefix_name_items ~ name }}
+                            {% endif %}
+                        {% elseif instanceOf(data, 'App\\Entity\\MediaCategory') %}
+                            {% set mediaCategory = data %}
+                            {{ mediaCategory.getTitle() }}
+                        {% elseif instanceOf(data, 'App\\Entity\\PostCategory') %}
+                            {% set postCategory = data %}
+                            {{ postCategory.getTitle() }}
+                        {% else %}
+                            {{ value|ea_as_string }}
+                        {% endif %}
                     </button>
 
+                    {% if allows_order_items %}
+                        <button type="button" class="btn btn-link field-collection-order-button">
+                            <i class="fa-solid fa-up-down-left-right"></i>
+                        </button>
+                    {% endif %}
+                    
                     {% if allows_deleting_items %}
                         {{ delete_item_button }}
                     {% endif %}

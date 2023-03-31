@@ -14,6 +14,31 @@
         {# Attribute "required" is not supported #}
         {%- set required = false -%}
     {%- endif -%}
+
+    {# <ul>
+        {% for key, val in _context %}
+            <li>{{ key }}</li>
+        {% endfor %}
+    </ul> #}
+
+    {% set locale = app.request.get('_locale') %}
+
+    {% set ea_crud_form = form.vars.ea_crud_form is defined ? form.vars.ea_crud_form : null %}
+    {% set entity = ea_crud_form is defined and ea_crud_form.ea_entity is defined ? ea_crud_form.ea_entity : null %}
+    {% set entity = entity is empty and form.parent is defined and form.parent.vars.ea_crud_form.ea_entity is defined ? form.parent.vars.ea_crud_form.ea_entity : entity %}
+    {% set entityInstance = entity ? entity.instance : null %}
+    {% set entityTranslations = entityInstance and entityInstance.getTranslations() is defined ? entityInstance.getTranslations() : null %}
+    {% set entityTranslation = entityTranslations and entityTranslations|length > 0 ? entityTranslations|filter(lang => lang.getLanguageCode() == locale)|first : null %}
+
+    {% if name == 'title' %}
+        {% set value = entityTranslation and entityTranslation.getTitle() is defined ? entityTranslation.getTitle() : value %}
+    {% endif %}
+
+    {% if name in ['height', 'bustSize', 'chest', 'waistSize', 'hipSize', 'shoeSize', 'coloredEyes', 'hair'] %}
+        {# {{ dump(entityTranslation) }} #}
+        {% set value = entityTranslation and entityTranslation.getMetadata() is defined and entityTranslation.getMetadata() is not empty and entityTranslation.getMetadata()[name] is defined ? entityTranslation.getMetadata()[name] : value %}
+    {% endif %}
+    
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple -%}
 
@@ -35,6 +60,27 @@
 {%- endblock collection_widget -%}
 
 {%- block textarea_widget -%}
+    {% set locale = app.request.get('_locale') %}
+
+    {% set ea_crud_form = form.vars.ea_crud_form is defined ? form.vars.ea_crud_form : null %}
+    {% set entity = ea_crud_form is defined and ea_crud_form.ea_entity is defined ? ea_crud_form.ea_entity : null %}
+    {% set entity = entity is empty and form.parent is defined and form.parent.vars.ea_crud_form.ea_entity is defined ? form.parent.vars.ea_crud_form.ea_entity : null %}
+    {% set entityInstance = entity ? entity.instance : null %}
+    {% set entityTranslations = entityInstance and entityInstance.getTranslations() is defined ? entityInstance.getTranslations() : null %}
+    {% set entityTranslation = entityTranslations and entityTranslations|length > 0 ? entityTranslations|filter(lang => lang.getLanguageCode() == locale)|first : null %}
+
+    {% if name == 'summary' %}
+        {% set value = entityTranslation and entityTranslation.getSummary() is defined ? entityTranslation.getSummary() : value %}
+    {% endif %}
+
+    {% if name == 'content' %}
+        {% set value = entityTranslation and entityTranslation.getContent() is defined ? entityTranslation.getContent() : value %}
+    {% endif %}
+
+    {% if entityTranslation is defined and entityTranslation is not empty and entityTranslation.getContent() is iterable %}
+        {% set value = entityTranslation.getContent() is defined and entityTranslation.getContent() is not empty and entityTranslation.getContent()[name] is defined ? entityTranslation.getContent()[name] : value %}
+    {% endif %}
+
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
 {%- endblock textarea_widget -%}
 
@@ -59,6 +105,7 @@
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
         {% set required = false %}
     {%- endif -%}
+
     <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
@@ -73,6 +120,7 @@
         {%- endif -%}
         {%- set options = choices -%}
         {%- set render_preferred_choices = false -%}
+        {%- set media = data -%}
         {{- block('choice_widget_options') -}}
     </select>
 {%- endblock choice_widget_collapsed -%}
@@ -85,7 +133,13 @@
                 {{- block('choice_widget_options') -}}
             </optgroup>
         {%- else -%}
-            <option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if not render_preferred_choices|default(false) and choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans(choice.labelTranslationParameters|default({}), choice_translation_domain) }}</option>
+            <option 
+                value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if not render_preferred_choices|default(false) and choice is selectedchoice(value) %} 
+                selected="selected"{% endif %}
+                data-entity-media-url="{{ instanceOf(media, 'App\\Entity\\Media') ? vich_uploader_asset(media, 'imageFile150w') : '' }}"
+            >
+                {{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans(choice.labelTranslationParameters|default({}), choice_translation_domain) }}
+            </option>
         {%- endif -%}
     {% endfor %}
 {%- endblock choice_widget_options -%}
@@ -95,6 +149,22 @@
 {%- endblock checkbox_widget -%}
 
 {%- block radio_widget -%}
+    {% if form.parent is defined %}
+        {% if form.parent.vars is defined %}
+            {% if form.parent.vars.choices[value] is defined %}
+                {% if instanceOf(form.parent.vars.choices[value].data, 'App\\Entity\\Media') %}
+                    {% set media = form.parent.vars.choices[value].data %}
+                    {% set mimeType = media.getMimeType()|split('/') %}
+                        {% if mimeType[0] == 'image' %}
+                            <img src="{{vich_uploader_asset(media, 'imageFile150w')}}" class="d-block" alt="" style="width: 80px;" />
+                        {% endif %}
+                        {% if mimeType[0] == 'video' %}
+                            <video loop muted src="{{vich_uploader_asset(media, 'originalFile')}}" style="width: 80px;"></video>
+                        {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
     <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
 {%- endblock radio_widget -%}
 

@@ -50,6 +50,115 @@
                         <figure class="mb-4">
                             <img class="img-fluid rounded" src="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'originalFile') }}" alt="..." />
                         </figure>
+
+                        {% set sliderData = not isMobile(app.request.headers.get('User-Agent'))
+                            ? desktopSlider
+                            : mobileSlider and mobileSlider['data'] is defined and mobileSlider['data'] is not empty
+                                ? mobileSlider
+                                : desktopSlider
+                        %}
+
+                        {% if
+                            sliderData is defined
+                                and sliderData['data'] is defined
+                                and sliderData['data'] is not empty %}
+                            {% set templateType = sliderData['templateType'] is defined
+                                ? sliderData['templateType']
+                                : null
+                            %}
+
+                            {% if templateType == 'full-width' %}
+                                {% set templateTypeClass = 'grid-1' %}
+                            {% elseif templateType == '1-2_1-2' %}
+                                {% set templateTypeClass = 'grid-1-1' %}
+                            {% elseif templateType == '2-3_1-3' %}
+                                {% set templateTypeClass = 'grid-2-1' %}
+                            {% elseif templateType == '1-3_2-3' %}
+                                {% set templateTypeClass = 'grid-1-2' %}
+                            {% elseif templateType == '1-3_1-3_1-3' %}
+                                {% set templateTypeClass = 'grid-1-1-1' %}
+                            {% endif %}
+                            {% set gallery = sliderData['data']|first %}
+
+                            <header>
+                                <!-- con slide -->
+                                <div id="slide-news" class="carousel slide" data-bs-ride="false">
+                                    <div class="carousel-inner">
+                                        {% for mediaData in gallery %}
+                                            {% if
+                                                mediaData
+                                                    and mediaData['jsonData'] is defined
+                                                    and mediaData['jsonData'] is not empty %}
+                                                {% if templateType == 'full-width' %}
+                                                        {% set imageWidth = '1920w' %}
+                                                    {% elseif templateType == '1-2_1-2' %}
+                                                        {% set imageWidth = '1280w' %}
+                                                    {% elseif templateType == '1-3_1-3_1-3' %}
+                                                        {% set imageWidth = '800w' %}
+                                                    {% elseif templateType == '2-3_1-3' and galleryIndex == '1' %}
+                                                        {% set imageWidth = '1280w' %}
+                                                    {% elseif templateType == '2-3_1-3' and galleryIndex == '2' %}
+                                                        {% set imageWidth = '800w' %}
+                                                    {% elseif templateType == '1-3_2-3' and galleryIndex == '1' %}
+                                                        {% set imageWidth = '800w' %}
+                                                    {% elseif templateType == '1-3_2-3' and galleryIndex == '2' %}
+                                                        {% set imageWidth = '1280w' %}
+                                                    {% endif %}
+
+                                                    {% set imageFile = mediaData['jsonData']['imageFile-' ~ imageWidth] %}
+
+                                                <div class="carousel-item ratio ratio-4x3 {{
+                                                    loop.first
+                                                        ? 'active'
+                                                        : ''
+                                                    }}">
+                                                    {% set mimeType = mediaData['jsonData']['mimeType'] %}
+                                                    {% set mimeType = mimeType|split('/') %}
+
+                                                    {% if mimeType[0] == 'image' %}
+                                                        <img src="{{ imageFile }}"
+                                                            class="d-block {{
+                                                            isMobile(app.request.headers.get('User-Agent'))
+                                                                ? 'movil'
+                                                                : 'pc'
+                                                            }}"
+                                                            alt="{{ mediaData['jsonData']['mediaTitle'] }}" />
+                                                    {% elseif mimeType[0] == 'video' %}
+                                                        <video loop
+                                                            muted
+                                                            playsinline
+                                                            class="d-block {{
+                                                            isMobile(app.request.headers.get('User-Agent'))
+                                                                ? 'movil'
+                                                                : 'pc'
+                                                            }}"
+                                                            src="{{ mediaData['jsonData']['originalFile'] }}"></video>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% if (gallery|length) > 1 %}
+                                        <button class="carousel-control-prev"
+                                            type="button"
+                                            data-bs-target="#slide-news"
+                                            data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next"
+                                            type="button"
+                                            data-bs-target="#slide-news"
+                                            data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                                <!-- end slide -->
+                            </header>
+                        {% endif %}
+
                         <!-- Post content -->
                         <section class="mb-5">
                             {{ post.getContent()|raw }}
@@ -177,7 +286,7 @@
                                 )
                                 }}">
                                 <figure class="ratio ratio-4x3">
-                                    <img src="{{ vich_uploader_asset(lastNew.getThumbnailPhoto(), 'imageFile300w') }}" alt="post photo" title="" />
+                                    <img src="{{ vich_uploader_asset(lastNew.getThumbnailPhoto(), 'imageFile800w') }}" alt="post photo" title="" />
                                 </figure>
                                 <section>
                                     <h6 class="mb-0">
