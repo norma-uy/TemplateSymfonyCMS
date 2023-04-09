@@ -5,6 +5,7 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/cache/
 /public/storage/tmp/*
 /public/storage/media/*
 !/public/storage/media/.gitignore
@@ -72,3 +73,7 @@ error.error_log
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
