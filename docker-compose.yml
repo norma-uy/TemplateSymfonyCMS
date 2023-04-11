@@ -5,13 +5,14 @@ services:
         depends_on:
             - database
         build:
-            context: ./.docker
+            # context: ./.docker
             dockerfile: Dockerfile
             args:
                 PHP_VERSION: ${PHP_VERSION}
+                WEBSITE_NAME: ${WEBSITE_NAME}
         container_name: ${WEBSITE_NAME}
         ports:
-            - ${APACHE_HTTP_PORT}:80
+            - ${APACHE_HTTP_PORT}:8080
         working_dir: /var/www/${WEBSITE_NAME}
         volumes:
             - ./:/var/www/${WEBSITE_NAME}/

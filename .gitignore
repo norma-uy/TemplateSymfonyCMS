@@ -51,6 +51,7 @@ sftp-config.json
 *.exe
 *.o
 *.so
+composer
 ###< ignore compiled files ###
 
 ###> error log files ###
