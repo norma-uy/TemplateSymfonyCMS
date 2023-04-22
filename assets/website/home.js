@@ -1,10 +1,9 @@
 import 'bootstrap'
-import 'lazysizes';
+import 'lazysizes'
 
 import { initializeSlider } from '.'
 
-$(function () {
-
+window.addEventListener('DOMContentLoaded', () => {
     $('.carousel-item.active').each((carouselItemIndex, carouselItem) => {
         initializeSlider(carouselItem, false)
     })

@@ -2,7 +2,7 @@ import 'bootstrap'
 
 /* resolución */
 function resolution() {
-    return $(window).width()
+    return window.screen.width
 }
 
 export const initializeSlider = (carouselItem, enableTextFields = false) => {

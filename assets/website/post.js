@@ -1,5 +1,4 @@
 import 'bootstrap'
 import 'lazysizes'
 
-$(function () {
-})
+window.addEventListener('DOMContentLoaded', () => {})
