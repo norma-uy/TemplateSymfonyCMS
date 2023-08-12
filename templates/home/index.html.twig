@@ -27,13 +27,10 @@
 
 {% block main %}
     <main class="container">
-
         <section class="mod-slider {{ isMobile(app.request.headers.get('User-Agent')) ? 'movil' : 'pc' }}">
             {% set sliderData = not isMobile(app.request.headers.get('User-Agent'))
                 ? desktopSlider
-                : mobileSlider and mobileSlider['data'] is defined and mobileSlider['data'] is not empty
-                    ? mobileSlider
-                    : desktopSlider
+                : mobileSlider and mobileSlider['data'] is defined and mobileSlider['data'] is not empty ? mobileSlider : desktopSlider
             %}
 
             {% if sliderData is defined and sliderData['data'] is defined and sliderData['data'] is not empty %}
@@ -57,98 +54,69 @@
                             <figure>
                                 {% if (gallery|length) < 2 %}
                                     {% set mediaData = gallery|first %}
-                                    {% if
-                                        mediaData
-                                            and mediaData['jsonData'] is defined
-                                            and mediaData['jsonData'] is not empty %}
-                                        {% if templateType == 'full-width' %}
-                                            {% set imageWidth = '1920w' %}
-                                        {% elseif templateType == '1-2_1-2' %}
-                                            {% set imageWidth = '1280w' %}
-                                        {% elseif templateType == '1-3_1-3_1-3' %}
-                                            {% set imageWidth = '800w' %}
-                                        {% elseif templateType == '2-3_1-3' and galleryIndex == '1' %}
-                                            {% set imageWidth = '1280w' %}
-                                        {% elseif templateType == '2-3_1-3' and galleryIndex == '2' %}
-                                            {% set imageWidth = '800w' %}
-                                        {% elseif templateType == '1-3_2-3' and galleryIndex == '1' %}
-                                            {% set imageWidth = '800w' %}
-                                        {% elseif templateType == '1-3_2-3' and galleryIndex == '2' %}
-                                            {% set imageWidth = '1280w' %}
-                                        {% endif %}
-
-                                        {% set imageFile = mediaData['jsonData']['imageFile-' ~ imageWidth] %}
+                                    {% if mediaData and mediaData['jsonData'] is defined and mediaData['jsonData'] is not empty %}
                                         {% set mimeType = mediaData['jsonData']['mimeType'] %}
                                         {% set mimeType = mimeType|split('/') %}
 
                                         {% if mimeType[0] == 'image' %}
+                                            {% if templateType == 'full-width' %}
+                                                {% set imageWidth = '1920w' %}
+                                            {% elseif templateType == '1-2_1-2' %}
+                                                {% set imageWidth = '1280w' %}
+                                            {% elseif templateType == '1-3_1-3_1-3' %}
+                                                {% set imageWidth = '800w' %}
+                                            {% elseif templateType == '2-3_1-3' and galleryIndex == '1' %}
+                                                {% set imageWidth = '1280w' %}
+                                            {% elseif templateType == '2-3_1-3' and galleryIndex == '2' %}
+                                                {% set imageWidth = '800w' %}
+                                            {% elseif templateType == '1-3_2-3' and galleryIndex == '1' %}
+                                                {% set imageWidth = '800w' %}
+                                            {% elseif templateType == '1-3_2-3' and galleryIndex == '2' %}
+                                                {% set imageWidth = '1280w' %}
+                                            {% endif %}
+
+                                            {% set imageFile = mediaData['jsonData']['imageFile-' ~ imageWidth] %}
+                                            {% set imageFileCache = imageFile|imagine_filter('media_webp') %}
+
                                             <img data-sizes="auto"
-                                                data-src="{{ imageFile }}"
-                                                data-srcset="{{ imageFile }} {{ imageWidth }}"
+                                                data-src="{{ imageFileCache }}"
+                                                data-srcset="{{ imageFileCache }} {{ imageWidth }}"
                                                 class="d-block lazyload"
                                                 alt="{{ mediaData['jsonData']['mediaTitle'] }}" />
                                         {% elseif mimeType[0] == 'video' %}
-                                            <video loop
-                                                muted
-                                                playsinline
-                                                class="d-block"
-                                                src="{{ mediaData['jsonData']['originalFile'] }}"></video>
+                                            <video loop muted playsinline class="d-block" src="{{ mediaData['jsonData']['originalFile'] }}"></video>
                                         {% endif %}
                                     {% endif %}
                                 {% else %}
                                     <!-- con slide -->
-                                    <div id="slide-home-{{ galleryIndex }}"
-                                        class="carousel slide"
-                                        data-bs-ride="carousel"
-                                        data-bs-interval="5000"
-                                        data-bs-pause="false">
+                                    <div id="slide-home-{{ galleryIndex }}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
                                         <div class="carousel-inner">
                                             {% for mediaData in gallery %}
-                                                {% if
-                                                    mediaData
-                                                        and mediaData['jsonData'] is defined
-                                                        and mediaData['jsonData'] is not empty %}
-                                                    {% if templateType == 'full-width' %}
-                                                        {% set imageWidth = '1920w' %}
-                                                    {% elseif templateType == '1-2_1-2' %}
-                                                        {% set imageWidth = '1280w' %}
-                                                    {% elseif templateType == '1-3_1-3_1-3' %}
-                                                        {% set imageWidth = '800w' %}
-                                                    {% elseif templateType == '2-3_1-3' and galleryIndex == '1' %}
-                                                        {% set imageWidth = '1280w' %}
-                                                    {% elseif templateType == '2-3_1-3' and galleryIndex == '2' %}
-                                                        {% set imageWidth = '800w' %}
-                                                    {% elseif templateType == '1-3_2-3' and galleryIndex == '1' %}
-                                                        {% set imageWidth = '800w' %}
-                                                    {% elseif templateType == '1-3_2-3' and galleryIndex == '2' %}
-                                                        {% set imageWidth = '1280w' %}
-                                                    {% endif %}
-
-                                                    {% set imageFile = mediaData['jsonData']['imageFile-' ~ imageWidth] %}
+                                                {% if mediaData and mediaData['jsonData'] is defined and mediaData['jsonData'] is not empty %}
+                                                    {% set mimeType = mediaData['jsonData']['mimeType'] %}
+                                                    {% set mimeType = mimeType|split('/') %}
 
                                                     <div class="carousel-item ratio {{ loop.first ? 'active' : '' }}">
-                                                        {% set mimeType = mediaData['jsonData']['mimeType'] %}
-                                                        {% set mimeType = mimeType|split('/') %}
-
                                                         {% if mimeType[0] == 'image' %}
-                                                            <img data-sizes="auto"
-                                                                data-src="{{ imageFile }}"
-                                                                data-srcset="{{ imageFile }} {{ imageWidth }}"
-                                                                class="d-block {{
-                                                                isMobile(app.request.headers.get('User-Agent'))
-                                                                    ? 'movil'
-                                                                    : 'pc'
-                                                                }} lazyload"
-                                                                alt="{{ mediaData['jsonData']['mediaTitle'] }}" />
+                                                            <picture>
+                                                                <!-- [if IE 9]><video style="display: none;><![endif] -->
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_webp', { relative_resize: { widen: 500 }}) }}" media="(max-width:576px)" type="image/webp" />
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_webp', { relative_resize: { widen: 700 }}) }}" media="(max-width:768px)" type="image/webp" />
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_webp', { relative_resize: { widen: 900 }}) }}" media="(max-width:992px)" type="image/webp" />
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_webp', { relative_resize: { widen: 1200 }}) }}" type="image/webp" />
+
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_jpeg', { relative_resize: { widen: 500 }}) }}" media="(max-width:576px)" type="image/jpeg" />
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_jpeg', { relative_resize: { widen: 700 }}) }}" media="(max-width:768px)" type="image/jpeg" />
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_jpeg', { relative_resize: { widen: 900 }}) }}" media="(max-width:992px)" type="image/jpeg" />
+                                                                <source data-srcset="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_jpeg', { relative_resize: { widen: 1200 }}) }}" type="image/jpeg" />
+                                                                <!-- [if IE 9]></video><![endif] -->
+                                                                <img data-src="{{ mediaData['jsonData']['imageFile-1920w']|imagine_filter('media_jpeg', { relative_resize: { widen: 1200 }}) }}" class="d-block lazyload" alt="{{ mediaData['jsonData']['mediaTitle'] }}" />
+                                                            </picture>
                                                         {% elseif mimeType[0] == 'video' %}
                                                             <video loop
                                                                 muted
                                                                 playsinline
-                                                                class="d-block {{
-                                                                isMobile(app.request.headers.get('User-Agent'))
-                                                                    ? 'movil'
-                                                                    : 'pc'
-                                                                }}"
+                                                                class="d-block {{ isMobile(app.request.headers.get('User-Agent')) ? 'movil' : 'pc' }}"
                                                                 src="{{ mediaData['jsonData']['originalFile'] }}"></video>
                                                         {% endif %}
                                                     </div>
@@ -157,17 +125,11 @@
                                         </div>
 
                                         {% if (gallery|length) > 1 %}
-                                            <button class="carousel-control-prev"
-                                                type="button"
-                                                data-bs-target="#slide-home-{{ galleryIndex }}"
-                                                data-bs-slide="prev">
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#slide-home-{{ galleryIndex }}" data-bs-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                 <span class="visually-hidden">Previous</span>
                                             </button>
-                                            <button class="carousel-control-next"
-                                                type="button"
-                                                data-bs-target="#slide-home-{{ galleryIndex }}"
-                                                data-bs-slide="next">
+                                            <button class="carousel-control-next" type="button" data-bs-target="#slide-home-{{ galleryIndex }}" data-bs-slide="next">
                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                 <span class="visually-hidden">Next</span>
                                             </button>
@@ -205,7 +167,7 @@
                                 <div class="item">
                                     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                                         <div class="col p-4 d-flex flex-column position-static">
-                                            {% if post.getPostCategories() %}
+                                            {% if (post.getPostCategories()|length) > 0 %}
                                                 {% set postCategory = post.getPostCategories()|first %}
                                                 <strong class="d-inline-block mb-2 text-primary"><a href="#">{{ postCategory.getTitle() }}</a></strong>
                                             {% endif %}
@@ -231,11 +193,14 @@
                                                 Continuar leyendo
                                             </a>
                                         </div>
-                                        <div class="col-auto d-none d-lg-block">
+                                        <div class="col-auto d-lg-block">
                                             <picture>
-                                                <source srcset="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'imageFile800w')|imagine_filter('thumbnail800wWebp') }}" type="image/webp">
-                                                <source srcset="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'imageFile800w')|imagine_filter('thumbnail800wJpeg') }}" type="image/jpeg">
-                                                <img src="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'imageFile800w')|imagine_filter('thumbnail800wJpeg') }}" alt="{{post.getTitle()}}">
+                                                <source srcset="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'imageFile800w')|imagine_filter('media_webp') }}"
+                                                    type="image/webp" />
+                                                <source srcset="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'imageFile800w')|imagine_filter('media_jpeg') }}"
+                                                    type="image/jpeg" />
+                                                <img src="{{ vich_uploader_asset(post.getThumbnailPhoto(), 'imageFile800w')|imagine_filter('media_jpeg') }}"
+                                                    alt="{{ post.getTitle() }}" />
                                             </picture>
                                         </div>
                                     </div>

@@ -26,7 +26,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
@@ -38,7 +38,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
@@ -50,7 +50,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
@@ -62,7 +62,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
@@ -74,7 +74,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
@@ -86,7 +86,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
@@ -98,7 +98,7 @@ vich_uploader:
                 options:
                     date_time_format: 'Y-m-d' # will create directory "2018/23/09" for curent date "2018-09-23"
                     date_time_property: createdAt # see above example
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true

@@ -5,12 +5,12 @@ liip_imagine:
     resolvers:
         default:
             web_path:
-                web_root: "%kernel.project_dir%/public"
-                cache_prefix: "cache"
+                web_root: '%kernel.project_dir%/public'
+                cache_prefix: 'cache'
     webp:
         generate: true
-        quality:     100
-        cache:       ~
+        quality: 100
+        cache: ~
         data_loader: ~
         post_processors: []
 
@@ -23,6 +23,7 @@ liip_imagine:
                 relative_resize:
                     widen: 800
                     scale: 1
+
         thumbnail800wWebp:
             format: webp
             quality: 100
@@ -30,3 +31,10 @@ liip_imagine:
                 relative_resize:
                     widen: 800
                     scale: 1
+
+        media_webp:
+            format: webp
+
+        media_jpeg:
+            format: jpeg
+            quality: 80

@@ -7,8 +7,10 @@ use App\Entity\MediaCategory;
 use App\Entity\Page;
 use App\Entity\PageTranslations;
 use App\Entity\User;
+use App\Service\Utils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -18,8 +20,12 @@ class AppFixtures extends Fixture
 {
     private array $pages;
 
-    public function __construct(private UserPasswordHasherInterface $passwordHasher, private UploaderHelper $helper)
-    {
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher,
+        private UploaderHelper $helper,
+        private ParameterBagInterface $params,
+        private Utils $utils,
+    ) {
         $this->pages = [
             'Home' => [
                 'title' => [
@@ -64,6 +70,13 @@ class AppFixtures extends Fixture
             ->setUsername('master@admincms.com.uy')
             ->setPassword($this->passwordHasher->hashPassword($masterUser, 'master@admincms.com.uy'));
         $manager->persist($masterUser);
+
+        //Delete storage
+        $rootProjectPath = getcwd();
+        $mediaStoragePath = $this->params->get('media_storage_path');
+        if (is_dir("{$rootProjectPath}/{$mediaStoragePath}")) {
+            $this->utils->deleteDirContent("{$rootProjectPath}/{$mediaStoragePath}");
+        }
 
         //Pages
         foreach ($this->pages as $title => $data) {

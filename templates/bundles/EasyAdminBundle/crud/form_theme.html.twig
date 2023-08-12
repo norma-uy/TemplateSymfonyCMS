@@ -380,6 +380,18 @@
             {% endif %}
         </div>
         <div class="small" id="{{ form.file.vars.id }}_new_file_name"></div>
+
+        {# For convenience sake of this snippet, store the errors in a variable #}
+        {% set formErrors = form.vars.errors.form.getErrors(true) %}
+                                            
+        {# If there are errors in the form, display them in this unorganized list #}
+        {% if formErrors|length %}
+            <ul class="alert alert-danger">
+                {% for error in formErrors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
 

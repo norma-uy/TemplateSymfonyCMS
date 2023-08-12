@@ -78,4 +78,25 @@ class Utils
 
         return $output_file;
     }
+
+    public function deleteDirContent(string $path)
+    {
+        try {
+            $iterator = new \DirectoryIterator($path);
+            foreach ($iterator as $fileinfo) {
+                if ($fileinfo->isDot()) continue;
+                if ($fileinfo->isDir()) {
+                    if ($this->deleteDirContent($fileinfo->getPathname()))
+                        @rmdir($fileinfo->getPathname());
+                }
+                if ($fileinfo->isFile()) {
+                    @unlink($fileinfo->getPathname());
+                }
+            }
+        } catch (\Exception $e) {
+            // write log
+            return false;
+        }
+        return true;
+    }
 }
