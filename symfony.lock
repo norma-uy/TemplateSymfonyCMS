@@ -118,6 +118,9 @@
             "./config/packages/nelmio_security.yaml"
         ]
     },
+    "norma-uy/norma-cms-bundle": {
+        "version": "v0.1.2"
+    },
     "phpunit/phpunit": {
         "version": "9.5",
         "recipe": {
